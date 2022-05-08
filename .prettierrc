@@ -1,0 +1,6 @@
+{
+  "useTaps": true,
+  "jsxSingleQuote": true,
+  "singleQuote": true,
+  "arrowParens": "avoid"
+}

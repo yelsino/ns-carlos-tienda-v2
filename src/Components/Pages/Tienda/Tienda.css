@@ -1,0 +1,46 @@
+.layout {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 75px);
+    grid-template-columns: repeat(auto-fill, 192px);
+    gap: 25px;
+    place-content: center;
+  }
+
+
+  .with-animation {
+    animation-duration: 0.7s;
+    animation-fill-mode:both;
+    animation-name: animewidth;
+  }
+  
+
+  @keyframes animewidth {
+    0% {width:0px;}
+    100% {width:300px;}
+}
+
+
+
+.overlay {
+  z-index: 1;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  will-change: opacity;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 990px;
+}
+
+/* .overlay a {
+  display: block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  left: 50%;
+
+  transform: translateX(-50%);
+} */

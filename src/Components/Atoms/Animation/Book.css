@@ -1,0 +1,87 @@
+/**
+  * Book
+  *
+  * @author jh3y - jheytompkins.com
+*/
+@-webkit-keyframes whirl-book {
+    0% {
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg); }
+    50%,
+    80% {
+      -webkit-transform: rotateY(-180deg);
+              transform: rotateY(-180deg); }
+    90%,
+    100% {
+      opacity: 0;
+      -webkit-transform: rotateY(-180deg);
+              transform: rotateY(-180deg); } }
+  @keyframes whirl-book {
+    0% {
+      -webkit-transform: rotateY(0deg);
+              transform: rotateY(0deg); }
+    50%,
+    80% {
+      -webkit-transform: rotateY(-180deg);
+              transform: rotateY(-180deg); }
+    90%,
+    100% {
+      opacity: 0;
+      -webkit-transform: rotateY(-180deg);
+              transform: rotateY(-180deg); } }
+  
+  .book {
+    height: 30px;
+    position: relative;
+    width: 30px;
+    
+    -webkit-perspective: 60px;
+            perspective: 60px; }
+    .book div {
+      -webkit-animation: whirl-book 1s infinite;
+              animation: whirl-book 1s infinite;
+      background: var(--primary);
+      height: 100%;
+      position: absolute;
+      left: 50%;
+      -webkit-transform-origin: left;
+              transform-origin: left;
+      width: 100%; }
+    .book div:nth-child(1) {
+        background: #B1FFBD;
+
+      -webkit-animation-delay: 0.10s;
+              animation-delay: 0.10s; }
+    .book div:nth-child(2) {
+         background: #B1FFBD;
+
+      -webkit-animation-delay: 0.20s;
+              animation-delay: 0.20s; }
+    .book div:nth-child(3) {
+         background: #B1FFBD;
+
+      -webkit-animation-delay: 0.30s;
+              animation-delay: 0.30s; }
+    .book div:nth-child(4) {
+         background: #B1FFBD;
+
+      -webkit-animation-delay: 0.40s;
+              animation-delay: 0.40s; }
+    .book div:nth-child(5) {
+         background: #B1FFBD;
+
+      -webkit-animation-delay: 0.40s;
+              animation-delay: 0.40s; }
+    .book div:nth-child(6) {
+         background: #B1FFBD;
+
+      -webkit-animation-delay: 0.50s;
+              animation-delay: 0.50s; }
+    .book div:nth-child(7) {
+         background: #B1FFBD;
+
+      -webkit-animation-delay: 0.60s;
+              animation-delay: 0.60s; }
+ 
+    
+   
