@@ -1,12 +1,17 @@
 import './App.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import RouterApp from './router/RouterApp';
-
+import { SocketProvider } from './Context/SocketContext';
+import { ProductProvider } from './Context/Product/ProductContext';
 function App() {
   return (
-    <Router>
-      <RouterApp />
-    </Router>
+    <ProductProvider>
+      <SocketProvider>
+        <Router>
+          <RouterApp />
+        </Router>
+      </SocketProvider>
+    </ProductProvider>
   );
 }
 

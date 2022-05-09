@@ -1,4 +1,4 @@
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import Compras from "../Components/Pages/Compras/Compras";
 import Favoritos from "../Components/Pages/Favoritos/Favoritos";
 import MainStore from "../Components/Pages/MainStore";
@@ -14,7 +14,7 @@ const RouterApp = () => {
   const routes = [
     {
       path: '/auth',
-      element: <PublicRoute />,
+      element: <PublicRoute isAutenticated={true} />,
     },
 
     {
@@ -24,8 +24,12 @@ const RouterApp = () => {
         {path: '/mis-compras', element: <Compras />},
         {path: '/mis-reclamos', element: <Reclamos />},
         {path: '/recetas-favoritas', element: <Favoritos />},
+        
       ]
     },
+
+    { path: '/', element: <Navigate to='/tienda' /> },
+    
 
     {
       path: '*',
