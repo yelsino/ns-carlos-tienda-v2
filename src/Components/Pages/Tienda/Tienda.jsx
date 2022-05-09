@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import './Tienda.css';
 import { useState } from 'react';
+import PortalComponent from '../../Atoms/Portals/Portal';
+import ViewProduct from './ViewProduct';
 
 const Tienda = () => {
   const [viewlist] = useOutletContext();
@@ -20,20 +22,18 @@ const Tienda = () => {
         <div className='layout mt-5'>
           {items.map(item => (
             <motion.div
-              animate={{ 
+              animate={{
                 opacity: selectedId === item ? 0 : 1,
                 scale: selectedId === item ? 1.3 : 1,
+
                 transition: {
                   duration: 0.5,
                 },
-                // transformOrigin: '50% 50%',
-                transform: selectedId === item ? 'scale(1.5)' : 'scale(1)',
-                
               }}
               key={item}
               layoutId={item}
               onClick={() => setSelectedId(item)}
-              className=' w-[192px] h-[75px] flex justify-center items-center cursor-pointer'
+              className=' w-[192px] h-[75px] flex  justify-center items-center cursor-pointer '
             >
               <ItemProduct key={item} />
             </motion.div>
@@ -43,24 +43,11 @@ const Tienda = () => {
 
       <AnimatePresence>
         {selectedId && (
-          <motion.div 
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0, transition: { duration: 0.30 } }}
-          transition={{ duration: 0.2, delay: 0.15 }}
-          style={{ pointerEvents: "auto" }}
-          className=' absolute left-0 top-0 bg-black bg-opacity-90 w-full h-full flex justify-center items-center'
-          onClick={()=> setSelectedId(null)}
-          >
+          <PortalComponent close={selectedId} setClose={setSelectedId}>
 
-            <button
-              onClick={() => setSelectedId(null)}
-              className='text-white  '
-            >
-              Cerrar
-            </button>
-            <ItemProduct key='modal' isVisible={selectedId} />
-          </motion.div>
+            <ViewProduct />
+            
+          </PortalComponent>
         )}
       </AnimatePresence>
 

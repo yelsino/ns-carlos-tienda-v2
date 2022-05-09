@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { IconCardBuyInactive, IconProductInactivo, IconUsersInactive, IconWork } from "../../Icons";
+import { IconCardBuyInactive, IconProductInactivo, IconUsersInactive, IconWork } from "../../Atoms/Icons";
 
 const Sidebar = () => {
   const location = useLocation()

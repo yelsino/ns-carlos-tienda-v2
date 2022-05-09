@@ -2,7 +2,7 @@ import { Transition } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import AnimationBook from "../../Atoms/Animation/Book";
-import { IconGridView, IconMinus, IconPlus } from "../../Icons";
+import { IconGridView, IconMinus, IconPlus } from "../../Atoms/Icons";
 
 const ListProduct = () => {
 

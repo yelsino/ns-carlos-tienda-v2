@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IconClean, IconSearch } from '../../Icons';
+import { IconClean, IconSearch } from '../../Atoms/Icons';
 
 const Search = () => {
   const [search, setSearch] = useState('');
