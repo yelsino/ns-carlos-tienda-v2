@@ -1,45 +1,46 @@
 import Filtro from '../../Moleculas/Filtro';
 import ItemProduct from './ItemProduct';
-import ListProduct from './ListProduct';
-import { useOutletContext } from 'react-router-dom';
+import ListProduct from './ViewProduct/ListProduct/ListProduct';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import './Tienda.css';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PortalComponent from '../../Atoms/Portals/PortalComponent';
-import ViewProduct from './ViewProduct';
+import ViewProduct from './ViewProduct/ViewProduct';
 import { ProductContext } from '../../../Context/Product/ProductContext';
 
 const Tienda = () => {
   const [viewlist] = useOutletContext();
   const {
-    productstate: { products: {products} },
+    productstate: {
+      products: { products },
+    },
   } = useContext(ProductContext);
-  const [selectedId, setSelectedId] = useState(null);
 
-  const styleitem = {
-    visible: i => ({
-      opacity: 1,
-      transition: {
-        delay: i * 0.03,
-      },
-    }),
-    hidden: { opacity: 0 },
-  };
+  const navigate = useNavigate();
+
+  const [selectedId, setSelectedId] = useState(null);
+  const [data, setData] = useState([]);
+
+  // si no hay item seleccionado regresa a/tienda
+  useEffect(() => {
+    if (selectedId === null) {
+      navigate('/tienda');
+    }
+  }, [selectedId]);
+
+  useEffect(() => {
+    setData(products);
+  }, [products]);
 
   return (
-    
- 
-      <div className='flex relative '>
+    <div className='flex relative '>
       <div className='w-full'>
-        <Filtro />
-        {/* <button
-          onClick={() => {
-            console.log(products);
-          }}
-        >IMPRIMIR</button> */}
-        <motion.div className='layout mt-5'>
-          {products?.map((p, i) => (
+        <Filtro upData={setData} data={products} />
+
+        <motion.div className='layout pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)] pb-10 overflow-y-scroll '>
+          {data?.map((p, i) => (
             <motion.div
               animate={{
                 opacity: selectedId === p ? 0 : 1,
@@ -50,37 +51,29 @@ const Tienda = () => {
                 },
               }}
               layoutId={p}
-              initial='hidden'
-              custom={i}
-              variants={styleitem}
+              // custom={i}
               key={p._id}
               onClick={() => setSelectedId(p)}
-              className=' w-[192px] h-[75px] flex  justify-center items-center cursor-pointer '
+              className=' w-[192px] h-[75px] flex  justify-center items-center cursor-pointer  '
             >
-              <ItemProduct product={p} />
+              <ItemProduct product={p} index={i} />
             </motion.div>
           ))}
         </motion.div>
       </div>
 
       <AnimatePresence>
-        {selectedId && (
-          <PortalComponent close={selectedId} setClose={setSelectedId}>
-            <ViewProduct />
-          </PortalComponent>
-        )}
+        <PortalComponent close={selectedId} setClose={setSelectedId}>
+          {selectedId && (
+            <ViewProduct product={selectedId} setClose={setSelectedId} />
+          )}
+        </PortalComponent>
       </AnimatePresence>
 
       {viewlist && (
         <>
-          <div className='with-animation hidden lg:flex lg:flex-col'>
+          <div className='with-animation w-full h-full absolute bg-white lg:flex lg:w-auto lg:relative flex flex-col  '>
             <ListProduct />
-          </div>
-
-          <div className='lg:hidden absolute bg-white w-full h-full left-0 '>
-            <div className='  px-10'>
-              <ListProduct />
-            </div>
           </div>
         </>
       )}
@@ -89,8 +82,3 @@ const Tienda = () => {
 };
 
 export default Tienda;
-
-const items = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25,
-];

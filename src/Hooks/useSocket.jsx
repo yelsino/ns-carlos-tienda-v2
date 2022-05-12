@@ -17,7 +17,6 @@ export const useSocket = serverPath => {
       },
     });
 
-    console.log(socketTemp);
 
     setSocket(socketTemp);
   }, [serverPath]);

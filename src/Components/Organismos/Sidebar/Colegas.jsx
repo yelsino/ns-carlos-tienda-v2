@@ -5,9 +5,9 @@ const Colegas = () => {
     <div className=' pb-2 pt-3 font-poppins  flex flex-col border-b border-color_green_4 '>
       <p className='text-color_green_5  text-sm'>Colegas</p>
       <div className='flex flex-col gap-y-4 py-4 text-sm'>
-        {[1, 1, 1, 11].map(usuario => (
+        {[1, 2, 3, 4].map(usuario => (
           <Link
-            key={'ewqewq'}
+            key={usuario}
             to={`/trabajadores/321321321/chat`}
             className='flex justify-between items-center'
           >

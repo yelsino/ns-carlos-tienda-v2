@@ -1,28 +1,73 @@
-import { motion } from "framer-motion";
-import ReactDOM from "react-dom";
+// import { motion } from 'framer-motion';
+// import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-const PortalComponent = ({children, setClose}) => {
-    // create a portal 
-    
-    const portal = document.getElementById('portal-1');
+import { Fragment, useEffect, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 
-    return ReactDOM.createPortal( 
+function PortalComponent({ close, setClose, children }) {
 
-        <motion.div
-        initial={{ scale: 0, }}
-        transition={{
-            delay: 0.2,
-            duration: 0.3,
-        }}
-        animate={{ scale: 1}}
-        exit={{ scale: 0, transition: { duration: 0.30 } }}
-        style={{ pointerEvents: "auto" }}
-        className=' absolute left-0 top-0   w-full  h-full flex justify-center items-center bg-opacity-80 bg-black  '
-        onClick={()=> setClose(null)}
+  const [open, setOpen] = useState(false);
+
+
+  // determina si la animacion va ser de entrada o salida
+  useEffect(()=>{
+    if(close === null){
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  }, [close]);
+
+  return (
+    // Use the `Transition` component at the root level
+    <Transition show={open} as={Fragment}>
+      <Dialog onClose={() => setClose(null)}>
+        <Transition.Child
+
+
+          as={Fragment}
+          enter='ease-out duration-300'
+          enterFrom='opacity-0'
+          enterTo='opacity-100'
+          leave='ease-in duration-300'
+          leaveFrom='opacity-100'
+          leaveTo='opacity-0'
         >
-            {children}
-        </motion.div>, portal
-     );
+          <div className='fixed inset-0 bg-black/60'></div>
+        </Transition.Child>
+
+        <Transition.Child
+          as={Fragment}
+          enter='ease-out duration-300'
+          enterFrom='opacity-0 scale-50'
+          enterTo='opacity-100 scale-100'
+          leave='ease-in duration-300'
+          leaveFrom='opacity-100 scale-100'
+          leaveTo='opacity-0 scale-95'
+
+          
+        >
+          <Dialog.Panel
+            // onClick={() => setClose(null)}
+            className=' absolute top-0 left-0
+          flex justify-center items-center w-screen h-screen'
+          >
+            <div className='  w-full h-full flex justify-center items-center' onClick={() => setClose(null)}>
+              {children}
+            </div>
+            {/* ... */}
+          </Dialog.Panel>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
+  );
 }
- 
+
 export default PortalComponent;
+
+PortalComponent.propTypes = {
+  close: null || PropTypes.bool,
+  setClose: PropTypes.func,
+  children: PropTypes.element,
+};

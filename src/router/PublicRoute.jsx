@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Navigate, Outlet } from "react-router-dom";
 
 const PublicRoute = ({
@@ -18,5 +18,5 @@ const PublicRoute = ({
 export default PublicRoute;
 
 PublicRoute.propTypes = {
-  isAutenticated: true
+  isAutenticated: PropTypes.bool
 }

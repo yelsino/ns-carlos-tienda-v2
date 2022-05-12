@@ -25,6 +25,7 @@ const Search = () => {
           <IconClean />
         </button>
       )}
+
     </form>
   );
 };

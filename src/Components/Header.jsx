@@ -17,7 +17,7 @@ const Header = ({ list, setList }) => {
       setBtn(false);
       // solo se renderiza 1 vez
     }
-    ,700);
+    ,500);
 
     return () => clearTimeout(timeout);
   },[list])

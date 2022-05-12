@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { ProductContext } from './Product/ProductContext';
 
 const baseUrl = import.meta.env.VITE_SOME_KEY;
-console.log(baseUrl);
 
 export const SocketContext = createContext(null);
 
@@ -21,7 +20,6 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     socket?.on('get-products', products => {
-        console.log(products);
       dispatch({
         type: 'GET_PRODUCTS',
         payload: products,

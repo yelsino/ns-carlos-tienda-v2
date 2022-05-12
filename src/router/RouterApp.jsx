@@ -20,7 +20,9 @@ const RouterApp = () => {
     {
       path: '/', element: <MainStore  />,
       children: [
-        {path: '/tienda', element: <Tienda />},
+        {path: '/tienda', element: <Tienda /> , children: [
+          {path: '/tienda/:productID', element: <div className="absolute top-0 left-0 "></div>},
+        ]},
         {path: '/mis-compras', element: <Compras />},
         {path: '/mis-reclamos', element: <Reclamos />},
         {path: '/recetas-favoritas', element: <Favoritos />},
