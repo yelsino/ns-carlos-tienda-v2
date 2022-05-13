@@ -9,7 +9,7 @@ const PrivateRoute = ({
       {
         !isAutenticated
           ? <Outlet />
-          : <Navigate to="/" />
+          : <Navigate to="/tienda" />
       }
     </>
 

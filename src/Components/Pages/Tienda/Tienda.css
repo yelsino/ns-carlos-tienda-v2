@@ -1,26 +1,26 @@
 .layout {
-    display: grid;
-    grid-template-rows: repeat(auto-fit, 75px);
-    grid-template-columns: repeat(auto-fill, 192px);
-    gap: 25px;
-    /* place-items: center; */
-    place-content: start center;
-  }
-
-
-  .with-animation {
-    animation-duration: 0.5s;
-    animation-fill-mode:backwards;
-    animation-name: animewidth;
-  }
-  
-
-  @keyframes animewidth {
-    0% {width:50px;}
-    100% {width:310px;}
+  display: grid;
+  grid-template-rows: repeat(auto-fit, 75px);
+  grid-template-columns: repeat(auto-fill, 192px);
+  gap: 25px;
+  /* place-items: center; */
+  place-content: start center;
 }
 
+.with-animation {
+  animation-duration: 0.5s;
+  animation-fill-mode: backwards;
+  animation-name: animewidth;
+}
 
+@keyframes animewidth {
+  0% {
+    width: 50px;
+  }
+  100% {
+    width: 310px;
+  }
+}
 
 .overlay {
   z-index: 1;

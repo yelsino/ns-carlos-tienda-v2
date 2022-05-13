@@ -23,6 +23,8 @@ const Tienda = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [data, setData] = useState([]);
 
+  const [list, setLista] = useState([]);
+
   // si no hay item seleccionado regresa a/tienda
   useEffect(() => {
     if (selectedId === null) {
@@ -65,7 +67,11 @@ const Tienda = () => {
       <AnimatePresence>
         <PortalComponent close={selectedId} setClose={setSelectedId}>
           {selectedId && (
-            <ViewProduct product={selectedId} setClose={setSelectedId} />
+            <ViewProduct 
+            product={selectedId} 
+            setClose={setSelectedId} 
+            upLista={setLista} 
+            />
           )}
         </PortalComponent>
       </AnimatePresence>
@@ -73,7 +79,7 @@ const Tienda = () => {
       {viewlist && (
         <>
           <div className='with-animation w-full h-full absolute bg-white lg:flex lg:w-auto lg:relative flex flex-col  '>
-            <ListProduct />
+            <ListProduct upLista={setLista} data={list} />
           </div>
         </>
       )}

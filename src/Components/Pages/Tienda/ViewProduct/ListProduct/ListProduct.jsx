@@ -5,11 +5,12 @@ import { useOutletContext } from 'react-router-dom';
 import AnimationBook from '../../../../Atoms/Animation/Book';
 import { IconGridView } from '../../../../Atoms/Icons';
 import ItemList from './ItemList';
+import PropTypes from 'prop-types'
 
-const ListProduct = () => {
+
+const ListProduct = ({ upLista, data }) => {
   const [viewlist] = useOutletContext();
   const [show, setShow] = useState(false);
-  const [data, setData] = useState(items);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -18,6 +19,7 @@ const ListProduct = () => {
 
     return () => clearTimeout(timeout);
   }, [viewlist]);
+
 
   return (
     <>
@@ -42,15 +44,19 @@ const ListProduct = () => {
 
           <Reorder.Group
             axis='y'
-            onReorder={setData}
+            onReorder={upLista}
             values={data}
-            // style={{ height: 250, border: "1px solid black", overflowY: "auto" }}
             layoutScroll
             className='lg:text-sm w-[340px]  lg:w-[310px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5'
           >
             {data.map(item => (
-              <ItemList key={item} item={item} />
+              <ItemList key={item._id} item={item} />
             ))}
+            {data.length === 0 &&
+            
+            <div className='flex justify-center items-center h-32 '>
+              <p>LISTA VACIA</p>
+              </div>}
           </Reorder.Group>
         </div>
       </Transition>
@@ -75,4 +81,7 @@ const ListProduct = () => {
 
 export default ListProduct;
 
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+ListProduct.propTypes = {
+  upLista: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
+}

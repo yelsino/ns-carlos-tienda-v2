@@ -1,0 +1,34 @@
+.navitem::after {
+  content: "";
+  display: block;
+  padding: 14px;
+}
+
+
+.width-active {
+  animation-duration: 0.3s;
+  animation-fill-mode: backwards;
+  animation-name: wactive;
+}
+.width-inactive {
+  animation-duration: 0.3s;
+  animation-fill-mode: backwards;
+  animation-name: winactive;
+}
+
+@keyframes wactive {
+  0% {
+    width: 130px;
+  }
+  100% {
+    width: 176px;
+  }
+}
+@keyframes winactive {
+  0% {
+    width: 176px;
+  }
+  100% {
+    width: 130px;
+  }
+}

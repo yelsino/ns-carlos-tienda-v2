@@ -7,16 +7,16 @@ const ItemList = ({ item }) => {
   const y = useMotionValue(0);
   const boxShadow = useRaisedShadow(y);
 
+  const { _id,name} = item
+
   return (
     <Reorder.Item
-      key={item}
       value={item}
-      id={item}
+      id={_id}
       style={{ boxShadow, y }}
       className='shadow-md rounded-lg px-5 py-4  first-letter:text-[10px] flex  justify-between items-center bg-white cursor-grab'
     >
-      <span className='text-color_green_7 font-semibold '>x1</span> Cebolla
-      china
+      <span className='text-color_green_7 font-semibold '>x1</span> {name}
       <div className='flex gap-2 text-color_green_7'>
         <button className='bg-color_green_2 rounded-md px-1 flex justify-center items-center'>
           <IconMinus />
@@ -39,5 +39,5 @@ const ItemList = ({ item }) => {
 export default ItemList;
 
 ItemList.propTypes = {
-  item: PropTypes.number,
+  item: PropTypes.object,
 };

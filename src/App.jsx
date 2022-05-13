@@ -3,15 +3,18 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import RouterApp from './router/RouterApp';
 import { SocketProvider } from './Context/SocketContext';
 import { ProductProvider } from './Context/Product/ProductContext';
+import { AuthProvider } from './Context/auth/AuthContext';
 function App() {
   return (
-    <ProductProvider>
-      <SocketProvider>
-        <Router>
-          <RouterApp />
-        </Router>
-      </SocketProvider>
-    </ProductProvider>
+    <AuthProvider>
+      <ProductProvider>
+        <SocketProvider>
+          <Router>
+            <RouterApp />
+          </Router>
+        </SocketProvider>
+      </ProductProvider>
+    </AuthProvider>
   );
 }
 

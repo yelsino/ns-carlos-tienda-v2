@@ -10,12 +10,12 @@ const ItemProduct = ({ product, index }) => {
 
   const itemstyle = {
     visible: i => ({
-      opacity: 1,
+      scale: 1,
       transition: {
-        delay: i * 0.05,
+        delay: i * 0.03,
       },
     }),
-    hidden: { opacity: 0 },
+    scale: 0,
   };
 
   return (
@@ -23,9 +23,10 @@ const ItemProduct = ({ product, index }) => {
     <Link to={`/tienda/${name.split(' ')[0]}`}>
      <motion.div
       transition={{
-        duration: 1,
+        duration: 0.5,
       }}
-      initial='hidden'
+
+      initial={{scale:0}}
       animate='visible'
       custom={index}
       variants={itemstyle}

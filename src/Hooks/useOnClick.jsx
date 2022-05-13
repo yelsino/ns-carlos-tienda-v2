@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 
 export const useOnClick = (time = 0) => {
-  const [click, setClick] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-   
     const timeout = setTimeout(() => {
-        setClick(false);
+      setDisabled(false);
       // solo se renderiza 1 vez
     }, time);
 
     return () => clearTimeout(timeout);
-  }, [click]);
+  }, [disabled]);
 
-  return [click,
-    setClick,];
+  return [disabled, setDisabled];
 };
