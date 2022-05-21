@@ -1,7 +1,9 @@
-import { createContext,  useContext,  useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { useSocket } from '../Hooks/useSocket';
 import PropTypes from 'prop-types';
 import { ProductContext } from './Product/ProductContext';
+import { AuthContext } from './auth/AuthContext';
+import { ListContext } from './List/ListContext';
 
 const baseUrl = import.meta.env.VITE_SOME_KEY;
 
@@ -11,12 +13,21 @@ export const SocketProvider = ({ children }) => {
   const { socket, online, connectSocket, disconnectSocket } =
     useSocket(baseUrl);
 
-    const { dispatch } = useContext(ProductContext)
-
+  const { auth } = useContext(AuthContext);
+  const { dispatch } = useContext(ProductContext);
+  const { setList } = useContext(ListContext);
 
   useEffect(() => {
-    connectSocket();
-  }, [connectSocket]);
+    if (auth.logged) {
+      connectSocket();
+    }
+  }, [auth, connectSocket]);
+
+  useEffect(() => {
+    if (!auth.logged) {
+      disconnectSocket();
+    }
+  }, [auth, disconnectSocket]);
 
   useEffect(() => {
     socket?.on('get-products', products => {
@@ -25,11 +36,18 @@ export const SocketProvider = ({ children }) => {
         payload: products,
       });
     });
+
+    socket?.on('get-user-lists', lists => {
+      setList({
+        type: 'GET_USER_LISTS',
+        payload: lists,
+      });
+    })
+    
+
+  
   }, [socket, dispatch]);
 
-  useEffect(() => {
-
-  }, [socket, dispatch])
 
   return (
     <SocketContext.Provider

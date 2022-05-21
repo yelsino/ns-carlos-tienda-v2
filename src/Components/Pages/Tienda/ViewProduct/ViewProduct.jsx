@@ -4,18 +4,29 @@ import PropTypes from 'prop-types';
 import SwitchWeight from './SwitchWeight';
 import FoodRecipes from './FoodRecipes';
 import { useOnClick } from '../../../../Hooks/useOnClick';
-import { useRef } from 'react';
+import { useCallback, useContext, useRef } from 'react';
+import { SocketContext } from '../../../../Context/SocketContext';
+import { AuthContext } from '../../../../Context/auth/AuthContext';
+import { ListContext } from '../../../../Context/List/ListContext';
 
 const ViewProduct = ({ product, setClose, upLista }) => {
-  const { _id, name, img } = product;
+  
+
+
+  const { _id, name, img, description } = product;
 
   const [disabled, setDisabled] = useOnClick(200);
+  const { auth } = useContext(AuthContext);
+  const { socket } = useContext(SocketContext);
 
-  const container = useRef();
 
   const agregarProducto = () => {
     setDisabled(true);
-    upLista((prev) => [...prev, product]);
+    socket?.emit('add-product-to-list', {
+      userID: auth.uid,
+      listID: '6286dfb0be243f1cf43cb843',
+      productID: _id,
+    });
   };
 
   return (
@@ -27,9 +38,12 @@ const ViewProduct = ({ product, setClose, upLista }) => {
       transition={{ duration: 0.3 }}
       className={`bg-white p-10   relative
       w-full   sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll h-screen  sm:max-h-[600px] `}
-      ref={container}
       onClick={e => e.stopPropagation()}
     >
+
+      <button
+      
+      >enviar el peso en vez del total</button>
       <button
         onClick={() => setClose(null)}
         className='absolute top-0 right-0 bg-red-500 px-5 py-3  text-white font-semibold font-poppins sm:rounded-tr-2xl focus:outline-none -translate-y-[1px] translate-x-[1px]'
@@ -52,19 +66,19 @@ const ViewProduct = ({ product, setClose, upLista }) => {
             <img src={img} className=' scale-125 mb-3' />
           </div>
 
-          <SwitchWeight />
+          <SwitchWeight product={product} />
 
-          <div className='w-full flex flex-col gap-y-2'>
+          {/* <div className='w-full flex flex-col gap-y-2'>
             <p className='flex justify-between w-full'>
               <span>Precio</span>
-              <span>5.90 /kg</span>
+              <span>{} /kg</span>
             </p>
 
             <p className='flex justify-between w-full'>
-              <span>Precio</span>
-              <span>5.90 /kg</span>
+              <span>En lista</span>
+              <span className='text-color_green_7'>5.90 /{lists[0].products.find(p=>p.product._id === _id).quantity}kg</span>
             </p>
-          </div>
+          </div> */}
           <div className='flex items-center justify-between w-full'>
             <motion.button
               animate={disabled ? { scale: 0.95 } : { scale: 1 }}
@@ -85,13 +99,9 @@ const ViewProduct = ({ product, setClose, upLista }) => {
 
           <div className='w-full  break-all '>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Inventore, eos.
+              {description}
             </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Inventore, eos.
-            </p>
+            
           </div>
         </motion.div>
         <FoodRecipes />

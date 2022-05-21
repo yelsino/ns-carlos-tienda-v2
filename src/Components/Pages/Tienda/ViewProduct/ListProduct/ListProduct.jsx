@@ -1,16 +1,19 @@
 import { Transition } from '@headlessui/react';
 import { Reorder } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import AnimationBook from '../../../../Atoms/Animation/Book';
 import { IconGridView } from '../../../../Atoms/Icons';
 import ItemList from './ItemList';
 import PropTypes from 'prop-types'
+import { ListContext } from '../../../../../Context/List/ListContext';
 
 
-const ListProduct = ({ upLista, data }) => {
+const ListProduct = ({ upLista, data, selectProduct }) => {
   const [viewlist] = useOutletContext();
   const [show, setShow] = useState(false);
+
+  const { liststate: {lists}} = useContext(ListContext)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -20,17 +23,27 @@ const ListProduct = ({ upLista, data }) => {
     return () => clearTimeout(timeout);
   }, [viewlist]);
 
+  useEffect(()=>{
+    console.log('se actualizo la lista');
+  },[data])
+
 
   return (
     <>
+
       <Transition
         show={show}
         leave='transition-opacity duration-200'
         leaveFrom='opacity-100'
         leaveTo='opacity-0'
       >
+        {/* <button
+        onClick={()=>{
+          console.log(lists);
+        }}
+        >PROBAR</button> */}
         <div className=' flex items-center  flex-col mt-5 lg:mt-10  w-full'>
-          <div className='flex justify-between w-[300px]  mb-3 '>
+          <div className='flex justify-between w-[300px]  mb-7 '>
             <span className='text-white'>
               <IconGridView />
             </span>
@@ -47,16 +60,16 @@ const ListProduct = ({ upLista, data }) => {
             onReorder={upLista}
             values={data}
             layoutScroll
-            className='lg:text-sm w-[340px]  lg:w-[310px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5'
+            className=' w-[340px]  lg:w-[290px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col gap-y-[2px]'
           >
-            {data.map(item => (
-              <ItemList key={item._id} item={item} />
+            {lists[0].products.map(item => (
+              <ItemList key={item._id} item={item} selectProduct={selectProduct} />
             ))}
-            {data.length === 0 &&
+            {/* {data.length === 0 &&
             
             <div className='flex justify-center items-center h-32 '>
               <p>LISTA VACIA</p>
-              </div>}
+              </div>} */}
           </Reorder.Group>
         </div>
       </Transition>
@@ -84,4 +97,5 @@ export default ListProduct;
 ListProduct.propTypes = {
   upLista: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
+  selectProduct: PropTypes.func.isRequired,
 }

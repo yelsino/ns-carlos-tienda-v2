@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       const { usuario } = resp;
 
       setAuth({
-        uid: usuario.uid,
+        uid: usuario?.uid,
         checking: false,
         logged: true,
         user: usuario
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   const verificarToken = useCallback(async () => {
     const token = localStorage.getItem('token') || '';
-
+    console.log('token', token);
     // si token no existe
     if (!token) {
       setAuth({
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       const { usuario } = resp;
 
       setAuth({
-        uid: usuario.uid,
+        uid: usuario?.uid,
         checking: false,
         logged: true,
         user: usuario
