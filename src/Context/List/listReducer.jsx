@@ -7,8 +7,14 @@ export const listReducer = (state,action) => {
                 lists: action.payload,
                 ok: true,
             };
+        
+        case 'SELECT_LIST':
+            return {
+                ...state,
+                list: action.payload,
+            }
             
         default:
-            break;
+            return state;
     }
 }

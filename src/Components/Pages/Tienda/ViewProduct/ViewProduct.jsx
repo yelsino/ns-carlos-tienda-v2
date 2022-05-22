@@ -1,33 +1,12 @@
 import { motion } from 'framer-motion';
-import { IconDelete } from '../../../Atoms/Icons';
 import PropTypes from 'prop-types';
 import SwitchWeight from './SwitchWeight';
 import FoodRecipes from './FoodRecipes';
-import { useOnClick } from '../../../../Hooks/useOnClick';
-import { useCallback, useContext, useRef } from 'react';
-import { SocketContext } from '../../../../Context/SocketContext';
-import { AuthContext } from '../../../../Context/auth/AuthContext';
-import { ListContext } from '../../../../Context/List/ListContext';
+
 
 const ViewProduct = ({ product, setClose, upLista }) => {
-  
-
 
   const { _id, name, img, description } = product;
-
-  const [disabled, setDisabled] = useOnClick(200);
-  const { auth } = useContext(AuthContext);
-  const { socket } = useContext(SocketContext);
-
-
-  const agregarProducto = () => {
-    setDisabled(true);
-    socket?.emit('add-product-to-list', {
-      userID: auth.uid,
-      listID: '6286dfb0be243f1cf43cb843',
-      productID: _id,
-    });
-  };
 
   return (
     <motion.div
@@ -40,10 +19,6 @@ const ViewProduct = ({ product, setClose, upLista }) => {
       w-full   sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll h-screen  sm:max-h-[600px] `}
       onClick={e => e.stopPropagation()}
     >
-
-      <button
-      
-      >enviar el peso en vez del total</button>
       <button
         onClick={() => setClose(null)}
         className='absolute top-0 right-0 bg-red-500 px-5 py-3  text-white font-semibold font-poppins sm:rounded-tr-2xl focus:outline-none -translate-y-[1px] translate-x-[1px]'
@@ -68,40 +43,8 @@ const ViewProduct = ({ product, setClose, upLista }) => {
 
           <SwitchWeight product={product} />
 
-          {/* <div className='w-full flex flex-col gap-y-2'>
-            <p className='flex justify-between w-full'>
-              <span>Precio</span>
-              <span>{} /kg</span>
-            </p>
-
-            <p className='flex justify-between w-full'>
-              <span>En lista</span>
-              <span className='text-color_green_7'>5.90 /{lists[0].products.find(p=>p.product._id === _id).quantity}kg</span>
-            </p>
-          </div> */}
-          <div className='flex items-center justify-between w-full'>
-            <motion.button
-              animate={disabled ? { scale: 0.95 } : { scale: 1 }}
-              transition={{ duration: 0.2 }}
-              onClick={agregarProducto}
-              disabled={disabled}
-              className={`bg-orange-600 text-white w-48 py-3 font-semibold font-poppins ${
-                disabled ? 'cursor-wait' : 'cursor-pointer'
-              }`}
-            >
-              Añadir
-            </motion.button>
-
-            <button className='text-2xl w-14 h-full flex items-center justify-center'>
-              <IconDelete />
-            </button>
-          </div>
-
           <div className='w-full  break-all '>
-            <p>
-              {description}
-            </p>
-            
+            <p>{description}</p>
           </div>
         </motion.div>
         <FoodRecipes />

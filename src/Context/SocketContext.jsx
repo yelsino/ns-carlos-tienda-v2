@@ -42,6 +42,11 @@ export const SocketProvider = ({ children }) => {
         type: 'GET_USER_LISTS',
         payload: lists,
       });
+
+      setList({
+        type: 'SELECT_LIST',
+        payload: lists[0],
+      })
     })
     
 
