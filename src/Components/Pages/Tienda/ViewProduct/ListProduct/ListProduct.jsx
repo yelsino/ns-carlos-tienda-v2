@@ -37,11 +37,7 @@ const ListProduct = ({ upLista, data, selectProduct }) => {
         leaveFrom='opacity-100'
         leaveTo='opacity-0'
       >
-        {/* <button
-        onClick={()=>{
-          console.log(lists);
-        }}
-        >PROBAR</button> */}
+      
         <div className=' flex items-center  flex-col mt-5 lg:mt-10  w-full'>
           <div className='flex justify-between w-[300px]  mb-7 '>
             <span className='text-white'>
@@ -65,11 +61,7 @@ const ListProduct = ({ upLista, data, selectProduct }) => {
             {lists[0].products.map(item => (
               <ItemList key={item._id} item={item} selectProduct={selectProduct} />
             ))}
-            {/* {data.length === 0 &&
-            
-            <div className='flex justify-center items-center h-32 '>
-              <p>LISTA VACIA</p>
-              </div>} */}
+           
           </Reorder.Group>
         </div>
       </Transition>
