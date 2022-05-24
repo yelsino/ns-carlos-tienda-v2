@@ -125,10 +125,22 @@ const SwitchWeight = ({ product }) => {
     }
   };
 
-  const agregarProducto = () => {
+  const addProductToList = () => {
     setDisabled(true);
     console.log(weight);
-    socket?.emit('add-product-to-list', {
+    socket?.emit('update-list', {
+      type: 'ADD',
+      userID: auth.uid,
+      listID: listOfProducts._id,
+      productID: product._id,
+      mountID: weight,
+    });
+  };
+
+  const removeProductOfList = () => {
+    setDisabled(true);
+    socket?.emit('update-list', {
+      type: 'REMOVE',
       userID: auth.uid,
       listID: listOfProducts._id,
       productID: product._id,
@@ -141,22 +153,20 @@ const SwitchWeight = ({ product }) => {
     setWeight(product.pricePerWeight[0]._id);
   }, []);
 
-  // ! todo: pasar los datos al backend y este debe comparar si la suma de los quantities es mayor a la cantidad disponible
-
-  // ! todo: en la lista, sumar las cantidades de los productos que se agreguen correctamente
+ 
   return (
     <>
       <RadioGroup
         value={weight}
-        onChange={(e)=>{
+        onChange={e => {
           console.log(e);
-          setWeight(e)
+          setWeight(e);
         }}
         className='flex justify-between w-full'
       >
         {/* ! aqui hay un error, en el id no corresponde  */}
         {alterproduct.pricePerWeight.map(
-          ({  _id, weighttextlg, weighttextmd }) => (
+          ({ _id, weighttextlg, weighttextmd }) => (
             <RadioGroup.Option
               key={_id}
               value={_id}
@@ -211,7 +221,7 @@ const SwitchWeight = ({ product }) => {
         <motion.button
           animate={disabled ? { scale: 0.95 } : { scale: 1 }}
           transition={{ duration: 0.2 }}
-          onClick={agregarProducto}
+          onClick={addProductToList}
           disabled={disabled}
           className={`bg-orange-600 text-white w-48 py-3 font-semibold font-poppins ${
             disabled ? 'cursor-wait' : 'cursor-pointer'
@@ -220,7 +230,10 @@ const SwitchWeight = ({ product }) => {
           Añadir
         </motion.button>
 
-        <button className='text-2xl w-14 h-full flex items-center justify-center'>
+        <button
+          onClick={removeProductOfList}
+          className='text-2xl w-14 h-full flex items-center justify-center'
+        >
           <IconDelete />
         </button>
       </div>
