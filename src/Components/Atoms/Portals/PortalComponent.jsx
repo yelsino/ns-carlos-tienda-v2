@@ -45,7 +45,6 @@ function PortalComponent({ children, open, setOpen }) {
           leaveTo='opacity-0 scale-95'
         >
           <Dialog.Panel
-            // onClick={() => setClose(null)}
             className=' absolute top-0 left-0
           flex justify-center items-center w-screen h-screen'
           >
@@ -53,7 +52,6 @@ function PortalComponent({ children, open, setOpen }) {
               className='  w-full h-full flex justify-center items-center'
               onClick={() => {
                 setOpen(false);
-                // setOpen(false)
               }}
             >
               {children}

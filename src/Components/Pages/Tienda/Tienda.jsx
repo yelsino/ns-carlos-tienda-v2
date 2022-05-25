@@ -97,7 +97,6 @@ const Tienda = () => {
               product={itemSelected}
               setModal={setShow}
               setItem={setItemSelected}
-              // upLista={setLista}
             />
           </PortalComponent>
         )}
@@ -107,9 +106,9 @@ const Tienda = () => {
         <>
           <div className='with-animation w-full h-full absolute bg-white lg:flex lg:w-auto lg:relative flex flex-col  '>
             <ListProduct
-              upLista={setLista}
-              data={list}
-              selectProduct={setItemSelected}
+              // upLista={setLista}
+              // data={list}
+              // selectProduct={setItemSelected}
             />
           </div>
         </>

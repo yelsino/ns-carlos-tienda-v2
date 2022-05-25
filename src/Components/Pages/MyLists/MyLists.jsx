@@ -1,22 +1,23 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../Context/auth/AuthContext';
 import { ListContext } from '../../../Context/List/ListContext';
 import { SocketContext } from '../../../Context/SocketContext';
 import { IconHeart, IconRight } from '../../Atoms/Icons';
-import PortalComponent from '../../Atoms/Portals/PortalComponent';
 import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct';
 import PropTypes from 'prop-types';
+import PortalComponent from '../../Atoms/Portals/PortalComponent';
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext);
   const { auth } = useContext(AuthContext);
-
-  const [modal, setModal] = useState(false);
   const {
     liststate: { lists, list },
     setList,
   } = useContext(ListContext);
+
+  const [modal, setModal] = useState(false);
+
 
   const createNewList = NAMELIST => {
     socket?.emit('update-list', {
@@ -54,11 +55,18 @@ export const MyLists = () => {
         </div>
       </div>
 
-      {modal && (
-        <PortalComponent close={modal} setClose={setModal}>
-          <InputNewList setModal={setModal} handleSubmit={createNewList} />
-        </PortalComponent>
-      )}
+
+      <AnimatePresence>
+        {modal && (
+          <PortalComponent open={modal} setOpen={setModal}>
+           {/* <InputNewList setModal={setModal} handleSubmit={createNewList} /> */}
+           <div>
+             gaaaaaaaaaa
+           </div>
+          </PortalComponent>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 };
@@ -88,6 +96,7 @@ const ItemList = ({ list, setList, currlist }) => {
         }}
       >
         <input
+          readOnly
           value={list._id}
           type='checkbox'
           checked={list._id === currlist}

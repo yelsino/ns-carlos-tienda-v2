@@ -51,7 +51,7 @@ const ListProduct = () => {
               layout
               initial={{ borderRadius: 25 }}
             >
-              {list?.products.map(item => (
+              {list?.products?.map(item => (
                 <ItemList
                   key={item._id}
                   item={item}
