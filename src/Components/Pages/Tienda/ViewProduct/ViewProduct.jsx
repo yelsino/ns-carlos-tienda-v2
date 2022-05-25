@@ -6,11 +6,10 @@ import FoodRecipes from './FoodRecipes';
 
 const ViewProduct = ({ product, setModal,setItem }) => {
 
-  const { _id, name, img, description } = product;
+  const {  name, img, description } = product;
 
   return (
     <motion.div
-      // key={_id}
       initial={{ scale: 0.5 }}
       animate={{ scale: 1 }}
       exit={{ scale: 0 }}
@@ -31,12 +30,7 @@ const ViewProduct = ({ product, setModal,setItem }) => {
       {/* contenido */}
       <motion.div className='gap-10  flex flex-col sm:flex-row max-w-xs mx-auto sm:max-w-none'>
         <motion.div
-          transition={{
-            duration: 1,
-          }}
-          initial='hidden'
-          animate='visible'
-          variants={list}
+      
           className='flex flex-col items-center gap-7 max-w-xs sm:px-5 '
         >
           <p className='font-semibold font-poppins text-xl '>{name}</p>
@@ -65,7 +59,3 @@ ViewProduct.propTypes = {
   upLista: PropTypes.func,
 };
 
-const list = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-};

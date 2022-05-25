@@ -26,7 +26,6 @@ const Tienda = () => {
   const [show, setShow] = useState(false);
 
   const [data, setData] = useState([]);
-  const [list, setLista] = useState([]);
 
   // si no hay item seleccionado regresa a/tienda
   useEffect(() => {
@@ -92,7 +91,9 @@ const Tienda = () => {
 
       <AnimatePresence>
         {show && (
-          <PortalComponent open={show} setOpen={setShow}>
+          <PortalComponent open={show} setOpen={setShow}
+            closeChildren={setItemSelected}
+          >
             <ViewProduct
               product={itemSelected}
               setModal={setShow}

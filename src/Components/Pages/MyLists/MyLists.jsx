@@ -1,9 +1,9 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../Context/auth/AuthContext';
 import { ListContext } from '../../../Context/List/ListContext';
 import { SocketContext } from '../../../Context/SocketContext';
-import { IconHeart, IconRight } from '../../Atoms/Icons';
+import { IconRight } from '../../Atoms/Icons';
 import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct';
 import PropTypes from 'prop-types';
 import PortalComponent from '../../Atoms/Portals/PortalComponent';
@@ -17,7 +17,6 @@ export const MyLists = () => {
   } = useContext(ListContext);
 
   const [modal, setModal] = useState(false);
-
 
   const createNewList = NAMELIST => {
     socket?.emit('update-list', {
@@ -35,7 +34,26 @@ export const MyLists = () => {
 
       <div className='flex  pt-10'>
         <div className='w-1/2 flex flex-col gap-y-2'>
-          {lists.map((item, i) => (
+
+        {/* <LayoutGroup>
+  <motion.ul
+    className=' w-[340px]  lg:w-[290px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col gap-y-[2px] px-4'
+    layout
+    initial={{ borderRadius: 25 }}
+  >
+    {list?.products?.map(item => (
+      <ItemList
+        key={item._id}
+        item={item}
+        //  selectProduct={selectProduct}
+      />
+    ))}
+  </motion.ul>
+</LayoutGroup> */}
+
+          <LayoutGroup>
+            <motion.ul>
+            {lists.map((item, i) => (
             <ItemList
               list={item}
               key={item._id}
@@ -43,15 +61,18 @@ export const MyLists = () => {
               currlist={list._id}
             />
           ))}
+            </motion.ul>
+         
+          </LayoutGroup>
           <button
-            onClick={setModal}
+            onClick={() => setModal(true)}
             className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center w-[320px] rounded-sm max-w-xs justify-center text-color_green_7 rounded-t-none cursor-pointer'
           >
             Añadir lista
           </button>
         </div>
         <div className=' hidden lg:block'>
-          <ListProduct  />
+          <ListProduct />
         </div>
       </div>
 
@@ -59,25 +80,29 @@ export const MyLists = () => {
       <AnimatePresence>
         {modal && (
           <PortalComponent open={modal} setOpen={setModal}>
-           {/* <InputNewList setModal={setModal} handleSubmit={createNewList} /> */}
-           <div>
-             gaaaaaaaaaa
-           </div>
+            <InputNewList setModal={setModal} handleSubmit={createNewList} />
           </PortalComponent>
         )}
       </AnimatePresence>
-
     </div>
   );
 };
 
 // eslint-disable-next-line react/prop-types
 const ItemList = ({ list, setList, currlist }) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => setIsOpen(!isOpen);
+
   return (
-    <motion.div
+    <motion.li
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      layout
+      onClick={toggleOpen}
+      value={list}
+      id={list._id}
       className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center rounded-sm w-[320px] justify-between'
     >
       <div className='flex items-center gap-x-3'>
@@ -100,11 +125,16 @@ const ItemList = ({ list, setList, currlist }) => {
           value={list._id}
           type='checkbox'
           checked={list._id === currlist}
-          className='w-5 h-5 accent-violet-500 cursor-pointer' 
+          className='w-5 h-5 accent-violet-500 cursor-pointer'
         />
       </button>
-    </motion.div>
+
+      <AnimatePresence>
+        {isOpen &&<Content/>}
+      </AnimatePresence>
+    </motion.li>
   );
+
 };
 ItemList.propTypes = {
   list: PropTypes.object,
@@ -114,14 +144,18 @@ ItemList.propTypes = {
 const InputNewList = ({ setModal, handleSubmit }) => {
   const [name, setName] = useState('');
   return (
-    <div
+    <motion.div
+      initial={{ scale: 0.5 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0 }}
+      transition={{ duration: 0.3 }}
       className='flex justify-center p-10 flex-col bg-white rounded-lg gap-y-3 w-[400px] relative'
       onClick={e => e.stopPropagation()}
     >
       <p>Nombra a tu lista</p>
       <input
         type='text'
-        className='w-full px-3 py-2 bg-white rounded-sm border text-sm text-gray-700 focus:outline-none focus:shadow-outline'
+        className='w-full px-3 py-2 bg-white rounded-sm border text-sm text-gray-700  outline-none'
         onChange={e => setName(e.target.value)}
       />
 
@@ -138,6 +172,27 @@ const InputNewList = ({ setModal, handleSubmit }) => {
       >
         Cancelar
       </button>
-    </div>
+    </motion.div>
+  );
+};
+
+
+
+const Content = () => {
+  return (
+    <motion.div
+      className='bg-white p-4 px-5  '
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <p className='text-color_green_7 font-light pb-1'>Resumen</p>
+      <p>gaaaaaaaaa</p>
+      <p>gaaaaaaaaa</p>
+      <p>gaaaaaaaaa</p>
+      <p>gaaaaaaaaa</p>
+      <p>gaaaaaaaaa</p>
+    </motion.div>
   );
 };

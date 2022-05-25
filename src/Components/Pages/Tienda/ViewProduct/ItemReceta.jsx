@@ -1,16 +1,11 @@
 import { motion } from 'framer-motion';
 import { PropTypes } from 'prop-types';
 
-const ItemReceta = ({ animation, item }) => {
+const ItemReceta = ({ index }) => {
   return (
     <motion.div
-      transition={{
-        duration: 1,
-      }}
-      initial='hidden'
-      animate='visible'
-      custom={item}
-      variants={animation}
+      custom={index}
+      variants={variants}
       className='
         w-36 h-44 p-2 break-all  rounded-lg shadow-lg
         '
@@ -24,6 +19,16 @@ const ItemReceta = ({ animation, item }) => {
 export default ItemReceta;
 
 ItemReceta.propTypes = {
-  item: PropTypes.number,
-  animation: PropTypes.object.isRequired,
+  index: PropTypes.number,
+  // animation: PropTypes.object.isRequired,
+};
+
+const variants = {
+  visible: i => ({
+    scale: 1,
+    transition: {
+      delay: i * 0.1,
+    },
+  }),
+  hidden: { scale: 0 },
 };
