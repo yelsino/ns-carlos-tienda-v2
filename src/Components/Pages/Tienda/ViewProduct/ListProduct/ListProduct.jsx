@@ -1,11 +1,10 @@
 import { Transition } from '@headlessui/react';
-import { LayoutGroup, motion, Reorder } from 'framer-motion';
+import { LayoutGroup, motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import AnimationBook from '../../../../Atoms/Animation/Book';
 import { IconGridView } from '../../../../Atoms/Icons';
 import ItemList from './ItemList';
-import PropTypes from 'prop-types';
 import { ListContext } from '../../../../../Context/List/ListContext';
 
 const ListProduct = () => {

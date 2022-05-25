@@ -35,21 +35,6 @@ export const MyLists = () => {
       <div className='flex  pt-10'>
         <div className='w-1/2 flex flex-col gap-y-2'>
 
-        {/* <LayoutGroup>
-  <motion.ul
-    className=' w-[340px]  lg:w-[290px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col gap-y-[2px] px-4'
-    layout
-    initial={{ borderRadius: 25 }}
-  >
-    {list?.products?.map(item => (
-      <ItemList
-        key={item._id}
-        item={item}
-        //  selectProduct={selectProduct}
-      />
-    ))}
-  </motion.ul>
-</LayoutGroup> */}
 
           <LayoutGroup>
             <motion.ul>

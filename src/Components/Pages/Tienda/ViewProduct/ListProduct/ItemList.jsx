@@ -1,8 +1,6 @@
 import {
   AnimatePresence,
   motion,
-  Reorder,
-  // useMotionValue
 } from 'framer-motion';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
