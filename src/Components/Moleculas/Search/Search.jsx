@@ -100,9 +100,9 @@ export default function Search(props) {
             ref={panelRef}
             {...autocomplete.getPanelProps()}
           >
-            {autocompleteState.collections.map((collection, index) => {
-              const { items } = collection;
-              console.log({ items });
+            {autocompleteState.collections.map((val, index) => {
+              const { items } = val;
+              // console.log({ items });
               return (
                 <section key={`section-${index}`} 
                   className='w-[260px]'
@@ -110,7 +110,7 @@ export default function Search(props) {
                   {items.length > 0 && (
                     <ul {...autocomplete.getListProps()}>
                       {items.map(item => (
-                        <AutocompleteItem key={item.id} {...item} />
+                        <AutocompleteItem key={item._id} {...item} />
                       ))}
                     </ul>
                   )}

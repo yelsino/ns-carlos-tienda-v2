@@ -23,8 +23,9 @@ const Tienda = () => {
   const navigate = useNavigate();
 
   const [itemSelected, setItemSelected] = useState(null);
-  const [data, setData] = useState([]);
+  const [show, setShow] = useState(false);
 
+  const [data, setData] = useState([]);
   const [list, setLista] = useState([]);
 
   // si no hay item seleccionado regresa a/tienda
@@ -56,7 +57,10 @@ const Tienda = () => {
               }}
               layoutId={p}
               key={p._id}
-              onClick={() => setItemSelected(p)}
+              onClick={() => {
+                setItemSelected(p);
+                setShow(true);
+              }}
               className=' w-[192px] h-[75px] flex items-center  justify-center  cursor-pointer  '
             >
               <ItemProduct product={p} index={i} />
@@ -65,35 +69,38 @@ const Tienda = () => {
 
           {products?.length === 0 &&
             [...Array(10)].map((_, i) => <ProductSqueleton key={i} />)}
-            
+
           {data?.length === 0 && (
-            <motion.div 
-              initial={{  scale: 0.7 }}
+            <motion.div
+              initial={{ scale: 0.7 }}
               animate={{
                 scale: 1,
                 transition: {
                   duration: 0.5,
                 },
               }}
-            className=' col-span-full  flex justify-center flex-col items-center  row-span-full'>
-              
+              className=' col-span-full  flex justify-center flex-col items-center  row-span-full'
+            >
               <img className='w-96 ' src={imgEstrellado} />
-              <p className='font-bold text-center pt-10'>NO HAY COINCIDENCIAS</p>
+              <p className='font-bold text-center pt-10'>
+                NO HAY COINCIDENCIAS
+              </p>
             </motion.div>
           )}
         </motion.div>
       </div>
 
       <AnimatePresence>
-        <PortalComponent close={itemSelected} setClose={setItemSelected}>
-          {itemSelected && (
+        {show && (
+          <PortalComponent open={show} setOpen={setShow}>
             <ViewProduct
               product={itemSelected}
-              setClose={setItemSelected}
-              upLista={setLista}
+              setModal={setShow}
+              setItem={setItemSelected}
+              // upLista={setLista}
             />
-          )}
-        </PortalComponent>
+          </PortalComponent>
+        )}
       </AnimatePresence>
 
       {viewlist && (

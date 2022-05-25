@@ -43,16 +43,17 @@ export const SocketProvider = ({ children }) => {
         payload: products,
       });
 
-      const addObjectIDForProducts = products.products.map(product => ({
-        ...product,
-        objectID: product._id,
-      }));
+      // !preguntar si ya existe data o no, o pasar esta funcion al backend
+      // const addObjectIDForProducts = products.products.map(product => ({
+      //   ...product,
+      //   objectID: product._id,
+      // }));
 
-      if (products.products.length > 0) {
-        index.saveObjects(addObjectIDForProducts).then(({ data }) => {
-          console.log('exito');
-        });
-      }
+      // if (products.products.length > 0) {
+      //   index.saveObjects(addObjectIDForProducts).then(({ data }) => {
+      //     console.log('exito');
+      //   });
+      // }
     });
 
     socket?.on('get-user-lists', lists => {

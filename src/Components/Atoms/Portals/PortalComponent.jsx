@@ -4,28 +4,26 @@ import PropTypes from 'prop-types';
 
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { motion } from 'framer-motion';
 
-function PortalComponent({ close, setClose, children }) {
+function PortalComponent({ children, open, setOpen }) {
 
-  const [open, setOpen] = useState(false);
-
-
-  // determina si la animacion va ser de entrada o salida
-  useEffect(()=>{
-    if(close === null){
-      setOpen(false);
-    } else {
-      setOpen(true);
-    }
-  }, [close]);
 
   return (
-    // Use the `Transition` component at the root level
-    <Transition show={open} as={Fragment}>
-      <Dialog onClose={() => setClose(null)}>
+    <motion.div
+      exit={{ opacity: 0 }}
+      animate={{ opacity: open ? 1 : 0 }}
+      initial={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Transition show={open} as={Fragment}>
+      <Dialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
         <Transition.Child
-
-
           as={Fragment}
           enter='ease-out duration-300'
           enterFrom='opacity-0'
@@ -45,15 +43,19 @@ function PortalComponent({ close, setClose, children }) {
           leave='ease-in duration-300'
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
-
-          
         >
           <Dialog.Panel
             // onClick={() => setClose(null)}
             className=' absolute top-0 left-0
           flex justify-center items-center w-screen h-screen'
           >
-            <div className='  w-full h-full flex justify-center items-center' onClick={() => setClose(null)}>
+            <div
+              className='  w-full h-full flex justify-center items-center'
+              onClick={() => {
+                setOpen(false);
+                // setOpen(false)
+              }}
+            >
               {children}
             </div>
             {/* ... */}
@@ -61,13 +63,14 @@ function PortalComponent({ close, setClose, children }) {
         </Transition.Child>
       </Dialog>
     </Transition>
+    </motion.div>
   );
 }
 
 export default PortalComponent;
 
 PortalComponent.propTypes = {
-  close: null || PropTypes.bool,
-  setClose: PropTypes.func,
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
   children: PropTypes.element,
 };

@@ -4,23 +4,26 @@ import SwitchWeight from './SwitchWeight';
 import FoodRecipes from './FoodRecipes';
 
 
-const ViewProduct = ({ product, setClose, upLista }) => {
+const ViewProduct = ({ product, setModal,setItem }) => {
 
   const { _id, name, img, description } = product;
 
   return (
     <motion.div
-      key={_id}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      // key={_id}
+      initial={{ scale: 0.5 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0 }}
       transition={{ duration: 0.3 }}
       className={`bg-white p-10   relative
       w-full   sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll h-screen  sm:max-h-[600px] `}
       onClick={e => e.stopPropagation()}
     >
       <button
-        onClick={() => setClose(null)}
+        onClick={() => {
+          setItem(null)
+          setModal(false)
+        }}
         className='absolute top-0 right-0 bg-red-500 px-5 py-3  text-white font-semibold font-poppins sm:rounded-tr-2xl focus:outline-none -translate-y-[1px] translate-x-[1px]'
       >
         Cerrar
@@ -57,7 +60,8 @@ export default ViewProduct;
 
 ViewProduct.propTypes = {
   product: PropTypes.object,
-  setClose: PropTypes.func,
+  setModal: PropTypes.func,
+  setItem: PropTypes.func,
   upLista: PropTypes.func,
 };
 
