@@ -129,7 +129,7 @@ const SwitchWeight = ({ product }) => {
     setDisabled(true);
     console.log(weight);
     socket?.emit('update-list', {
-      type: 'ADD',
+      type: 'ADD_PRODUCT_TO_LIST',
       userID: auth.uid,
       listID: listOfProducts._id,
       productID: product._id,
@@ -140,7 +140,7 @@ const SwitchWeight = ({ product }) => {
   const removeProductOfList = () => {
     setDisabled(true);
     socket?.emit('update-list', {
-      type: 'REMOVE',
+      type: 'REMOVE_PRODUCT_OF_LIST',
       userID: auth.uid,
       listID: listOfProducts._id,
       productID: product._id,

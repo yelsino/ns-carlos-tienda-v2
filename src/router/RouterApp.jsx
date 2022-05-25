@@ -2,8 +2,8 @@ import { useContext, useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import Login from '../Components/Pages/Auth/Login/Login';
 import Compras from '../Components/Pages/Compras/Compras';
-import Favoritos from '../Components/Pages/Favoritos/Favoritos';
 import MainStore from '../Components/Pages/MainStore';
+import { MyLists } from '../Components/Pages/MyLists/MyLists';
 import Reclamos from '../Components/Pages/Reclamos/Reclamos';
 import Tienda from '../Components/Pages/Tienda/Tienda';
 import { AuthContext } from '../Context/auth/AuthContext';
@@ -35,7 +35,7 @@ const RouterApp = () => {
         },
         { path: '/mis-compras', element: <Compras /> },
         { path: '/mis-reclamos', element: <Reclamos /> },
-        { path: '/recetas-favoritas', element: <Favoritos /> },
+        { path: '/mis-listas', element: <MyLists /> },
       ],
     },
 

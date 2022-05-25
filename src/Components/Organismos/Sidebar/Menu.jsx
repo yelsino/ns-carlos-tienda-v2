@@ -32,9 +32,9 @@ const Menu = () => {
 
       </NavLink>
 
-      <NavLink to='/recetas-favoritas' className={`transition ease-in duration-300  flex items-center gap-x-2 ${currentPath[1] === 'trabajadores' ? ' text-color_green_7' : 'text-color_gray_1'}`} >
+      <NavLink to='/mis-listas' className={`transition ease-in duration-300  flex items-center gap-x-2 ${currentPath[1] === 'trabajadores' ? ' text-color_green_7' : 'text-color_gray_1'}`} >
         <IconWork />
-        <span>Favoritos</span>
+        <span>Listas</span>
       </NavLink>
     </div>
   );

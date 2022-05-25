@@ -35,7 +35,7 @@ const Filtro = ({ upData, data }) => {
 
 
   return (
-    <div className='flex flex-col items-center gap-5'>
+    <div className='flex flex-col items-center gap-5 pb-5'>
       
       <RadioGroup
         className='flex gap-7 font-poppins'

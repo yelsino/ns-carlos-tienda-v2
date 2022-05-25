@@ -12,8 +12,6 @@ const Header = ({ list, setList }) => {
     <div className='hidden justify-between border-b py-5 sm:flex'>
       <Logo />
       <Search 
-        // openOnFocus={true}
-
       />
       <div className='flex items-center text-color_gray_1 min-w-[160px] '>
         <span className='px-3 hover:text-color_green_7 transition ease-in duration-300 cursor-pointer'></span>

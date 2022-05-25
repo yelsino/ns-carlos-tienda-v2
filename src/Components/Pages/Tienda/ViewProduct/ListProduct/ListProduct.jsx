@@ -1,5 +1,5 @@
 import { Transition } from '@headlessui/react';
-import { Reorder } from 'framer-motion';
+import { AnimateSharedLayout, motion, Reorder } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import AnimationBook from '../../../../Atoms/Animation/Book';
@@ -8,12 +8,11 @@ import ItemList from './ItemList';
 import PropTypes from 'prop-types'
 import { ListContext } from '../../../../../Context/List/ListContext';
 
-
-const ListProduct = ({ upLista, data, selectProduct }) => {
+const ListProduct = () => {
   const [viewlist] = useOutletContext();
   const [show, setShow] = useState(false);
 
-  const { liststate: {lists}} = useContext(ListContext)
+  const { liststate: {list}} = useContext(ListContext)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -23,9 +22,7 @@ const ListProduct = ({ upLista, data, selectProduct }) => {
     return () => clearTimeout(timeout);
   }, [viewlist]);
 
-  useEffect(()=>{
-    console.log('se actualizo la lista');
-  },[data])
+
 
 
   return (
@@ -43,7 +40,7 @@ const ListProduct = ({ upLista, data, selectProduct }) => {
             <span className='text-white'>
               <IconGridView />
             </span>
-            <p className='font-bold '>MI nombre de lista</p>
+            <p className='font-bold '>{list.name}</p>
             <span className='text-gray-500'>
               <IconGridView />
             </span>
@@ -51,18 +48,19 @@ const ListProduct = ({ upLista, data, selectProduct }) => {
 
           {/* LISTA */}
 
-          <Reorder.Group
-            axis='y'
-            onReorder={upLista}
-            values={data}
-            layoutScroll
-            className=' w-[340px]  lg:w-[290px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col gap-y-[2px]'
-          >
-            {lists[0].products.map(item => (
-              <ItemList key={item._id} item={item} selectProduct={selectProduct} />
+      <AnimateSharedLayout>
+        <motion.ul 
+          className=' w-[340px]  lg:w-[290px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col gap-y-[2px] px-4'
+        layout initial={{ borderRadius: 25 }}>
+        {list?.products.map(item => (
+              <ItemList key={item._id} item={item}
+              //  selectProduct={selectProduct}
+               
+               />
             ))}
-           
-          </Reorder.Group>
+        </motion.ul>
+      </AnimateSharedLayout>
+       
         </div>
       </Transition>
 
@@ -87,7 +85,7 @@ const ListProduct = ({ upLista, data, selectProduct }) => {
 export default ListProduct;
 
 ListProduct.propTypes = {
-  upLista: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired,
-  selectProduct: PropTypes.func.isRequired,
+  // upLista: PropTypes.func.isRequired,
+  // data: PropTypes.array.isRequired,
+  // selectProduct: PropTypes.func.isRequired,
 }
