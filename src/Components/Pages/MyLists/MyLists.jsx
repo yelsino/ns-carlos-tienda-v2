@@ -3,10 +3,9 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../../Context/auth/AuthContext';
 import { ListContext } from '../../../Context/List/ListContext';
 import { SocketContext } from '../../../Context/SocketContext';
-import { IconRight } from '../../Atoms/Icons';
 import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct';
-import PropTypes from 'prop-types';
 import PortalComponent from '../../Atoms/Portals/PortalComponent';
+import EachList from './EachList';
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext);
@@ -28,101 +27,64 @@ export const MyLists = () => {
     setModal(false);
   };
 
-  return (
-    <div className='px-20 pt-10'>
-      <h2 className='font-poppins text-2xl font-bold border-b'>MIS LISTAS</h2>
-
-      <div className='flex  pt-10'>
-        <div className='w-1/2 flex flex-col gap-y-2'>
-
-
-          <LayoutGroup>
-            <motion.ul>
-            {lists.map((item, i) => (
-            <ItemList
-              list={item}
-              key={item._id}
-              setList={setList}
-              currlist={list._id}
-            />
-          ))}
-            </motion.ul>
-         
-          </LayoutGroup>
-          <button
-            onClick={() => setModal(true)}
-            className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center w-[320px] rounded-sm max-w-xs justify-center text-color_green_7 rounded-t-none cursor-pointer'
-          >
-            Añadir lista
-          </button>
-        </div>
-        <div className=' hidden lg:block'>
-          <ListProduct />
-        </div>
-      </div>
-
-
-      <AnimatePresence>
-        {modal && (
-          <PortalComponent open={modal} setOpen={setModal}>
-            <InputNewList setModal={setModal} handleSubmit={createNewList} />
-          </PortalComponent>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-// eslint-disable-next-line react/prop-types
-const ItemList = ({ list, setList, currlist }) => {
-
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => setIsOpen(!isOpen);
+  const deleteList = (listID) => {
+    socket?.emit('update-list', {
+      type: 'DELETE_LIST',
+      userID: auth.uid,
+      listID,
+    });
+    console.log(listID);
+  }
 
   return (
-    <motion.li
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      layout
-      onClick={toggleOpen}
-      value={list}
-      id={list._id}
-      className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center rounded-sm w-[320px] justify-between'
-    >
-      <div className='flex items-center gap-x-3'>
-        <span className='cursor-pointer'>
-          {/* <IconHeart /> */}
-          <IconRight />
-        </span>
-        <p className='truncate'>{list.name}</p>
+    <>
+    {
+      list && (
+        <div className='max-w-5xl mx-auto pt-10'>
+        <h2 className='font-poppins text-2xl font-bold border-b'>MIS LISTAS</h2>
+  
+        <div className='flex  pt-10'>
+          <div className=' flex flex-col gap-y-1'>
+            <LayoutGroup>
+              <motion.ul
+                className='flex flex-col gap-y-1'
+              >
+                {lists.map((item, i) => (
+                  <EachList
+                    list={item}
+                    key={item._id}
+                    setList={setList}
+                    currlist={list._id}
+                    deleteList={deleteList}
+                  />
+                ))}
+              </motion.ul>
+            </LayoutGroup>
+            <button
+              onClick={() => setModal(true)}
+              className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center w-[320px] rounded-sm max-w-xs justify-center text-color_green_7 rounded-t-none cursor-pointer'
+            >
+              Añadir lista
+            </button>
+          </div>
+          <div className=' hidden md:block w-full'>
+            <ListProduct />
+          </div>
+        </div>
+  
+        <AnimatePresence>
+          {modal && (
+            <PortalComponent open={modal} setOpen={setModal}>
+              <InputNewList setModal={setModal} handleSubmit={createNewList} />
+            </PortalComponent>
+          )}
+        </AnimatePresence>
       </div>
-      <button
-        onClick={() => {
-          setList({
-            type: 'SELECT_LIST',
-            payload: list,
-          });
-        }}
-      >
-        <input
-          readOnly
-          value={list._id}
-          type='checkbox'
-          checked={list._id === currlist}
-          className='w-5 h-5 accent-violet-500 cursor-pointer'
-        />
-      </button>
-
-      <AnimatePresence>
-        {isOpen &&<Content/>}
-      </AnimatePresence>
-    </motion.li>
+      )
+    }
+    </>
+   
   );
-
-};
-ItemList.propTypes = {
-  list: PropTypes.object,
 };
 
 // eslint-disable-next-line react/prop-types
@@ -157,27 +119,6 @@ const InputNewList = ({ setModal, handleSubmit }) => {
       >
         Cancelar
       </button>
-    </motion.div>
-  );
-};
-
-
-
-const Content = () => {
-  return (
-    <motion.div
-      className='bg-white p-4 px-5  '
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <p className='text-color_green_7 font-light pb-1'>Resumen</p>
-      <p>gaaaaaaaaa</p>
-      <p>gaaaaaaaaa</p>
-      <p>gaaaaaaaaa</p>
-      <p>gaaaaaaaaa</p>
-      <p>gaaaaaaaaa</p>
     </motion.div>
   );
 };

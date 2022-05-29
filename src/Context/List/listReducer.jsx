@@ -13,6 +13,11 @@ export const listReducer = (state,action) => {
                 ...state,
                 list: action.payload,
             }
+        // case 'CHANGE_OK':
+        //     return {
+        //         ...state,
+        //         ok: action.payload,
+        //     }
             
         default:
             return state;

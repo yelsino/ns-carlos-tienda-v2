@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ProductContext } from './Product/ProductContext';
 import { AuthContext } from './auth/AuthContext';
 import { ListContext } from './List/ListContext';
-import algoliasearch from 'algoliasearch';
+// import algoliasearch from 'algoliasearch';
 const baseUrl = import.meta.env.VITE_SOME_KEY;
 
 export const SocketContext = createContext(null);
@@ -15,14 +15,14 @@ export const SocketProvider = ({ children }) => {
 
   const { auth } = useContext(AuthContext);
   const { dispatch } = useContext(ProductContext);
-  const { setList } = useContext(ListContext);
+  const { liststate, ok, setList } = useContext(ListContext);
 
-  const searchClient = algoliasearch(
-    '5RCKHIZLLD',
-    '3938262410b41e1f5e3c9a531241ad1c'
-  );
+  // const searchClient = algoliasearch(
+  //   '5RCKHIZLLD',
+  //   '3938262410b41e1f5e3c9a531241ad1c'
+  // );
 
-  const index = searchClient.initIndex('products-negocios-carlos');
+  // const index = searchClient.initIndex('products-negocios-carlos');
 
   useEffect(() => {
     if (auth.logged) {
@@ -62,12 +62,23 @@ export const SocketProvider = ({ children }) => {
         payload: lists,
       });
 
-      setList({
-        type: 'SELECT_LIST',
-        payload: lists[0],
-      });
+      if (liststate.list) {
+        console.log('hay lista');
+        setList({
+          type: 'SELECT_LIST',
+          payload: lists.find(list => list._id === liststate.list._id),
+        });
+      }
+
+      if ( !liststate.list ) {
+        console.log('no hay lista');
+        setList({
+          type: 'SELECT_LIST',
+          payload: lists[0],
+        });
+      }
     });
-  }, [socket, dispatch]);
+  }, [socket, dispatch,liststate, setList]);
 
   return (
     <SocketContext.Provider

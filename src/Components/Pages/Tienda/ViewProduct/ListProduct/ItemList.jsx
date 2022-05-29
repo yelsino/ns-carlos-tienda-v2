@@ -1,11 +1,11 @@
-import {
-  AnimatePresence,
-  motion,
-} from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-// import { IconMinus, IconPlus } from '../../../../Atoms/Icons';
-// import { useRaisedShadow } from './use-raised-shadow';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../../../../Context/auth/AuthContext';
+import { ListContext } from '../../../../../Context/List/ListContext';
+import { SocketContext } from '../../../../../Context/SocketContext';
+import { useOnClick } from '../../../../../Hooks/useOnClick';
+import { IconDelete } from '../../../../Atoms/Icons';
 
 const ItemList = ({ item, selectProduct }) => {
   // const y = useMotionValue(0);
@@ -68,7 +68,11 @@ const ItemList = ({ item, selectProduct }) => {
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <div className={` p-1 ${isOpen ? ' rounded-lg border shadow-md' : ''}`}>
+    <div
+      className={`  ${
+        isOpen ? ' rounded-lg border border-gray-100 shadow-sm' : ''
+      }`}
+    >
       <motion.li
         layout
         onClick={toggleOpen}
@@ -97,14 +101,41 @@ const ItemList = ({ item, selectProduct }) => {
           </div>
         </div>
       </motion.li>
-      <AnimatePresence>
-        {isOpen && <Content data={quantities} />}
-      </AnimatePresence>
+      <AnimatePresence>{isOpen && <Content data={item} />}</AnimatePresence>
     </div>
   );
 };
 
 const Content = ({ data }) => {
+  const [disabled, setDisabled] = useOnClick(300);
+  const { socket } = useContext(SocketContext);
+  const {
+    liststate: { list },
+  } = useContext(ListContext);
+  const { auth } = useContext(AuthContext);
+
+  const removeProductOfList = () => {
+    setDisabled(true);
+    socket?.emit('update-list', {
+      type: 'REMOVE_PRODUCT_OF_LIST',
+      listID: list._id,
+      productID: data.product._id,
+      userID: auth.uid,
+      // mountID: weight,
+    });
+  };
+
+  const removeWeightOfProduct = weightID => {
+    setDisabled(true);
+    socket?.emit('update-list', {
+      type: 'REMOVE_WEIGHT_OF_PRODUCT',
+      listID: list._id,
+      productID: data.product._id,
+      userID: auth.uid,
+      weightID,
+    });
+  };
+
   return (
     <motion.div
       className='bg-white p-4 px-5  '
@@ -113,26 +144,49 @@ const Content = ({ data }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <p className='text-color_green_7 font-light pb-1'>Resumen</p>
-      {data.map(item => (
-        <div key={item._id} className='flex justify-between'>
-          <span>{item.weight} gr</span>
-          <div className='flex'>
-            <span className='w-20'>{item.quantity} und</span>
-            <div className='flex items-center  w-16'>
-              <span className='text-[12px] '>S/.</span>
-              <span className='text-color_green_7 font-semibold'>{item.price * item.quantity}</span>
+      <p className=' pb-1 font-semibold text-gray-700'>Resumen</p>
+      {data.quantities.map(
+        item =>
+          item.quantity > 0 && (
+            <div key={item._id} className='flex justify-between text-gray-600'>
+              <span>{item.weight} gr</span>
+              <div className='flex  '>
+                <span className='w-20'>{item.quantity} und</span>
+                <div className='flex items-center justify-between w-16 '>
+                  <span className='text-[12px] '>S/.</span>
+                  <span className='text-color_green_7 font-semibold'>
+                    {item.price * item.quantity}
+                  </span>
+                  <button
+                    disabled={disabled}
+                    onClick={() => removeWeightOfProduct(item._id)}
+                    className=' pl-3 text-gray-400'
+                  >
+                    <IconDelete style={'w-4 h-4'} />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      ))}
+          )
+      )}
+    
+      <div className='gap-x-5 flex font-poppins border-t mt-5 pt-3 justify-end'>
+        <button className=' font-extralight text-color_green_7'>Agregar</button>
+        <button
+          disabled={disabled}
+          onClick={removeProductOfList}
+          className='text-rose-500 font-light'
+        >
+          Eliminar
+        </button>
+      </div>
     </motion.div>
   );
 };
 
 Content.propTypes = {
-  data: PropTypes.array,
-}
+  data: PropTypes.object.isRequired,
+};
 
 export default ItemList;
 

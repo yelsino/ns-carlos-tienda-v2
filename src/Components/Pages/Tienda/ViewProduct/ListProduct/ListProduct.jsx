@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react';
 import { LayoutGroup, motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import AnimationBook from '../../../../Atoms/Animation/Book';
 import { IconGridView } from '../../../../Atoms/Icons';
 import ItemList from './ItemList';
@@ -31,12 +31,12 @@ const ListProduct = () => {
         leaveFrom='opacity-100'
         leaveTo='opacity-0'
       >
-        <div className=' flex items-center  flex-col mt-5 lg:mt-10  w-full'>
+        <div className=' flex items-center  flex-col  w-full'>
           <div className='flex justify-between w-[300px]  mb-7 '>
             <span className='text-white'>
               <IconGridView />
             </span>
-            <p className='font-bold '>{list.name}</p>
+            <p className='font-bold '>{list?.name}</p>
             <span className='text-gray-500'>
               <IconGridView />
             </span>
@@ -46,7 +46,7 @@ const ListProduct = () => {
 
           <LayoutGroup>
             <motion.ul
-              className=' w-[340px]  lg:w-[290px] h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col gap-y-[2px] px-4'
+              className=' w-[340px] gap-y-1   h-[calc(100vh-220px)]  overflow-y-scroll pb-5 flex flex-col px-4'
               layout
               initial={{ borderRadius: 25 }}
             >
@@ -57,6 +57,10 @@ const ListProduct = () => {
                   //  selectProduct={selectProduct}
                 />
               ))}
+              <Link
+                to='/payment'
+                className='w-full  flex   text-color_green_7 font-semibold  py-3 shadow-md   rounded-lg px-5    bg-white justify-center'
+              >Pedir envio</Link>
             </motion.ul>
           </LayoutGroup>
         </div>

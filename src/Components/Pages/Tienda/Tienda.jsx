@@ -105,12 +105,13 @@ const Tienda = () => {
 
       {viewlist && (
         <>
-          <div className='with-animation w-full h-full absolute bg-white lg:flex lg:w-auto lg:relative flex flex-col  '>
+          <div className='with-animation w-full h-full absolute bg-white lg:flex lg:w-auto lg:relative flex flex-col pt-10  '>
             <ListProduct
               // upLista={setLista}
               // data={list}
               // selectProduct={setItemSelected}
             />
+            
           </div>
         </>
       )}

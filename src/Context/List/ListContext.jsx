@@ -7,7 +7,7 @@ export const ListContext = createContext(null);
 const initialState = {
   lists: [],
   ok:false,
-  list: {},
+  list: null,
 };
 
 export const ListProvider = ({ children }) => {
