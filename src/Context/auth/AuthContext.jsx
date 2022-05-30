@@ -12,6 +12,7 @@ const initialState = {
   checking: true,
   logged: false,
   user: null,
+  directions: []
 }
 
 export const AuthProvider = ({ children }) => {
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }) => {
         uid: usuario?.uid,
         checking: false,
         logged: true,
-        user: usuario
+        user: usuario,
       })
     }
 

@@ -1,7 +1,9 @@
+import { useOutletContext } from 'react-router-dom';
 import { IconCheck } from '../../Atoms/Icons';
 import PaymentSuccess from './PaymentSuccess';
 
 const YourPayment = () => {
+
   return (
     <>
       <div className='w-full'>
@@ -75,7 +77,7 @@ const YourPayment = () => {
         </p>
       </div>
 
-      <PaymentSuccess/>
+      {/* <PaymentSuccess/> */}
     </>
   );
 };

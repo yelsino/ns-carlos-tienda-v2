@@ -24,15 +24,15 @@ const Menu = () => {
         <span>Compras</span>
       </NavLink>
 
-      <NavLink
+      {/* <NavLink
         to='/mis-reclamos' className={`transition ease-in duration-300 flex items-center gap-x-2 ${currentPath[1] === 'mis-reclamos' ? ' text-color_green_7' : 'text-color_gray_1'}`}
       >
         <IconUsersInactive />
         <span>Reclamos</span>
 
-      </NavLink>
+      </NavLink> */}
 
-      <NavLink to='/mis-listas' className={`transition ease-in duration-300  flex items-center gap-x-2 ${currentPath[1] === 'trabajadores' ? ' text-color_green_7' : 'text-color_gray_1'}`} >
+      <NavLink to='/mis-listas' className={({ isActive }) => (`transition ease-in duration-300  flex items-center gap-x-2 ${isActive ? ' text-color_green_7' : 'text-color_gray_1'}`)} >
         <IconWork />
         <span>Listas</span>
       </NavLink>

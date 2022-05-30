@@ -1,7 +1,8 @@
 import { useContext, useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
+import AnimationCoffe from '../Components/Atoms/Animation/Coffe';
 import Login from '../Components/Pages/Auth/Login/Login';
-import Compras from '../Components/Pages/Compras/Compras';
+import { Compras } from '../Components/Pages/Compras/Compras';
 import MainStore from '../Components/Pages/MainStore';
 import { MyLists } from '../Components/Pages/MyLists/MyLists';
 import Payment from '../Components/Pages/Payment/Payment';
@@ -11,11 +12,12 @@ import YourPayment from '../Components/Pages/Payment/YourPayment';
 import Reclamos from '../Components/Pages/Reclamos/Reclamos';
 import Tienda from '../Components/Pages/Tienda/Tienda';
 import { AuthContext } from '../Context/auth/AuthContext';
+// import { useOnClick } from '../Hooks/useOnClick';
 import PublicRoute from './PublicRoute';
 
 const RouterApp = () => {
   const { auth, verificarToken } = useContext(AuthContext);
-
+  // const [disabled, setDisabled] = useOnClick(1000);
   const routes = [
     {
       path: '/auth',
@@ -48,22 +50,22 @@ const RouterApp = () => {
     },
     {
       path: '/payment',
-      element: <Payment /> , children:[
+      element: <Payment />,
+      children: [
         {
           path: '/payment/your-list',
           element: <YourList />,
         },
         {
           path: '/payment/your-facturation',
-          element: <YourFacturation/>,
+          element: <YourFacturation />,
         },
         {
           path: '/payment/your-payment',
           element: <YourPayment />,
-        }
+        },
       ],
     },
-
 
     // { path: '/', element: <Navigate to='/tienda' /> },
 
@@ -80,7 +82,14 @@ const RouterApp = () => {
   }, [verificarToken]);
 
   if (auth.checking) {
-    return <h1>cargando ....</h1>;
+    // setDisabled(true);
+    // if (disabled) {
+      return (
+        <div className=' h-screen w-screen flex justify-center items-center'>
+          <AnimationCoffe />
+        </div>
+      );
+    // }
   }
 
   // aca hay error

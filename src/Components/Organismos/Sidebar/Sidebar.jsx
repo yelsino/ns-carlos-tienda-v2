@@ -13,8 +13,8 @@ const Sidebar = () => {
   return (
     <div className=' w-56 hidden sm:block sidebar-web h-[calc(100vh-100px)]'>
       <Menu />
-      <Colegas />
-      <Actividades />
+      {/* <Colegas /> */}
+      {/* <Actividades /> */}
     </div>
   );
 };
