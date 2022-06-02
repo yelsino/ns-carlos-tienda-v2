@@ -2,11 +2,41 @@ import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import SwitchWeight from './SwitchWeight';
 import FoodRecipes from './FoodRecipes';
+import algoliasearch from 'algoliasearch';
+import { useEffect, useState } from 'react';
 
+const ViewProduct = ({ product, setModal, setItem }) => {
+  const { name, img, description, keywords } = product;
 
-const ViewProduct = ({ product, setModal,setItem }) => {
+  const appId = '5RCKHIZLLD';
+  const apiKey = 'a6a8ef3b732553e5967193427cb04be2';
+  const searchClient = algoliasearch(appId, apiKey);
 
-  const {  name, img, description } = product;
+  const [similarProducts, setSimilarProducts] = useState([]);
+
+  // get similar products with algolia
+
+  const index = searchClient.initIndex('products-negocios-carlos');
+
+  const getSimilarProducts = async () => {
+    const tags = keywords.reduce(
+      (acc, curr) =>
+        acc ? `${acc} OR (keywords:"${curr}")` : `(keywords:"${curr}")`,
+      ''
+    );
+
+    console.log(tags);
+
+    const { hits } = await index.search('', {
+      filters: `${tags}`,
+    });
+
+    setSimilarProducts(hits);
+  };
+
+  useEffect(() => {
+    getSimilarProducts();
+  }, []);
 
   return (
     <motion.div
@@ -20,8 +50,16 @@ const ViewProduct = ({ product, setModal,setItem }) => {
     >
       <button
         onClick={() => {
-          setItem(null)
-          setModal(false)
+          console.log(similarProducts);
+          // getSimilarProducts();
+        }}
+      >
+        PROBAR
+      </button>
+      <button
+        onClick={() => {
+          setItem(null);
+          setModal(false);
         }}
         className='absolute top-0 right-0 bg-red-500 px-5 py-3  text-white font-semibold font-poppins sm:rounded-tr-2xl focus:outline-none -translate-y-[1px] translate-x-[1px]'
       >
@@ -29,10 +67,7 @@ const ViewProduct = ({ product, setModal,setItem }) => {
       </button>
       {/* contenido */}
       <motion.div className='gap-10  flex flex-col sm:flex-row max-w-xs mx-auto sm:max-w-none'>
-        <motion.div
-      
-          className='flex flex-col items-center gap-7 max-w-xs sm:px-5 '
-        >
+        <motion.div className='flex flex-col items-center gap-7 max-w-xs sm:px-5 '>
           <p className='font-semibold font-poppins text-xl '>{name}</p>
           <div className='w-[140px] h-[130px] rounded-tl-[50px] rounded-tr-[10px] rounded-bl-[20px] rounded-br-[50px] bg-emerald-300 bg-opacity-50 mb-3 flex justify-center items-center '>
             <img src={img} className=' scale-125 mb-3' />
@@ -44,7 +79,7 @@ const ViewProduct = ({ product, setModal,setItem }) => {
             <p>{description}</p>
           </div>
         </motion.div>
-        <FoodRecipes />
+        <FoodRecipes  />
       </motion.div>
     </motion.div>
   );
@@ -58,4 +93,3 @@ ViewProduct.propTypes = {
   setItem: PropTypes.func,
   upLista: PropTypes.func,
 };
-

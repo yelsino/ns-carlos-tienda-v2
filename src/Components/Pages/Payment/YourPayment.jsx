@@ -1,9 +1,58 @@
-import { useOutletContext } from 'react-router-dom';
 import { IconCheck } from '../../Atoms/Icons';
-import PaymentSuccess from './PaymentSuccess';
+import imgDelivery1 from '../../../Assets/delivery1.png';
+import PropTypes from 'prop-types';
+
+import { useState } from 'react';
 
 const YourPayment = () => {
+  // tarjeta
+  const [metodPay, setMetodPay] = useState('contra-entrega');
 
+  return (
+    <>
+      {metodPay === 'contra-entrega' ? (
+        <PayOnDelivery changePayMetod={setMetodPay} />
+      ) : (
+        <PayWithCard changePayMetod={setMetodPay} />
+      )}
+
+      <div className='w-full gap-y-3 flex flex-col'>
+        <p className='font-bold text-lg'>Resumen de pedido</p>
+        <span className='text-3xl font-black'>S/ 199</span>
+        <p className='flex gap-x-3 items-center'>
+          <span className='text-emerald-400'>
+            <IconCheck />
+          </span>{' '}
+          Mi primera lista
+        </p>
+        <p className='flex gap-x-3 items-center'>
+          <span className='text-emerald-400'>
+            <IconCheck />
+          </span>{' '}
+          13 productos en total
+        </p>
+        <p className='flex gap-x-3 items-center'>
+          <span className='text-emerald-400'>
+            <IconCheck />
+          </span>{' '}
+          Jr 1° de noviembre 1550
+        </p>
+        <p className='flex gap-x-3 items-center'>
+          <span className='text-emerald-400'>
+            <IconCheck />
+          </span>{' '}
+          939 616 350
+        </p>
+      </div>
+
+      {/* <PaymentSuccess/> */}
+    </>
+  );
+};
+
+export default YourPayment;
+
+export const PayWithCard = ({ changePayMetod }) => {
   return (
     <>
       <div className='w-full'>
@@ -48,38 +97,66 @@ const YourPayment = () => {
             </div>
           </div>
           <span className='font-black text-2xl text-gray-400'>...</span>
-          {/* <span className='absolute top-0 right-0 -translate-y-3 -translate-x-5 bg-emerald-50 text-emerald-400 px-3 rounded-full border border-emerald-400'>
-            Primaria
-          </span> */}
         </div>
       </div>
 
       <p className='text-gray-600 pt-3'>
         En el siguiente espacio se muestra el resumen final de tu pedido, al
         precionar pagar realizaremos el cobro de la tarjeta seleccionada como
-        primaria
+        primaria. Si desea cambiar el metodo de pago, use el enlace siguiente.{' '}
+        <button
+          onClick={() => {
+            changePayMetod('contra-entrega');
+          }}
+          className='text-purple-500'
+        >
+          cambiar
+        </button>
       </p>
-
-      <div className='w-full gap-y-3 flex flex-col'>
-          <p className='font-bold text-lg'>Resumen de pedido</p>
-        <span className='text-3xl font-black'>S/ 199</span>
-        <p className='flex gap-x-3 items-center'>
-          <span className='text-emerald-400'><IconCheck /></span> Mi primera lista
-        </p>
-        <p className='flex gap-x-3 items-center'>
-          <span className='text-emerald-400'><IconCheck /></span> 13 productos en total
-        </p>
-        <p className='flex gap-x-3 items-center'>
-          <span className='text-emerald-400'><IconCheck /></span> Jr 1° de noviembre 1550
-        </p>
-        <p className='flex gap-x-3 items-center'>
-          <span className='text-emerald-400'><IconCheck /></span> 939 616 350
-        </p>
-      </div>
-
-      {/* <PaymentSuccess/> */}
     </>
   );
 };
 
-export default YourPayment;
+PayWithCard.propTypes = {
+  changePayMetod: PropTypes.func.isRequired,
+};
+
+export const PayOnDelivery = ({ changePayMetod }) => {
+  return (
+    <>
+      <div className='w-full'>
+        <div className=' flex justify-between items-center'>
+          <p className='font-bold text-lg font-poppins tracking-tight'>
+            Pago contra entrega
+          </p>
+        </div>
+        <p className='self-start text-gray-500 tracking-tight'>
+          Has seleccionado pago contra entrega, usted pagará al momento de
+          recibir su pedido, si desea cambiar el metodo de pago, puede hacerlo
+          en el siguiente enlace.{' '}
+          <button
+            onClick={() => {
+              changePayMetod('tarjeta');
+            }}
+            className='text-purple-500'
+          >
+            cambiar
+          </button>
+        </p>
+      </div>
+
+      <div className='w-full flex flex-col gap-y-5 pt-3'>
+        <img src={imgDelivery1} />
+      </div>
+
+      <p className='text-gray-600 pt-3'>
+        En el siguiente espacio se muestra el resumen final de tu pedido, al
+        precionar pagar le contactaremos para confirmar su pedido.{' '}
+      </p>
+    </>
+  );
+};
+
+PayOnDelivery.propTypes = {
+  changePayMetod: PropTypes.func.isRequired,
+};

@@ -22,7 +22,7 @@ function PortalComponent({ children, open, setOpen,closeChildren }) {
             exit={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             initial={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
             className='fixed inset-0 bg-black/60'
           ></motion.div>
         </div>

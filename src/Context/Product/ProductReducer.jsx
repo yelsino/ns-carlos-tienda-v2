@@ -9,6 +9,11 @@ export const ProductReducer = (state, action) => {
         ok: true,
       };
 
+  case 'SELECT_PRODUCT':
+    return {
+      ...state,
+      product: action.payload,
+    };
     default:
       return state;
   }

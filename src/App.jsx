@@ -10,8 +10,8 @@ import { OrderProvider } from './Context/Order/OrderContext';
 
 function App() {
   return (
-    <ListProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ListProvider>
         <ProductProvider>
           <DirectionProvider>
             <OrderProvider>
@@ -23,8 +23,8 @@ function App() {
             </OrderProvider>
           </DirectionProvider>
         </ProductProvider>
-      </AuthProvider>
-    </ListProvider>
+      </ListProvider>
+    </AuthProvider>
   );
 }
 

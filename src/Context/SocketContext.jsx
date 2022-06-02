@@ -2,8 +2,8 @@ import { createContext, useContext, useEffect } from 'react';
 import { useSocket } from '../Hooks/useSocket';
 import PropTypes from 'prop-types';
 import { ProductContext } from './Product/ProductContext';
-import { AuthContext } from './auth/AuthContext';
 import { ListContext } from './List/ListContext';
+import { AuthContext } from './auth/AuthContext';
 // import algoliasearch from 'algoliasearch';
 const baseUrl = import.meta.env.VITE_SOME_KEY;
 
@@ -13,9 +13,9 @@ export const SocketProvider = ({ children }) => {
   const { socket, online, connectSocket, disconnectSocket } =
     useSocket(baseUrl);
 
-  const { auth } = useContext(AuthContext);
-  const { dispatch } = useContext(ProductContext);
+  const { dispatchProduct } = useContext(ProductContext);
   const { liststate, ok, setList } = useContext(ListContext);
+  const { auth, setAuth } = useContext(AuthContext);
 
   // const searchClient = algoliasearch(
   //   '5RCKHIZLLD',
@@ -36,9 +36,32 @@ export const SocketProvider = ({ children }) => {
     }
   }, [auth, disconnectSocket]);
 
+  // useEffect(()=>{
+  //   socket?.on('user-actions', user => {
+  //     if(user.ok){
+  //       console.log(user);
+  //     }
+  //     console.log(user);
+  //     dispatch({
+  //       type: 'UPDATE_USER',
+  //       payload: user,
+  //     });
+  // },[socket])
+
+  useEffect(() => {
+    socket?.on('user-actions', user => {
+      if (user.ok) {
+        setAuth(prev => {
+          console.log(prev);
+          return { ...prev, user: user.user };
+        });
+      }
+    });
+  }, [socket]);
+
   useEffect(() => {
     socket?.on('get-products', products => {
-      dispatch({
+      dispatchProduct({
         type: 'GET_PRODUCTS',
         payload: products,
       });
@@ -70,7 +93,7 @@ export const SocketProvider = ({ children }) => {
         });
       }
 
-      if ( !liststate.list ) {
+      if (!liststate.list) {
         console.log('no hay lista');
         setList({
           type: 'SELECT_LIST',
@@ -78,7 +101,7 @@ export const SocketProvider = ({ children }) => {
         });
       }
     });
-  }, [socket, dispatch,liststate, setList]);
+  }, [socket, dispatchProduct, liststate, setList]);
 
   return (
     <SocketContext.Provider

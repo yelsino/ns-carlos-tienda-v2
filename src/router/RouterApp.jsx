@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
-import AnimationCoffe from '../Components/Atoms/Animation/Coffe';
 import Login from '../Components/Pages/Auth/Login/Login';
 import { Compras } from '../Components/Pages/Compras/Compras';
 import MainStore from '../Components/Pages/MainStore';
@@ -11,6 +10,7 @@ import YourList from '../Components/Pages/Payment/YourList';
 import YourPayment from '../Components/Pages/Payment/YourPayment';
 import Reclamos from '../Components/Pages/Reclamos/Reclamos';
 import Tienda from '../Components/Pages/Tienda/Tienda';
+import LoadingPage from '../Components/Plantillas/LoadinPage';
 import { AuthContext } from '../Context/auth/AuthContext';
 // import { useOnClick } from '../Hooks/useOnClick';
 import PublicRoute from './PublicRoute';
@@ -23,6 +23,10 @@ const RouterApp = () => {
       path: '/auth',
       element: <PublicRoute isAutenticated={auth.logged} />,
       children: [{ path: '/auth/login', element: <Login /> }],
+    },
+    {
+      path: '/',
+      element: <Navigate to='/tienda' />
     },
 
     {
@@ -85,9 +89,7 @@ const RouterApp = () => {
     // setDisabled(true);
     // if (disabled) {
       return (
-        <div className=' h-screen w-screen flex justify-center items-center'>
-          <AnimationCoffe />
-        </div>
+        <LoadingPage/>
       );
     // }
   }

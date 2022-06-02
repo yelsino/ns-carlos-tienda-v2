@@ -16,23 +16,35 @@ const Tienda = () => {
 
   const {
     productstate: {
-      products: { products },
+      products: { products }, product
     },
+    dispatchProduct
   } = useContext(ProductContext);
 
   const navigate = useNavigate();
 
-  const [itemSelected, setItemSelected] = useState(null);
+  // const [product, setItemSelected] = useState(null);
+
+  const setItemSelected = (item) => {
+    dispatchProduct({
+      type: 'SELECT_PRODUCT',
+      payload: item,
+    });
+  }
+
   const [show, setShow] = useState(false);
 
   const [data, setData] = useState([]);
 
   // si no hay item seleccionado regresa a/tienda
   useEffect(() => {
-    if (itemSelected === null) {
+    if (product === null) {
       navigate('/tienda');
     }
-  }, [itemSelected]);
+    if(product){
+      setShow(true);
+    }
+  }, [product]);
 
   useEffect(() => {
     setData(products);
@@ -47,8 +59,8 @@ const Tienda = () => {
           {data?.map((p, i) => (
             <motion.div
               animate={{
-                opacity: itemSelected === p ? 0 : 1,
-                scale: itemSelected === p ? 1.2 : 1,
+                opacity: product === p ? 0 : 1,
+                scale: product === p ? 1.2 : 1,
 
                 transition: {
                   duration: 0.5,
@@ -58,7 +70,7 @@ const Tienda = () => {
               key={p._id}
               onClick={() => {
                 setItemSelected(p);
-                setShow(true);
+                // setShow(true);
               }}
               className=' w-[192px] h-[75px] flex items-center  justify-center  cursor-pointer  '
             >
@@ -75,7 +87,7 @@ const Tienda = () => {
               animate={{
                 scale: 1,
                 transition: {
-                  duration: 0.5,
+                  duration: 0.4,
                 },
               }}
               className=' col-span-full  flex justify-center flex-col items-center  row-span-full'
@@ -95,7 +107,7 @@ const Tienda = () => {
             closeChildren={setItemSelected}
           >
             <ViewProduct
-              product={itemSelected}
+              product={product}
               setModal={setShow}
               setItem={setItemSelected}
             />
