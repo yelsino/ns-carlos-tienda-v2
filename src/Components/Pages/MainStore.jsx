@@ -15,7 +15,8 @@ const MainStore = ({ isAutenticated }) => {
         
           <Header list={viewlist} setList={setViewList} />
           <div className='flex'>
-            <Sidebar />
+            {/* <Sidebar /> */}
+            
             <div className='px-5 pt-5 w-full '>
               <Outlet context={[viewlist, setViewList]} />
             </div>

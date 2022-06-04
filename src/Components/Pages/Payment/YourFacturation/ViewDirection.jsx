@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Input from '../../../Atoms/Input';
 import { IconLocation } from '../../../Atoms/Icons';
 
-
 const ViewDirection = ({ setShow, setDirection, data }) => {
   const [modal, setModal] = useState(false);
 
@@ -24,30 +23,38 @@ const ViewDirection = ({ setShow, setDirection, data }) => {
           añadir
         </button>
       </div>
+      {data.directions.length > 0 ? (
+        <>
+          <button
+            onClick={() => setModal(true)}
+            className='w-full border bg-gray-50 text-black font-bold py-4 px-5 rounded-lg flex justify-center gap-x-2'
+          >
+            <img src='https://img.icons8.com/emoji/24/000000/backhand-index-pointing-right-emoji.png' />
 
-      <button
-        onClick={() => setModal(true)}
-        className='w-full border bg-gray-50 text-black font-bold py-4 px-5 rounded-lg flex justify-center gap-x-2'
-      >
-        <img src='https://img.icons8.com/emoji/24/000000/backhand-index-pointing-right-emoji.png' />
+            <span>aqui!</span>
+          </button>
 
-        <span>aqui!</span>
-      </button>
-
-      <Input
-        name='ninguno'
-        title='Nombre y número de dirección'
-        onChange={() => {}}
-        value={data?.direction?.name}
-        readOnly={true}
-      />
-      <Input
-        name='reference'
-        title='Referencia'
-        onChange={() => {}}
-        readOnly={true}
-        value={data?.direction?.reference}
-      />
+          <Input
+            name='ninguno'
+            title='Nombre y número de dirección'
+            onChange={() => {}}
+            value={data?.direction?.name}
+            readOnly={true}
+          />
+          <Input
+            name='reference'
+            title='Referencia'
+            onChange={() => {}}
+            readOnly={true}
+            value={data?.direction?.reference}
+          />
+        </>
+      ) : (
+        <p className='text-gray-500'>
+          Actualmente no cuenta con direcciones registradas, precione en añadir
+          para registrar una nueva dirección
+        </p>
+      )}
 
       <PortalComponent open={modal} setOpen={setModal}>
         <div
@@ -61,7 +68,10 @@ const ViewDirection = ({ setShow, setDirection, data }) => {
             Cerrar
           </button>
           <h3 className='font-bold'>Seleccione una de sus direcciones</h3>
-          <p className='text-gray-500'>Aquella dirección seleccionada será donde se enviará el pedido actual que está generando</p>
+          <p className='text-gray-500'>
+            Aquella dirección seleccionada será donde se enviará el pedido
+            actual que está generando
+          </p>
           <div className=' flex flex-col gap-y-3 h-[300px] overflow-y-scroll'>
             {data?.directions.map((d, i) => (
               <Select
@@ -69,7 +79,7 @@ const ViewDirection = ({ setShow, setDirection, data }) => {
                 text={d.name}
                 onClick={() => selectDirection(d)}
                 checked={d._id === data?.direction?._id}
-                icon={<IconLocation/>}
+                icon={<IconLocation />}
               />
             ))}
           </div>

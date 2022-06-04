@@ -18,7 +18,6 @@ const Menu = () => {
       </NavLink>
 
 
-
       <NavLink to='/mis-compras' className={({ isActive }) => (`transition ease-in duration-300  flex items-center gap-x-2 ${isActive ? ' text-color_green_7' : 'text-color_gray_1'}`)} >
         <IconProductInactivo />
         <span>Compras</span>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
-import '../estilos.css'
+import '../estilos.css';
 
 const SwitchLogin = () => {
   const [weight, setWeight] = useState('correo');
@@ -9,16 +9,18 @@ const SwitchLogin = () => {
     <RadioGroup
       value={weight}
       onChange={setWeight}
-      className='flex justify-between  w-full '
+      className='flex justify-between  w-72 sm:w-80 '
     >
       <RadioGroup.Option value='telefono'>
         {({ checked }) => (
           <button
             className={`transition duration-300 ease-in-out px-6 py-4 tracking-tight rounded-sm overflow-hidden truncate ${
-              checked ? 'bg-black text-white width-active  ' : 'bg-gray-50  width-inactive '
+              checked
+                ? 'bg-black text-white width-active  '
+                : 'bg-gray-50  width-inactive '
             }`}
           >
-            {checked ? 'Número teléfono' : 'Teléfono'} 
+            {checked ? 'Número teléfono' : 'Teléfono'}
           </button>
         )}
       </RadioGroup.Option>
@@ -26,10 +28,12 @@ const SwitchLogin = () => {
         {({ checked }) => (
           <button
             className={`transition duration-300 ease-in-out px-6 py-4 tracking-tight rounded-sm  truncate  ${
-              checked ? 'bg-black text-white width-active' : 'bg-gray-50  width-inactive '
+              checked
+                ? 'bg-black text-white width-active'
+                : 'bg-gray-50  width-inactive '
             }`}
           >
-            {checked ? 'Correo electrónico' : 'Su correo '} 
+            {checked ? 'Correo electrónico' : 'Su correo '}
           </button>
         )}
       </RadioGroup.Option>

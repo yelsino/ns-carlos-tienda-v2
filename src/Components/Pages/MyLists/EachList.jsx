@@ -1,7 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { IconRight } from '../../Atoms/Icons';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ListContext } from '../../../Context/List/ListContext';
+import { formatToMoney } from '../../../helpers/formatToMoney';
 
 const EachList = ({ list, setList, currlist, deleteList }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +64,28 @@ EachList.propTypes = {
 };
 
 // eslint-disable-next-line react/prop-types
-const Content = ({ deleteList,listID }) => {
+const Content = ({ deleteList, listID }) => {
+  const [subTotal, setSubTotal] = useState(0);
+  const {
+    liststate: { lists, list },
+  } = useContext(ListContext);
+
+  const mountTotalOfList = () => {
+    return list.products.reduce((acc, curr) => {
+      const mountPerProduct = curr.quantities.reduce((accq, q) => {
+        return accq + q.quantity * q.price;
+      }, 0);
+
+      return acc + mountPerProduct;
+    }, 0);
+  };
+
+  useEffect(() => {
+    if (list) {
+      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(1));
+    }
+  }, [list]);
+
   return (
     <motion.div
       className='bg-white  w-[320px] shadow-md p-4 px-5 flex flex-col gap-y-3'
@@ -72,22 +96,28 @@ const Content = ({ deleteList,listID }) => {
     >
       <div>
         <p className='text-color_green_7 font-light '>Resumen</p>
-        <p>55 productos</p>
-        <p>56.60 nuevos soles</p>
+        <p>{list.products.length} productos</p>
+        <p>{subTotal} nuevos soles</p>
       </div>
       <p className='text-color_green_7 font-light '>Acciones</p>
 
-      <button className='bg-white text-color_green_7 font-semibold px-4 py-2 rounded-sm border'>
-        Hacer pedido
-      </button>
-      <button
-        onClick={()=>{
-            deleteList(listID)
-        }}
-        className='bg-white text-rose-500 font-semibold px-4 py-2 rounded-sm border'
+      <Link
+        to='/tienda'
+        className='bg-white text-color_green_7 font-semibold px-4 py-2 rounded-sm border text-center'
       >
-        Eliminar lista
-      </button>
+        Agregar productos
+      </Link>
+
+      {lists.length > 1 && (
+        <button
+          onClick={() => {
+            deleteList(listID);
+          }}
+          className='bg-white text-rose-500 font-semibold px-4 py-2 rounded-sm border'
+        >
+          Eliminar lista
+        </button>
+      )}
     </motion.div>
   );
 };

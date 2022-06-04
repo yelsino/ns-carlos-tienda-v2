@@ -14,15 +14,8 @@ export const SocketProvider = ({ children }) => {
     useSocket(baseUrl);
 
   const { dispatchProduct } = useContext(ProductContext);
-  const { liststate, ok, setList } = useContext(ListContext);
+  const { liststate,  setList } = useContext(ListContext);
   const { auth, setAuth } = useContext(AuthContext);
-
-  // const searchClient = algoliasearch(
-  //   '5RCKHIZLLD',
-  //   '3938262410b41e1f5e3c9a531241ad1c'
-  // );
-
-  // const index = searchClient.initIndex('products-negocios-carlos');
 
   useEffect(() => {
     if (auth.logged) {
@@ -35,18 +28,6 @@ export const SocketProvider = ({ children }) => {
       disconnectSocket();
     }
   }, [auth, disconnectSocket]);
-
-  // useEffect(()=>{
-  //   socket?.on('user-actions', user => {
-  //     if(user.ok){
-  //       console.log(user);
-  //     }
-  //     console.log(user);
-  //     dispatch({
-  //       type: 'UPDATE_USER',
-  //       payload: user,
-  //     });
-  // },[socket])
 
   useEffect(() => {
     socket?.on('user-actions', user => {
@@ -65,18 +46,6 @@ export const SocketProvider = ({ children }) => {
         type: 'GET_PRODUCTS',
         payload: products,
       });
-
-      // !preguntar si ya existe data o no, o pasar esta funcion al backend
-      // const addObjectIDForProducts = products.products.map(product => ({
-      //   ...product,
-      //   objectID: product._id,
-      // }));
-
-      // if (products.products.length > 0) {
-      //   index.saveObjects(addObjectIDForProducts).then(({ data }) => {
-      //     console.log('exito');
-      //   });
-      // }
     });
 
     socket?.on('get-user-lists', lists => {

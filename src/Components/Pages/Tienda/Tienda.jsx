@@ -117,11 +117,8 @@ const Tienda = () => {
 
       {viewlist && (
         <>
-          <div className='with-animation w-full h-full absolute bg-white lg:flex lg:w-auto lg:relative flex flex-col pt-10  '>
+          <div className='with-animation w-full h-full absolute bg-white md:flex md:w-auto md:relative flex flex-col pt-10  '>
             <ListProduct
-              // upLista={setLista}
-              // data={list}
-              // selectProduct={setItemSelected}
             />
             
           </div>

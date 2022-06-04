@@ -82,8 +82,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
 
-    // dispatch({ type: chatTypes.LIMPIAR_MENSAJES })
-
 
     setAuth({
       uid: null,

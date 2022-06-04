@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import Select from '../../../Atoms/Select';
+import PropTypes from 'prop-types';
 
-const TypePayment = () => {
-  const [typePayment, setTypePayment] = useState('contra-entrega');
+const TypePayment = ({typePayment,setTypePayment}) => {
 
   return (
     <>
@@ -31,3 +30,8 @@ const TypePayment = () => {
 };
 
 export default TypePayment;
+
+TypePayment.propTypes = {
+  typePayment: PropTypes.string,
+  setTypePayment: PropTypes.func,
+};

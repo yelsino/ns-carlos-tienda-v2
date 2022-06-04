@@ -1,8 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../../../Context/auth/AuthContext';
 import { ListContext } from '../../../../../Context/List/ListContext';
+import { ProductContext } from '../../../../../Context/Product/ProductContext';
 import { SocketContext } from '../../../../../Context/SocketContext';
 import { useOnClick } from '../../../../../Hooks/useOnClick';
 import { IconDelete } from '../../../../Atoms/Icons';
@@ -25,7 +27,7 @@ const ItemList = ({ item, selectProduct }) => {
 
         case 'KILOGRAMOS':
         case 'LITROS':
-        case 'FRAGTONS':
+        case 'FRACCIONES':
           return acc + (curr.quantity * curr.weight) / 1000;
 
         default:
@@ -44,7 +46,7 @@ const ItemList = ({ item, selectProduct }) => {
         return `${
           Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
         } lt`;
-      case 'FRAGTONS':
+      case 'FRACCIONES':
         return `${
           Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
         } ft`;
@@ -109,21 +111,21 @@ const ItemList = ({ item, selectProduct }) => {
 const Content = ({ data }) => {
   const [disabled, setDisabled] = useOnClick(300);
   const { socket } = useContext(SocketContext);
+
+  const { dispatchProduct } = useContext(ProductContext);
+
   const {
     liststate: { list },
   } = useContext(ListContext);
   const { auth } = useContext(AuthContext);
 
-  const removeProductOfList = () => {
-    setDisabled(true);
-    socket?.emit('update-list', {
-      type: 'REMOVE_PRODUCT_OF_LIST',
-      listID: list._id,
-      productID: data.product._id,
-      userID: auth.uid,
-      // mountID: weight,
+  const [stateQuantities, setStateQuantities] = useState([]);
+
+  useEffect(() => {
+    setStateQuantities(() => {
+      return tranformQuantities(data.quantities, data.product.typeOfsale);
     });
-  };
+  }, [data]);
 
   const removeWeightOfProduct = weightID => {
     setDisabled(true);
@@ -136,6 +138,107 @@ const Content = ({ data }) => {
     });
   };
 
+  const removeProductOfList = () => {
+    setDisabled(true);
+    socket?.emit('update-list', {
+      type: 'REMOVE_PRODUCT_OF_LIST',
+      listID: list._id,
+      productID: data.product._id,
+      userID: auth.uid,
+      // mountID: weight,
+    });
+  };
+
+  const tranformQuantities = (dataquantities, typeOfsale) => {
+    return dataquantities.map(v => {
+      switch (typeOfsale) {
+        case 'UNIDADES': {
+          if (v.weight === 250) {
+            v.weighttextmd = 'chico';
+            v.weighttextlg = 'pequeño';
+            return v;
+          }
+          if (v.weight === 500) {
+            v.weighttextmd = 'medio';
+            v.weighttextlg = 'mediano';
+            return v;
+          }
+          if (v.weight === 1000) {
+            v.weighttextmd = 'extra';
+            v.weighttextlg = 'grande';
+            return v;
+          }
+          return v;
+        }
+
+        case 'KILOGRAMOS': {
+          if (v.weight === 250) {
+            v.weighttextmd = '1/4';
+            v.weighttextlg = `${v.weight} gramos`;
+            return v;
+          }
+          if (v.weight === 500) {
+            v.weighttextmd = '1/2';
+            v.weighttextlg = `${v.weight} gramos`;
+            return v;
+          }
+          if (v.weight === 1000) {
+            v.weighttextmd = '1 kg';
+            v.weighttextlg = `1 kilogramo`;
+            return v;
+          }
+          if (v.weight !== 250 || v.weight !== 500 || v.weight !== 1000) {
+            v.weighttextmd = `${v.weight} gr`;
+            v.weighttextlg = `${v.weight} gramos`;
+            return v;
+          }
+          return v;
+        }
+
+        case 'LITROS': {
+          if (v.weight === 500) {
+            v.weighttextmd = '1/2';
+            v.weighttextlg = '1/2 litro';
+            return v;
+          }
+          if (v.weight === 1000) {
+            v.weighttextmd = '1 lt';
+            v.weighttextlg = '1 litro';
+            return v;
+          }
+
+          if (v.weight !== 500 || v.weight !== 1000) {
+            v.weighttextmd = `${v.weight} ml`;
+            v.weighttextlg = `${v.weight} mililitros`;
+            return v;
+          }
+          return v;
+        }
+
+        case 'FRACCIONES': {
+          if (v.weight === 250) {
+            v.weighttextmd = '1/4';
+            v.weighttextlg = 'un cuarto';
+            return v;
+          }
+          if (v.weight === 500) {
+            v.weighttextmd = '1/2';
+            v.weighttextlg = 'la mitad';
+            return v;
+          }
+          if (v.weight === 1000) {
+            v.weighttextmd = '1';
+            v.weighttextlg = 'entero';
+            return v;
+          }
+          return v;
+        }
+      }
+      return v;
+    });
+  };
+
+
   return (
     <motion.div
       className='bg-white p-4 px-5  '
@@ -145,11 +248,11 @@ const Content = ({ data }) => {
       exit={{ opacity: 0 }}
     >
       <p className=' pb-1 font-semibold text-gray-700'>Resumen</p>
-      {data.quantities.map(
+      {stateQuantities.map(
         item =>
           item.quantity > 0 && (
             <div key={item._id} className='flex justify-between text-gray-600'>
-              <span>{item.weight} gr</span>
+              <span>{item.weighttextlg}</span>
               <div className='flex  '>
                 <span className='w-20'>{item.quantity} und</span>
                 <div className='flex items-center justify-between w-16 '>
@@ -169,9 +272,20 @@ const Content = ({ data }) => {
             </div>
           )
       )}
-    
-      <div className='gap-x-5 flex font-poppins border-t mt-5 pt-3 justify-end'>
-        <button className=' font-extralight text-color_green_7'>Agregar</button>
+
+      <div className='gap-x-5 flex  border-t mt-5 pt-3 justify-end'>
+        <Link
+          to={`/tienda/${name.split(' ')[0]}`}
+          onClick={() => {
+            dispatchProduct({
+              type: 'SELECT_PRODUCT',
+              payload: data.product,
+            });
+          }}
+          className=' font-extralight text-color_green_7'
+        >
+          Agregar
+        </Link>
         <button
           disabled={disabled}
           onClick={removeProductOfList}

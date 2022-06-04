@@ -4,6 +4,7 @@ import SwitchWeight from './SwitchWeight';
 import FoodRecipes from './FoodRecipes';
 import algoliasearch from 'algoliasearch';
 import { useEffect, useState } from 'react';
+import SimilarProducts from './SimilarProducts';
 
 const ViewProduct = ({ product, setModal, setItem }) => {
   const { name, img, description, keywords } = product;
@@ -45,17 +46,9 @@ const ViewProduct = ({ product, setModal, setItem }) => {
       exit={{ scale: 0 }}
       transition={{ duration: 0.3 }}
       className={`bg-white p-10   relative
-      w-full   sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll h-screen  sm:max-h-[600px] `}
+      w-full   sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll sm:overflow-y-hidden h-screen  sm:max-h-[600px] `}
       onClick={e => e.stopPropagation()}
     >
-      <button
-        onClick={() => {
-          console.log(similarProducts);
-          // getSimilarProducts();
-        }}
-      >
-        PROBAR
-      </button>
       <button
         onClick={() => {
           setItem(null);
@@ -67,7 +60,7 @@ const ViewProduct = ({ product, setModal, setItem }) => {
       </button>
       {/* contenido */}
       <motion.div className='gap-10  flex flex-col sm:flex-row max-w-xs mx-auto sm:max-w-none'>
-        <motion.div className='flex flex-col items-center gap-7 max-w-xs sm:px-5 '>
+        <motion.div className='flex flex-col items-center gap-7 max-w-xs sm:px-5 sm:h-[600px] sm:overflow-y-scroll sm:pb-20 '>
           <p className='font-semibold font-poppins text-xl '>{name}</p>
           <div className='w-[140px] h-[130px] rounded-tl-[50px] rounded-tr-[10px] rounded-bl-[20px] rounded-br-[50px] bg-emerald-300 bg-opacity-50 mb-3 flex justify-center items-center '>
             <img src={img} className=' scale-125 mb-3' />
@@ -79,7 +72,7 @@ const ViewProduct = ({ product, setModal, setItem }) => {
             <p>{description}</p>
           </div>
         </motion.div>
-        <FoodRecipes  />
+        {/* <SimilarProducts similarProducts={similarProducts}/> */}
       </motion.div>
     </motion.div>
   );

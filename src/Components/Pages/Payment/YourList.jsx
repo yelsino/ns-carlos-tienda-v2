@@ -1,6 +1,8 @@
 import { LayoutGroup, motion } from 'framer-motion';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { ListContext } from '../../../Context/List/ListContext';
+import { formatToMoney } from '../../../helpers/formatToMoney';
 import { IconListas } from '../../Atoms/Icons';
 import PortalComponent from '../../Atoms/Portals/PortalComponent';
 import Select from '../../Atoms/Select';
@@ -8,20 +10,78 @@ import ItemList from '../Tienda/ViewProduct/ListProduct/ItemList';
 
 const YourList = () => {
   const {
-    liststate: { list, lists }, setList
+    liststate: { list, lists },
+    setList,
   } = useContext(ListContext);
+  const { setOrderData } = useOutletContext();
 
   const [modal, setModal] = useState(false);
+  const [mountDelivery, setMountDelivery] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+
+  const mountTotalOfList = () => {
+    return list.products.reduce((acc, curr) => {
+      const mountPerProduct = curr.quantities.reduce((accq, q) => {
+        return accq + q.quantity * q.price;
+      }, 0);
+
+      return acc + mountPerProduct;
+    }, 0);
+  };
+
+  const costOfDelivery = () => {
+    if (subTotal < 30) {
+      return 2;
+    } else {
+      return 0;
+    }
+  };
+  useEffect(() => {
+    if (list) {
+      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(1));
+    }
+  }, [list]);
+
+  useEffect(() => {
+    setOrderData(prev => {
+      return { ...prev, listID: list?._id };
+    });
+  }, [list]);
+
+  useEffect(() => {
+    if (mountDelivery) {
+      setMountDelivery(costOfDelivery());
+    }
+    
+  }, [mountDelivery]);
+
+  useEffect(()=>{
+      localStorage.setItem(
+        'mountTotal',
+        Number(mountDelivery) + Number(subTotal)
+      );
+  },[subTotal, mountDelivery])
 
   return (
     <>
+      <button
+    onClick={()=>{
+      console.log(Number(mountDelivery) + Number(subTotal));
+    }}
+    >PROBAR</button>
       <h2 className='text-3xl font-poppins font-extrabold'>Su Lista</h2>
       <p className='text-lg font-poppins'>Arroz con pollo a la wachana</p>
-      <p className='flex justify-between w-full px-2'>
-        <span className='font-bold font-poppins text-lg'>Productos</span>
-        <button onClick={() => setModal(true)} className='text-purple-500'>
-          Cambiar lista
-        </button>
+      <p
+        className={`flex  w-full px-2 ${
+          lists.length > 1 ? 'justify-between' : 'justify-center'
+        }`}
+      >
+        <span className='font-semibold font-poppins text-lg'>Productos</span>
+        {lists.length > 1 && (
+          <button onClick={() => setModal(true)} className='text-purple-500'>
+            Cambiar lista
+          </button>
+        )}
       </p>
 
       <LayoutGroup>
@@ -39,16 +99,16 @@ const YourList = () => {
       <div className='w-full px-2 '>
         <p className='flex justify-between'>
           <span>Costo de envio</span>
-          <span>S/ 0.00</span>
+          <span>S/ {mountDelivery}</span>
         </p>
         <p className='flex justify-between'>
           <span>Sub total</span>
-          <span>S/ 0.00</span>
+          <span>S/ {subTotal}</span>
         </p>
         <p className='border-b pt-3'></p>
         <p className='flex justify-between'>
           <span>Total</span>
-          <span className='font-bold'>S/ 0.00</span>
+          <span className='font-bold'>S/ {subTotal + mountDelivery}</span>
         </p>
       </div>
 

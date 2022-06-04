@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react';
 import { LayoutGroup, motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import AnimationBook from '../../../../Atoms/Animation/Book';
 import { IconGridView } from '../../../../Atoms/Icons';
 import ItemList from './ItemList';
@@ -10,6 +10,11 @@ import { ListContext } from '../../../../../Context/List/ListContext';
 const ListProduct = () => {
   const [viewlist] = useOutletContext();
   const [show, setShow] = useState(false);
+
+  const location = useLocation();
+
+  const { pathname } = location;
+  const currentPath = pathname.split('/');
 
   const {
     liststate: { list },
@@ -57,10 +62,31 @@ const ListProduct = () => {
                   //  selectProduct={selectProduct}
                 />
               ))}
-              <Link
-                to='/payment'
-                className='w-full  flex   text-color_green_7 font-semibold  py-3 shadow-md   rounded-lg px-5    bg-white justify-center'
-              >Pedir envio</Link>
+              {list?.products?.length > 0 && (
+                <Link
+                  to='/payment'
+                  className='w-full  flex   text-color_green_7 font-semibold  py-3 shadow-md   rounded-lg px-5    bg-white justify-center'
+                >
+                  Pedir envio
+                </Link>
+              )}
+
+              {list?.products?.length === 0 && <div>
+
+                {
+                  currentPath.find(item => item === 'tienda')  
+                  ? 
+                  <p className='px-5 text-center text-gray-500 '>Esta lista está sin productos, empieza a llenarlo de los mejores productos.</p>
+                  : 
+                  <p className='px-5 text-center text-gray-500 '>Esta lista está vacia, sin productos, dirigete a la tienda en el siguiente enlace y empieza a llenarlo de los mejores productos. <Link to='/tienda' className='text-purple-500'>
+                  Ir a la tienda
+                </Link></p>
+                }
+               
+                
+
+              </div>
+              }
             </motion.ul>
           </LayoutGroup>
         </div>

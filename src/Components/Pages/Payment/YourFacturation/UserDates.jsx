@@ -12,7 +12,7 @@ const UserDates = ({ data }) => {
     mobile: data.mobile,
   });
 
-  const [socket] = useOutletContext();
+  const {socket} = useOutletContext();
 
   const showUpdateUser = () => {
     setShow(true);
@@ -91,13 +91,13 @@ const UserDates = ({ data }) => {
           value={user.mobile}
           onChange={handleChange}
         />
-        <Input
+        {/* <Input
           name='email'
           title='Correo'
           readOnly={!show}
           value={user.email}
           onChange={handleChange}
-        />
+        /> */}
         {show && (
           <button
             onClick={cancelUpdateUser}

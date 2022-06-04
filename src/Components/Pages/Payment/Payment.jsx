@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Suspense, useContext, useEffect } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Suspense, useContext, useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import imgDelivery from '../../../Assets/delivery.png';
 import { AuthContext } from '../../../Context/auth/AuthContext';
 import { DirectionContext } from '../../../Context/Direction/DirectionContext';
@@ -11,30 +11,30 @@ import LoadingPage from '../../Plantillas/LoadinPage';
 
 const Payment = () => {
   const location = useLocation();
-
   const { pathname } = location;
-
   const currentPath = pathname.split('/');
-  // const rutas = ['', 'payment', 'your-facturation'];
 
-  // const filterRutes = rutas.filter((tag) => (currentPath.includes(tag) && tag));
-  // console.log(filterRutes);
-
-  const [disabled, setDisabled] = useOnClick(1000);
-  useEffect(() => {
-    setDisabled(true);
-  }, []);
-
-  const { socket } = useContext(SocketContext);
+  const { liststate } = useContext(ListContext);
   const { auth } = useContext(AuthContext);
-  const {
-    liststate: { list },
-  } = useContext(ListContext);
   const {
     setDirection,
     data,
     data: { direction },
   } = useContext(DirectionContext);
+
+  const [disabled, setDisabled] = useOnClick(1000);
+  const navigate = useNavigate();
+  const [orderData, setOrderData] = useState({
+    typePayment: '',
+    directionID: direction?._id,
+    userID: auth.uid,
+    listID: liststate?.list?._id,
+  });
+  const { socket } = useContext(SocketContext);
+
+  const {
+    liststate: { list },
+  } = useContext(ListContext);
 
   useEffect(() => {
     socket?.on('get-user-directions', directions => {
@@ -49,13 +49,17 @@ const Payment = () => {
     });
   }, [socket]);
 
+  useEffect(() => {
+    setDisabled(true);
+  }, []);
+
   const createOrder = () => {
-    socket?.emit('order', {
-      type: 'CREATE_ORDER',
-      userID: auth.uid,
-      directionID: direction?._id,
-      listID: list._id,
-    });
+    if (!orderData.listID || !orderData.typePayment || !orderData.directionID) {
+      return alert(
+        'Asegurese de haber seleccionado todos los datos requeridos'
+      );
+    }
+    socket?.emit('order', { ...orderData, type: 'CREATE_ORDER' });
   };
 
   return (
@@ -93,12 +97,19 @@ const Payment = () => {
                 )}
 
                 {currentPath.includes('your-facturation') && (
-                  <Link
-                    to='/payment/your-payment'
+                  <button
+                    onClick={() => {
+                      if (!orderData.directionID || !orderData.typePayment) {
+                        return alert(
+                          'Por favor selecciona una dirección y el tipo de pago'
+                        );
+                      }
+                      navigate('/payment/your-payment');
+                    }}
                     className='w-[150px] bg-white text-black font-poppins rounded-full  font-bold py-4 flex justify-center mt-7'
                   >
                     Continuar
-                  </Link>
+                  </button>
                 )}
 
                 {currentPath.includes('your-payment') && (
@@ -122,7 +133,17 @@ const Payment = () => {
                 exit={{ opacity: 0 }}
                 className='pt-10 max-w-sm mx-auto flex flex-col items-center gap-y-3 pb-10 px-5 '
               >
-                <Outlet context={[socket, auth, setDirection, data]} />
+                <Outlet
+                  context={{
+                    socket,
+                    auth,
+                    setDirection,
+                    data,
+                    setOrderData,
+                    liststate,
+                    orderData,
+                  }}
+                />
               </motion.div>
             </div>
           </motion.div>

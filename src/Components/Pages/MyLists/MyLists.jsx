@@ -27,63 +27,65 @@ export const MyLists = () => {
     setModal(false);
   };
 
-  const deleteList = (listID) => {
+  const deleteList = listID => {
     socket?.emit('update-list', {
       type: 'DELETE_LIST',
       userID: auth.uid,
       listID,
     });
+
+    setList({
+      type: 'SELECT_LIST',
+      payload: lists[0],
+    })
     console.log(listID);
-  }
+  };
 
   return (
     <>
-    {
-      list && (
+      {list && (
         <div className='max-w-5xl mx-auto pt-10'>
-        <h2 className='font-poppins text-2xl font-bold border-b'>MIS LISTAS</h2>
-  
-        <div className='flex  pt-10'>
-          <div className=' flex flex-col gap-y-1'>
-            <LayoutGroup>
-              <motion.ul
-                className='flex flex-col gap-y-1'
+          <div className='flex  '>
+            <div className=' flex flex-col gap-y-1'>
+              <h2 className='font-poppins text-xl font-bold pb-5'>MIS LISTAS</h2>
+              <LayoutGroup>
+                <motion.ul className='flex flex-col gap-y-1'>
+                  {lists.map((item, i) => (
+                    <EachList
+                      list={item}
+                      key={item._id}
+                      setList={setList}
+                      currlist={list._id}
+                      deleteList={deleteList}
+                    />
+                  ))}
+                </motion.ul>
+              </LayoutGroup>
+              <button
+                onClick={() => setModal(true)}
+                className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center w-[320px] rounded-sm max-w-xs justify-center text-color_green_7 rounded-t-none cursor-pointer'
               >
-                {lists.map((item, i) => (
-                  <EachList
-                    list={item}
-                    key={item._id}
-                    setList={setList}
-                    currlist={list._id}
-                    deleteList={deleteList}
-                  />
-                ))}
-              </motion.ul>
-            </LayoutGroup>
-            <button
-              onClick={() => setModal(true)}
-              className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center w-[320px] rounded-sm max-w-xs justify-center text-color_green_7 rounded-t-none cursor-pointer'
-            >
-              Añadir lista
-            </button>
+                Añadir lista
+              </button>
+            </div>
+            <div className=' hidden sm:block w-full'>
+              <ListProduct />
+            </div>
           </div>
-          <div className=' hidden md:block w-full'>
-            <ListProduct />
-          </div>
+
+          <AnimatePresence>
+            {modal && (
+              <PortalComponent open={modal} setOpen={setModal}>
+                <InputNewList
+                  setModal={setModal}
+                  handleSubmit={createNewList}
+                />
+              </PortalComponent>
+            )}
+          </AnimatePresence>
         </div>
-  
-        <AnimatePresence>
-          {modal && (
-            <PortalComponent open={modal} setOpen={setModal}>
-              <InputNewList setModal={setModal} handleSubmit={createNewList} />
-            </PortalComponent>
-          )}
-        </AnimatePresence>
-      </div>
-      )
-    }
+      )}
     </>
-   
   );
 };
 

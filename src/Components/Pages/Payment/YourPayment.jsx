@@ -2,11 +2,38 @@ import { IconCheck } from '../../Atoms/Icons';
 import imgDelivery1 from '../../../Assets/delivery1.png';
 import PropTypes from 'prop-types';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import PaymentSuccess from './PaymentSuccess';
 
 const YourPayment = () => {
   // tarjeta
   const [metodPay, setMetodPay] = useState('contra-entrega');
+
+  const { orderData, liststate, data, auth, socket } = useOutletContext();
+  const [orderResult, setOrderResult] = useState(null);
+  const mountTotal = JSON.parse(localStorage.getItem('mountTotal'));
+
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!orderData.listID || !orderData.typePayment || !orderData.directionID ){
+      navigate('/payment/your-list')
+    }
+
+  },[])
+
+  useEffect(()=>{
+    socket?.on('order-created', result => {
+      console.log(result);
+      if(result.ok){
+        setOrderResult(result);
+      } else {
+        alert('ocurrio un error al crear la orden')
+      }
+    
+    })
+  },[socket])
 
   return (
     <>
@@ -18,34 +45,34 @@ const YourPayment = () => {
 
       <div className='w-full gap-y-3 flex flex-col'>
         <p className='font-bold text-lg'>Resumen de pedido</p>
-        <span className='text-3xl font-black'>S/ 199</span>
+        <span className='text-3xl font-black'>S/ {mountTotal}</span>
         <p className='flex gap-x-3 items-center'>
           <span className='text-emerald-400'>
             <IconCheck />
           </span>{' '}
-          Mi primera lista
+          {liststate?.list?.name}
         </p>
         <p className='flex gap-x-3 items-center'>
           <span className='text-emerald-400'>
             <IconCheck />
           </span>{' '}
-          13 productos en total
+          {liststate?.list?.products?.length} productos en total
         </p>
         <p className='flex gap-x-3 items-center'>
           <span className='text-emerald-400'>
             <IconCheck />
           </span>{' '}
-          Jr 1° de noviembre 1550
+          {data?.direction?.name}
         </p>
         <p className='flex gap-x-3 items-center'>
           <span className='text-emerald-400'>
             <IconCheck />
           </span>{' '}
-          939 616 350
+          {auth?.user.mobile}
         </p>
       </div>
 
-      {/* <PaymentSuccess/> */}
+      {orderResult?.ok && <PaymentSuccess orderResult={orderResult} />}
     </>
   );
 };

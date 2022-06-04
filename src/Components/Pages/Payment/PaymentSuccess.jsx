@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import imgDelivery from '../../../Assets/delivery.png';
+import PropTypes from 'prop-types';
 
-const PaymentSuccess = () => {
+const PaymentSuccess = ({orderResult}) => {
   return (
     <div className='fixed  bg-white w-full h-full top-0 left-0 font-poppins flex items-center '>
       <div className=' max-w-xs mx-auto  flex flex-col items-center gap-y-5  '>
@@ -9,7 +10,7 @@ const PaymentSuccess = () => {
         <p className='text-3xl font-black text-center  '>PAGO EXITOSO</p>
 
         <div className='text-2xl font-medium bg-color_green_2 px-10 py-4 text-color_green_7'>
-            <span># AK81 </span>
+            <span># {orderResult.codeOrder} </span>
         </div>
 
         <p className='text-center text-xl text-gray-700 font-light'>
@@ -17,7 +18,7 @@ const PaymentSuccess = () => {
         </p>
 
         <Link
-          to='/payment/your-payment'
+          to='/tienda'
           className='w-[130px] bg-black text-white font-poppins rounded-full  font-bold py-4 flex justify-center '
         >
           Ok
@@ -28,3 +29,8 @@ const PaymentSuccess = () => {
 };
 
 export default PaymentSuccess;
+
+
+PaymentSuccess.propTypes = {
+  orderResult: PropTypes.object.isRequired,
+}
