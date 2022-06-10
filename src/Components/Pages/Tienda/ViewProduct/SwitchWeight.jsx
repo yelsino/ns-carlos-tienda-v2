@@ -17,14 +17,15 @@ const SwitchWeight = ({ product }) => {
   const {
     liststate: { list: listOfProducts },
   } = useContext(ListContext);
-  const [alterproduct, setAlterProduct] = useState(product);
+  const [alterproduct, setAlterProduct] = useState(null);
   const [weight, setWeight] = useState('');
   const {
     liststate: { lists },
   } = useContext(ListContext);
 
   const transformWeight = () => {
-    const { pricePerWeight, typeOfsale } = alterproduct;
+    const { pricePerWeight, typeOfsale } = product;
+    // const { pricePerWeight, typeOfsale } = alterproduct;
     switch (typeOfsale) {
       case 'KILOGRAMOS':
         return setAlterProduct({
@@ -154,6 +155,16 @@ const SwitchWeight = ({ product }) => {
     const price = pricePerWeight.find(v => v._id === weight);
     return formatToMoney(price.price);
   };
+  const [priceSelected, setPriceSelected] = useState(0);
+  const [quantitySelected, setQuantitySelected] = useState(0);
+  const [totalProduct, setTotalProduct] = useState('');
+  useEffect(() => {
+    if (alterproduct) {
+      setPriceSelected(getPriceWeightSelected());
+      setQuantitySelected(getQuantityWeightSelected());
+      setTotalProduct(getTotalQuantityAndPrice());
+    }
+  }, [alterproduct]);
 
   const getQuantityWeightSelected = () => {
     // const { pricePerWeight } = alterproduct;
@@ -201,12 +212,12 @@ const SwitchWeight = ({ product }) => {
           } = S/ ${formatToMoney(price)}`;
 
         case 'FRACCIONES':
-          return  ` ${weight / 1000} ${
+          return ` ${weight / 1000} ${
             weight < 1000 ? 'ml' : 'lt'
           } = S/ ${formatToMoney(price)}`;
 
         case 'UNIDADES':
-          return  ` ${quantity} ${
+          return ` ${quantity} ${
             quantity <= 1 ? 'und' : 'unds'
           } = S/ ${formatToMoney(price)}`;
       }
@@ -242,7 +253,6 @@ const SwitchWeight = ({ product }) => {
             }}
             className='flex justify-between w-full'
           >
-            {/* ! aqui hay un error, en el id no corresponde  */}
             {alterproduct.pricePerWeight.map(
               ({ _id, weighttextlg, weighttextmd }) => (
                 <RadioGroup.Option
@@ -269,21 +279,17 @@ const SwitchWeight = ({ product }) => {
           <div className='w-full flex flex-col gap-y-1'>
             <p className='flex justify-between w-full'>
               <span>Precio</span>
-              <span>{getPriceWeightSelected()}</span>
+              <span>{priceSelected}</span>
             </p>
 
             <p className='flex justify-between w-full'>
               <span>En lista</span>
 
-              <span className='text-color_green_7'>
-                {getQuantityWeightSelected()} und
-              </span>
+              <span className='text-color_green_7'>{quantitySelected} und</span>
             </p>
             <p className='flex justify-between w-full'>
               <span>Total</span>
-              <span className='text-color_green_7'>
-                {getTotalQuantityAndPrice()}
-              </span>
+              <span className='text-color_green_7'>{totalProduct}</span>
             </p>
           </div>
 

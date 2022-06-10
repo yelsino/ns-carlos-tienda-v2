@@ -20,7 +20,7 @@ const ItemProduct = ({ product, index }) => {
 
   return (
 
-    <Link to={`/tienda/${name.split(' ')[0]}`}>
+    <Link to={`/tienda/${name.split(' ')[0]}`} className=''>
      <motion.div
       transition={{
         duration: 0.5,
@@ -32,8 +32,7 @@ const ItemProduct = ({ product, index }) => {
       variants={itemstyle}
       className='flex relative'
     >
-      <div className='bg-emerald-200 rounded-lg w-[88px] h-[74px]'>
-      </div>
+      <div className='bg-emerald-200 rounded-lg w-[88px] h-[74px]'/>
       <div className='bg-white rounded-lg -translate-x-1 shadow-md w-[110.76px] p-2 flex justify-center items-center flex-col text-gray-600'>
         <p className='font-medium font-poppins tracking-tighter'>
           {name}

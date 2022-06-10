@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import SwitchWeight from './SwitchWeight';
-import FoodRecipes from './FoodRecipes';
 import algoliasearch from 'algoliasearch';
 import { useEffect, useState } from 'react';
 import SimilarProducts from './SimilarProducts';
@@ -37,44 +36,54 @@ const ViewProduct = ({ product, setModal, setItem }) => {
 
   useEffect(() => {
     getSimilarProducts();
-  }, []);
+  }, [product]);
+
+ 
 
   return (
     <motion.div
-      initial={{ scale: 0.5 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`bg-white p-10   relative
-      w-full   sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll sm:overflow-y-hidden h-screen  sm:max-h-[600px] `}
-      onClick={e => e.stopPropagation()}
+    initial={{ scale: 0.5 }}
+    animate={{ scale: 1 }}
+    exit={{ scale: 0 }}
+    transition={{ duration: 0.3 }}
+    className={`bg-white p-10   relative
+    w-full z-50 sm:rounded-2xl sm:w-auto sm:h-auto overflow-y-scroll sm:overflow-y-hidden h-screen  sm:max-h-[600px] `}
+    onClick={e => e.stopPropagation()}
+  >
+    <button
+      onClick={() => {
+        setItem(null);
+        setModal(false);
+      }}
+      className='absolute top-0 right-0 bg-red-500 px-5 py-3  text-white font-semibold font-poppins sm:rounded-tr-2xl focus:outline-none -translate-y-[1px] translate-x-[1px]'
     >
-      <button
-        onClick={() => {
-          setItem(null);
-          setModal(false);
-        }}
-        className='absolute top-0 right-0 bg-red-500 px-5 py-3  text-white font-semibold font-poppins sm:rounded-tr-2xl focus:outline-none -translate-y-[1px] translate-x-[1px]'
-      >
-        Cerrar
-      </button>
-      {/* contenido */}
-      <motion.div className='gap-10  flex flex-col sm:flex-row max-w-xs mx-auto sm:max-w-none'>
-        <motion.div className='flex flex-col items-center gap-7 max-w-xs sm:px-5 sm:h-[600px] sm:overflow-y-scroll sm:pb-20 '>
-          <p className='font-semibold font-poppins text-xl '>{name}</p>
-          <div className='w-[140px] h-[130px] rounded-tl-[50px] rounded-tr-[10px] rounded-bl-[20px] rounded-br-[50px] bg-emerald-300 bg-opacity-50 mb-3 flex justify-center items-center '>
-            <img src={img} className=' scale-125 mb-3' />
-          </div>
+      Cerrar
+    </button>
+    {/* contenido */}
+    <motion.div className='gap-10  flex flex-col sm:flex-row max-w-xs mx-auto sm:max-w-none pt-5'>
+      <motion.div className='flex flex-col items-center gap-7 max-w-xs sm:px-5 sm:h-[600px] sm:overflow-y-scroll sm:pb-20 '>
+        <p className='font-semibold font-poppins text-xl '>{name}</p>
+        <div className='w-[140px] h-[130px] rounded-tl-[50px] rounded-tr-[10px] rounded-bl-[20px] rounded-br-[50px] bg-emerald-300 bg-opacity-50 mb-3 flex justify-center items-center '>
+          <img src={img} className=' scale-125 mb-3' />
+        </div>
 
-          <SwitchWeight product={product} />
+        <SwitchWeight  product={product} />
 
-          <div className='w-full  break-all '>
-            <p>{description}</p>
-          </div>
-        </motion.div>
-        {/* <SimilarProducts similarProducts={similarProducts}/> */}
+        <div className='w-full  flex flex-col gap-y-3'>
+          {
+           description && description.split('.').map((item, index) => (
+              <p key={index} className='text-gray-600 font-poppins '>
+                {item}.
+              </p>
+            ))
+          }
+        </div>
       </motion.div>
+      <SimilarProducts  similarProducts={similarProducts}/>
     </motion.div>
+  </motion.div>
+
+  
   );
 };
 

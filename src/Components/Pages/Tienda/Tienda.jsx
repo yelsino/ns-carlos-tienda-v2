@@ -10,6 +10,7 @@ import PortalComponent from '../../Atoms/Portals/PortalComponent';
 import ViewProduct from './ViewProduct/ViewProduct';
 import { ProductContext } from '../../../Context/Product/ProductContext';
 import ProductSqueleton from '../../Plantillas/ProductSqueleton';
+import ItemProductMovil from './ItemProductMovil';
 
 const Tienda = () => {
   const [viewlist] = useOutletContext();
@@ -55,7 +56,7 @@ const Tienda = () => {
       <div className='w-full'>
         <Filtro upData={setData} data={products} />
 
-        <motion.div className='layout pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)] pb-10 overflow-y-scroll '>
+        <motion.div className='layout gap-6 pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)]  overflow-y-scroll pb-20 '>
           {data?.map((p, i) => (
             <motion.div
               animate={{
@@ -70,11 +71,11 @@ const Tienda = () => {
               key={p._id}
               onClick={() => {
                 setItemSelected(p);
-                // setShow(true);
               }}
-              className=' w-[192px] h-[75px] flex items-center  justify-center  cursor-pointer  '
+              className='w-[192px] h-[75px]  flex items-center  justify-center  cursor-pointer  '
             >
               <ItemProduct product={p} index={i} />
+               {/* <ItemProductMovil product={p} index={i} /> */}
             </motion.div>
           ))}
 

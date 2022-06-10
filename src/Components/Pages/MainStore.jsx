@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import Header from '../Header';
-import Sidebar from '../Organismos/Sidebar/Sidebar';
 import PropTypes from 'prop-types';
+import MenuMovil from '../Menu/MenuMovil';
 
 
 const MainStore = ({ isAutenticated }) => {
@@ -15,11 +15,13 @@ const MainStore = ({ isAutenticated }) => {
         
           <Header list={viewlist} setList={setViewList} />
           <div className='flex'>
-            {/* <Sidebar /> */}
             
             <div className='px-5 pt-5 w-full '>
               <Outlet context={[viewlist, setViewList]} />
+
+              
             </div>
+            <MenuMovil/>
           </div>
         </div>
       ) : (
