@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Context/auth/AuthContext';
-import { IconEstadisticaInactivo, IconLogOut } from '../Atoms/Icons';
+import { IconEstadisticaInactivo, IconLogOut, IconUserOutline } from '../Atoms/Icons';
 import './Menu.css';
 
 const NavbarMenu = () => {
@@ -23,10 +23,10 @@ const NavbarMenu = () => {
           </span>
           <span>Mis listas</span>
         </Link>
-        {/* <Link to='/mis-compras' className="hover:bg-gray-100 cursor-pointer py-3 px-5 flex items-center gap-x-3">
+        <Link to='/mis-compras' className="hover:bg-gray-100 cursor-pointer py-3 px-5 flex items-center gap-x-3">
           <span><IconUserOutline /></span>
           <span>Mis compras </span>
-        </Link> */}
+        </Link>
         {/* <p className="hover:bg-gray-100 cursor-pointer py-3 px-5 flex items-center gap-x-3">
           <span><IconConfigInactivo /></span>
           <span>Configuración</span>

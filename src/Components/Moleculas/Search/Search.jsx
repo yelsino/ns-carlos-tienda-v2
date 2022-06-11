@@ -1,7 +1,7 @@
 import { useContext, useMemo, useRef, useState } from 'react';
 import { createAutocomplete } from '@algolia/autocomplete-core';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 import { IconSearch } from '../../Atoms/Icons';
@@ -50,6 +50,12 @@ export default function Search(props) {
     isOpen: false,
   });
 
+  const location = useLocation();
+  const { pathname } = location;
+  const currentPath = pathname.split('/');
+  const hidden = ['mis-compras', 'mis-listas'];
+  const filterRutes = hidden.filter((tag) => (currentPath.includes(tag) && tag));
+
   const appId = '5RCKHIZLLD';
   const apiKey = 'a6a8ef3b732553e5967193427cb04be2';
   const searchClient = algoliasearch(appId, apiKey);
@@ -94,7 +100,9 @@ export default function Search(props) {
   });
 
   return (
-    <form
+    <>
+    {
+       filterRutes.length !== 1 &&  <form
       ref={formRef}
       className='flex justify-center font-poppins   w-[260px]'
       {...formProps}
@@ -135,5 +143,10 @@ export default function Search(props) {
         )}
       </div>
     </form>
+    }
+    
+    </>
+
+   
   );
 }

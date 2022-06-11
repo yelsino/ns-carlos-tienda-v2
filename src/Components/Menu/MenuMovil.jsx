@@ -32,9 +32,9 @@ const MenuMovil = () => {
         <NavLink to='/mis-compras' className={`transition ease-in duration-300 ${currentPath[1] === 'mis-compras' ? ' text-color_green_7' : 'text-color_gray_1'}`} >
           <IconWork />
         </NavLink>
-        <NavLink to='/user' className={`transition ease-in duration-300 ${currentPath[1] === 'trabajadores' ? ' text-color_green_7' : 'text-color_gray_1'}`} >
+        {/* <NavLink to='/user' className={`transition ease-in duration-300 ${currentPath[1] === 'trabajadores' ? ' text-color_green_7' : 'text-color_gray_1'}`} >
           <IconUsersInactive />
-        </NavLink>
+        </NavLink> */}
       </div>
     </div>
     }
