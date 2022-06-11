@@ -275,7 +275,8 @@ const Content = ({ data }) => {
 
       <div className='gap-x-5 flex  border-t mt-5 pt-3 justify-end'>
         <Link
-          to={`/tienda/${name.split(' ')[0]}`}
+          to={`/tienda`}
+          // to={`/tienda/${name.split(' ')[0]}`}
           onClick={() => {
             dispatchProduct({
               type: 'SELECT_PRODUCT',

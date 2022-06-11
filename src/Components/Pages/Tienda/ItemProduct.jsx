@@ -20,7 +20,8 @@ const ItemProduct = ({ product, index }) => {
 
   return (
 
-    <Link to={`/tienda/${name.split(' ')[0]}`} className=''>
+    <Link to={`/tienda`} className=''>
+    {/* <Link to={`/tienda/${name.split(' ')[0]}`} className=''> */}
      <motion.div
       transition={{
         duration: 0.5,

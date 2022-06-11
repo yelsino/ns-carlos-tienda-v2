@@ -16,7 +16,8 @@ const ItemProductMovil = ({ product, index }) => {
   };
 
   return (
-    <Link to={`/tienda/${name.split(' ')[0]}`} className='block sm:hidden'>
+    <Link to={`/tienda`} className='block sm:hidden'>
+    {/* <Link to={`/tienda/${name.split(' ')[0]}`} className='block sm:hidden'> */}
       <motion.div
         transition={{
           duration: 0.5,

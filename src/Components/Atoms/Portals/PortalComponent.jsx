@@ -23,7 +23,7 @@ function PortalComponent({ children, open, setOpen,closeChildren }) {
             animate={{ opacity: 1 }}
             initial={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className='fixed inset-0 bg-black/60'
+            className='fixed inset-0 bg-black/60 '
           ></motion.div>
         </div>
 
@@ -33,7 +33,7 @@ function PortalComponent({ children, open, setOpen,closeChildren }) {
           flex justify-center items-center w-screen h-screen'
           >
             <div
-              className='  w-full h-full flex justify-center items-center'
+              className='  w-full h-full flex justify-center items-center z-30'
               onClick={handleClose}
             >
               {children}

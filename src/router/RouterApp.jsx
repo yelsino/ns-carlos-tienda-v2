@@ -1,7 +1,8 @@
 import { useContext, useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
+import SearchMovil from '../Components/Moleculas/Search/SearchMovil';
 import Login from '../Components/Pages/Auth/Login/Login';
-import { Compras } from '../Components/Pages/Compras/Compras';
+import { MyShopping } from '../Components/Pages/Compras/MyShopping';
 import MainStore from '../Components/Pages/MainStore';
 import { MyLists } from '../Components/Pages/MyLists/MyLists';
 import Payment from '../Components/Pages/Payment/Payment';
@@ -12,12 +13,11 @@ import Reclamos from '../Components/Pages/Reclamos/Reclamos';
 import Tienda from '../Components/Pages/Tienda/Tienda';
 import LoadingPage from '../Components/Plantillas/LoadinPage';
 import { AuthContext } from '../Context/auth/AuthContext';
-// import { useOnClick } from '../Hooks/useOnClick';
 import PublicRoute from './PublicRoute';
 
 const RouterApp = () => {
   const { auth, verificarToken } = useContext(AuthContext);
-  // const [disabled, setDisabled] = useOnClick(1000);
+
   const routes = [
     {
       path: '/auth',
@@ -38,12 +38,13 @@ const RouterApp = () => {
           element: <Tienda />,
           children: [
             {
-              path: '/tienda/:productID',
-              element: <div className='absolute top-0 left-0 '></div>,
+              path: '/tienda/search-product',
+              element: <SearchMovil />,
             },
           ],
         },
-        { path: '/mis-compras', element: <Compras /> },
+      
+        { path: '/mis-compras', element: <MyShopping /> },
         { path: '/mis-reclamos', element: <Reclamos /> },
         { path: '/mis-listas', element: <MyLists /> },
       ],
@@ -71,8 +72,6 @@ const RouterApp = () => {
       ],
     },
 
-    // { path: '/', element: <Navigate to='/tienda' /> },
-
     {
       path: '*',
       element: <div>404</div>,
@@ -86,15 +85,11 @@ const RouterApp = () => {
   }, [verificarToken]);
 
   if (auth.checking) {
-    // setDisabled(true);
-    // if (disabled) {
       return (
         <LoadingPage/>
       );
-    // }
   }
 
-  // aca hay error
 
   return <>{element}</>;
 };

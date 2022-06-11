@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
-import { IconSearch } from '../../Atoms/Icons';
+import { IconArrow, IconLink, IconSearch } from '../../Atoms/Icons';
 import { ProductContext } from '../../../Context/Product/ProductContext';
 
 const AutocompleteItem = ({ name, img, pricePerWeight }) => {
@@ -25,15 +25,16 @@ const AutocompleteItem = ({ name, img, pricePerWeight }) => {
           payload: products.find(p => p.name === name),
         });
       }}
-      className='w-full'
+      className='w-full flex justify-between items-center py-3'
     >
-      <div className='hover:bg-color_green_2 flex gap-4 p-4'>
-        <img src={img} alt={name} className='w-12 h-12 object-contain' />
-        <div className='flex flex-col justify-center'>
+        <div className='flex items-center gap-x-3'>
+          <img src={img} alt={name} className='w-12 h-12 object-contain' />
           <h3 className='font-semibold text-gray-600'>{name}</h3>
-          <p className='text-xs text-gray-600'>S/. {pricePerWeight[0].price}</p>
         </div>
-      </div>
+        <p className=' text-gray-600 flex items-center gap-x-3'>
+          <span>S/. {pricePerWeight[0].price}</span>
+          <span className='text-xs text-color_green_7'><IconLink/></span>
+          </p>
     </Link>
   );
 };
@@ -44,7 +45,7 @@ AutocompleteItem.propTypes = {
   pricePerWeight: PropTypes.array,
 };
 
-export default function Search(props) {
+export default function SearchMovil(props) {
   const [autocompleteState, setAutocompleteState] = useState({
     collections: [],
     isOpen: false,
@@ -88,52 +89,54 @@ export default function Search(props) {
 
   const formProps = autocomplete.getFormProps({
     inputElement: inputRef.current,
+
   });
+
   const inputProps = autocomplete.getInputProps({
     inputElement: inputRef.current,
   });
 
   return (
-    <form
-      ref={formRef}
-      className='flex justify-center font-poppins   w-[260px]'
-      {...formProps}
-    >
-      <div className='flex relative'>
-        <div className='flex items-center'>
-          <span className='flex justify-center items-center text-color_green_7 absolute   px-4 py-2 rounded-tl-2xl rounded-bl-2xl'>
-            <IconSearch />
-          </span>
-          <input
-            ref={inputRef}
-            className='pl-12 pr-3 py-2  rounded-full w-[260px] outline-none bg-color_green_2 text-color_green_7 placeholder:text-color_green_7 placeholder:text-center'
-            {...inputProps}
-          />
-        </div>
-        {autocompleteState.isOpen && (
-          <div
-            className='absolute mt-16 top-0 left-0 border border-gray-100 bg-white overflow-hidden rounded-lg shadow-lg z-10'
-            ref={panelRef}
-            {...autocomplete.getPanelProps()}
-          >
-            {autocompleteState.collections.map((val, index) => {
-              const { items } = val;
-              // console.log({ items });
-              return (
-                <section key={`section-${index}`} className='w-[260px]'>
-                  {items.length > 0 && (
-                    <ul {...autocomplete.getListProps()}>
-                      {items.map(item => (
-                        <AutocompleteItem key={item._id} {...item} />
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              );
-            })}
+    <div className='fixed top-0 left-0 w-full h-full bg-white sm:hidden'>
+      <form ref={formRef} className='max-w-sm mx-auto pt-10' {...formProps}>
+        <div className='flex relative w-full flex-col'>
+          <div className='flex items-center  w-full'>
+            <span className='flex justify-center items-center text-color_green_7 absolute   px-4 py-2 rounded-tl-2xl rounded-bl-2xl'>
+              <IconSearch />
+            </span>
+            <input
+              ref={inputRef}
+              className='pl-12 pr-3 py-2  rounded-full w-full outline-none bg-color_green_2 text-color_green_7 placeholder:text-color_green_7 placeholder:text-center'
+              {...inputProps}
+            />
           </div>
-        )}
-      </div>
-    </form>
+          {autocompleteState.isOpen && (
+            <div className='' ref={panelRef} {...autocomplete.getPanelProps()}>
+              {autocompleteState.collections.map((val, index) => {
+                const { items } = val;
+                // console.log({ items });
+                return (
+                  <section key={`section-${index}`} className=''>
+                    {items.length > 0 && (
+                      <ul {...autocomplete.getListProps()}>
+                        {items.map(item => (
+                          <AutocompleteItem key={item._id} {...item} />
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+          )}
+        </div>
+        <Link
+          to='/tienda'
+          className='text-color_green_7 fixed bottom-10 right-10'
+        >
+          <IconArrow />
+        </Link>
+      </form>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import Filtro from '../../Moleculas/Filtro';
 import ItemProduct from './ItemProduct';
 import ListProduct from './ViewProduct/ListProduct/ListProduct';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { Outlet, useNavigate, useOutletContext } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import imgEstrellado from '../../../Assets/estrellado.svg';
 import './Tienda.css';
@@ -10,7 +10,7 @@ import PortalComponent from '../../Atoms/Portals/PortalComponent';
 import ViewProduct from './ViewProduct/ViewProduct';
 import { ProductContext } from '../../../Context/Product/ProductContext';
 import ProductSqueleton from '../../Plantillas/ProductSqueleton';
-import ItemProductMovil from './ItemProductMovil';
+
 
 const Tienda = () => {
   const [viewlist] = useOutletContext();
@@ -56,7 +56,7 @@ const Tienda = () => {
       <div className='w-full'>
         <Filtro upData={setData} data={products} />
 
-        <motion.div className='layout gap-6 pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)]  overflow-y-scroll pb-20 '>
+        <motion.div className='layout gap-6 pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)]  overflow-y-scroll pb-24 '>
           {data?.map((p, i) => (
             <motion.div
               animate={{
@@ -125,6 +125,8 @@ const Tienda = () => {
           </div>
         </>
       )}
+
+      <Outlet/>
     </div>
   );
 };

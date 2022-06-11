@@ -20,7 +20,7 @@ const EachList = ({ list, setList, currlist, deleteList }) => {
         onClick={toggleOpen}
         value={list}
         id={list._id}
-        className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center rounded-sm w-[320px] justify-between'
+        className='flex px-5 py-3 gap-x-3 bg-white shadow-md items-center rounded-sm w-[320px] justify-between cursor-pointer'
       >
         <div className='flex items-center gap-x-3'>
           <span className='cursor-pointer'>
@@ -107,6 +107,8 @@ const Content = ({ deleteList, listID }) => {
       >
         Agregar productos
       </Link>
+
+
 
       {lists.length > 1 && (
         <button

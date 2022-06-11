@@ -38,7 +38,8 @@ const ViewSqueleton = () => {
                 key={p._id}
                 className=' w-[192px] h-[75px] flex items-center  justify-center  cursor-pointer  '
               >
-                <div to={`/tienda/${name.split(' ')[0]}`}>
+                <div to={`/tienda`}>
+                {/* <div to={`/tienda/${name.split(' ')[0]}`}> */}
                   <motion.div
                     transition={{
                       duration: 0.5,

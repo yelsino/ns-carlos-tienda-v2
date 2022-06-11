@@ -3,7 +3,7 @@ import { AuthContext } from '../../../Context/auth/AuthContext';
 import { OrderContext } from '../../../Context/Order/OrderContext';
 import { SocketContext } from '../../../Context/SocketContext';
 
-export const Compras = () => {
+export const MyShopping = () => {
   const { socket } = useContext(SocketContext);
   const { auth } = useContext(AuthContext);
 
