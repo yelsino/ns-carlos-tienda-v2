@@ -3,7 +3,7 @@ import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
 // import { chatTypes } from '../../types/chatTypes';
 // import { ChatContext } from '../chat/ChatContext';
 import PropTypes from 'prop-types';
-
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext(null);
 
@@ -12,16 +12,20 @@ const initialState = {
   checking: true,
   logged: false,
   user: null,
-  directions: []
-}
+  directions: [],
+};
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(initialState);
   // const { dispatch } = useContext(ChatContext)
-
+  // const navigate = useNavigate();
 
   const login = async (email, password) => {
-    const resp = await fetchSinToken('login/worker', { email, password }, 'POST');
+    const resp = await fetchSinToken(
+      'login/worker',
+      { email, password },
+      'POST'
+    );
 
     if (resp.ok) {
       localStorage.setItem('token', resp.token);
@@ -32,13 +36,11 @@ export const AuthProvider = ({ children }) => {
         checking: false,
         logged: true,
         user: usuario,
-      })
+      });
     }
 
-    return resp
-  }
-
-
+    return resp;
+  };
 
   const verificarToken = useCallback(async () => {
     const token = localStorage.getItem('token') || '';
@@ -49,13 +51,22 @@ export const AuthProvider = ({ children }) => {
         uid: null,
         checking: false,
         logged: false,
-        user: null
-      })
+        user: null,
+      });
 
+      // todo redirect a login
       return false
     }
 
     const resp = await fetchConToken('login/renew');
+    console.log(resp);
+    if (resp.usuario === null || resp.usuario === 'null') {
+      localStorage.removeItem('token')
+      // refresh page
+      
+      return window.location.reload();
+      // return navigate('/auth/login');
+    }
     if (resp.ok) {
       localStorage.setItem('token', resp.token);
       const { usuario } = resp;
@@ -64,50 +75,47 @@ export const AuthProvider = ({ children }) => {
         uid: usuario?.uid,
         checking: false,
         logged: true,
-        user: usuario
+        user: usuario,
       });
-      return true
+      return true;
     } else {
       setAuth({
         uid: null,
         checking: false,
         logged: false,
-        user: null
-      })
-      return false
+        user: null,
+      });
+      return false;
     }
-
   }, []);
 
   const logout = () => {
     localStorage.removeItem('token');
 
-
     setAuth({
       uid: null,
       checking: false,
       logged: false,
-      user: null
+      user: null,
     });
-
-  }
+  };
 
   return (
-    <AuthContext.Provider value={{
-      auth,
-      login,
-      setAuth,
-      // register,
-      verificarToken,
-      logout,
-    }}>
+    <AuthContext.Provider
+      value={{
+        auth,
+        login,
+        setAuth,
+        // register,
+        verificarToken,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  )
-
-}
-
+  );
+};
 
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
