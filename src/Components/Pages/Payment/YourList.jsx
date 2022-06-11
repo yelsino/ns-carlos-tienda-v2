@@ -64,11 +64,6 @@ const YourList = () => {
 
   return (
     <>
-      <button
-    onClick={()=>{
-      console.log(Number(mountDelivery) + Number(subTotal));
-    }}
-    >PROBAR</button>
       <h2 className='text-3xl font-poppins font-extrabold'>Su Lista</h2>
       <p className='text-lg font-poppins'>Arroz con pollo a la wachana</p>
       <p
@@ -86,7 +81,7 @@ const YourList = () => {
 
       <LayoutGroup>
         <motion.ul
-          className=' w-full gap-y-1   h-[calc(100vh-310px)]  overflow-y-scroll px-2 pt-1 flex flex-col '
+          className=' w-full gap-y-1   h-[calc(100vh-400px)] sm:h-[calc(100vh-310px)] overflow-y-scroll px-2 pt-1 flex flex-col pb-14'
           layout
           initial={{ borderRadius: 25 }}
         >
@@ -96,7 +91,7 @@ const YourList = () => {
         </motion.ul>
       </LayoutGroup>
 
-      <div className='w-full px-2 '>
+      <div className='w-full px-2  text-lg'>
         <p className='flex justify-between'>
           <span>Costo de envio</span>
           <span>S/ {mountDelivery}</span>
@@ -112,18 +107,25 @@ const YourList = () => {
         </p>
       </div>
 
+      <div className='w-full py-5 sm:hidden'>
+        <button className='text-white bg-black w-full py-3 '>Continuar</button>
+      </div>
+
       <PortalComponent open={modal} setOpen={setModal}>
-        <div
-          onClick={e => e.stopPropagation()}
-          className='bg-white px-10 pb-10 pt-14 flex flex-col gap-y-3  w-[500px] rounded-lg relative'
+        <div className='bg-white px-10 pb-10 pt-14   sm:rounded-lg relative h-full w-full sm:w-[500px] sm:h-auto'
+        onClick={e => e.stopPropagation()}
+        >
+          <div
+          
+          className='max-w-sm mx-auto flex flex-col gap-y-3 '
         >
           <button
             onClick={() => setModal(false)}
-            className='absolute top-0 right-0 bg-rose-500 text-white px-5 rounded-tr-lg py-2'
+            className='absolute top-0 right-0 bg-rose-500 text-white px-5 sm:rounded-tr-lg py-2'
           >
             Cerrar
           </button>
-          <h3 className='font-bold'>Seleccione una de sus direcciones</h3>
+          <h3 className='font-bold'>Seleccione una lista</h3>
           <p className='text-gray-500'>
             Aquella lista seleccionada será la lista a realizar este pedido,
             asegurese de no olvidarse.
@@ -139,6 +141,7 @@ const YourList = () => {
               />
             ))}
           </div>
+        </div>
         </div>
       </PortalComponent>
     </>

@@ -21,9 +21,9 @@ export const MyShopping = () => {
   return (
     <div className='pt-5'>
       <h2 className='text-2xl font-bold pb-5 text-center'>Mis pedidos</h2>
-      <div className='layout_shop gap-6 pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)]  overflow-y-scroll pb-24'>
+      <div className='layout_shop gap-6 pt-5 sm:h-[calc(100vh-180px)] h-[calc(100vh-100px)]  overflow-y-scroll pb-24 overflow-x-hidden'>
         {[1, 2, 3, 4, 5, 6].map(item => (
-          <div key={item} className='h-60 w-96 flex justify-center items-center '>
+          <div key={item} className='h-60  flex justify-center items-center '>
             <div className='text-center border flex flex-col items-center py-5 gap-y-5 max-w-md h-60 w-full '>
               <span className='text-2xl font-bold font-poppins'>S/ 84.50</span>
               <div className='flex'>
