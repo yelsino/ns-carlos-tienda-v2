@@ -7,9 +7,16 @@ import { DirectionContext } from '../../../Context/Direction/DirectionContext';
 import { ListContext } from '../../../Context/List/ListContext';
 import { SocketContext } from '../../../Context/SocketContext';
 import { useOnClick } from '../../../Hooks/useOnClick';
+import { IconArrow, IconArrowRight } from '../../Atoms/Icons';
 import LoadingPage from '../../Plantillas/LoadinPage';
 
 const Payment = () => {
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  if (!token) {
+    navigate('/auth/login');
+  }
+
   const location = useLocation();
   const { pathname } = location;
   const currentPath = pathname.split('/');
@@ -23,7 +30,6 @@ const Payment = () => {
   } = useContext(DirectionContext);
 
   const [disabled, setDisabled] = useOnClick(1000);
-  const navigate = useNavigate();
   const [orderData, setOrderData] = useState({
     typePayment: '',
     directionID: direction?._id,
@@ -37,7 +43,9 @@ const Payment = () => {
   } = useContext(ListContext);
 
   useEffect(() => {
+    console.log('get directions');
     socket?.on('get-user-directions', directions => {
+      console.log(directions);
       setDirection({
         type: 'GET_USER_DIRECTIONS',
         payload: directions,
@@ -54,6 +62,7 @@ const Payment = () => {
   }, []);
 
   const createOrder = () => {
+    console.log(orderData);
     if (!orderData.listID || !orderData.typePayment || !orderData.directionID) {
       return alert(
         'Asegurese de haber seleccionado todos los datos requeridos'
@@ -61,6 +70,7 @@ const Payment = () => {
     }
     socket?.emit('order', { ...orderData, type: 'CREATE_ORDER' });
   };
+
 
   return (
     <>
@@ -122,6 +132,7 @@ const Payment = () => {
                 )}
               </div>
             </div>
+            {/* contendio */}
             <div className=' col-span-2 sm:col-span-1 bg-white row-span-full overflow-y-scroll h-screen'>
               <motion.div
                 initial={{ opacity: 0 }}
@@ -144,7 +155,54 @@ const Payment = () => {
                     orderData,
                   }}
                 />
+                <div className='w-full py-5 sm:hidden  flex flex-col gap-y-5'>
+                  {currentPath.includes('your-list') && (
+                    <Link
+                      to='/payment/your-facturation'
+                      className='text-white bg-black w-full py-4 text-center '
+                    >
+                      Continuar
+                    </Link>
+                  )}
+
+                  {currentPath.includes('your-facturation') && (
+                    <button
+                      onClick={() => {
+                        if (!orderData.directionID || !orderData.typePayment) {
+                          return alert(
+                            'Por favor selecciona una dirección y el tipo de pago'
+                          );
+                        }
+                        navigate('/payment/your-payment');
+                      }}
+                      className='text-white bg-black w-full py-4 text-center'
+                    >
+                      Continuar
+                    </button>
+                  )}
+
+                  {currentPath.includes('your-payment') && (
+                    <button
+                      onClick={createOrder}
+                      className='text-white bg-black w-full py-4 text-center '
+                    >
+                      Pagar
+                    </button>
+                  )}
+                  <Link to='/tienda' className='text-rose-500 text-center'>
+                    Cancelar proceso
+                  </Link>
+                </div>
               </motion.div>
+
+              {!currentPath.includes('your-list') && (
+                <button
+                  className=' sm:hidden absolute top-0 right-0 bg-rose-500 px-4 py-2 text-rose-100'
+                  onClick={() => navigate(-1)}
+                >
+                  <IconArrow/>
+                </button>
+              )}
             </div>
           </motion.div>
         </Suspense>

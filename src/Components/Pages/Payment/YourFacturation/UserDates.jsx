@@ -6,25 +6,25 @@ import { useOutletContext } from 'react-router-dom';
 const UserDates = ({ data }) => {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState({
-    names: data.names,
-    surnames: data.surnames,
-    email: data.email,
-    mobile: data.mobile,
+    names: data?.names,
+    surnames: data?.surnames,
+    email: data?.email,
+    mobile: data?.mobile,
   });
 
   const {socket} = useOutletContext();
 
   const showUpdateUser = () => {
     setShow(true);
-    // setUser(userData);
+    // setUser(userData?);
   };
 
   const cancelUpdateUser = () => {
     setUser({
-      names: data.names,
-      surnames: data.surnames,
-      email: data.email,
-      mobile: data.mobile,
+      names: data?.names,
+      surnames: data?.surnames,
+      email: data?.email,
+      mobile: data?.mobile,
     });
     setShow(false);
   };
@@ -34,7 +34,7 @@ const UserDates = ({ data }) => {
       return alert('Por favor complete todos los campos');
     }
     socket.emit('user', {
-      userID: data.uid,
+      userID: data?.uid,
       data: user,
       type: 'UPDATE_USER',
     });
@@ -81,14 +81,14 @@ const UserDates = ({ data }) => {
           title='Apellidos'
           name='surnames'
           readOnly={!show}
-          value={user.surnames}
+          value={user?.surnames}
           onChange={handleChange}
         />
         <Input
           name='mobile'
           title='Celular'
           readOnly={!show}
-          value={user.mobile}
+          value={user?.mobile}
           onChange={handleChange}
         />
         {/* <Input

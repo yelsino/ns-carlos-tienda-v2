@@ -56,7 +56,7 @@ export const MyLists = () => {
 
                 <button
                   onClick={() => setModal2(true)}
-                  className='text-color_green_7 sm:hidden'
+                  className='text-color_green_7 sm:hidden text-lg font-bold'
                 >
                   Ver lista
                 </button>

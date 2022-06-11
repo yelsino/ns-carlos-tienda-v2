@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const PaymentSuccess = ({orderResult}) => {
   return (
-    <div className='fixed  bg-white w-full h-full top-0 left-0 font-poppins flex items-center '>
+    <div className='fixed z-50  bg-white w-full h-full top-0 left-0 font-poppins flex items-center '>
       <div className=' max-w-xs mx-auto  flex flex-col items-center gap-y-5  '>
         <img src={imgDelivery} className='w-10/12' />
         <p className='text-3xl font-black text-center  '>PAGO EXITOSO</p>

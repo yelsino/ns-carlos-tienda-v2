@@ -87,7 +87,7 @@ const Login = () => {
                     </div>
 
                     <Field
-                      autocomplete='new-password'
+                      autoComplete='new-password'
                       className=' rounded-md p-4 outline-none text-color_green_7 bg-color_green_2 w-full'
                       name='password'
                       id='password'

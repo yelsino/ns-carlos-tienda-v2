@@ -107,9 +107,9 @@ const YourList = () => {
         </p>
       </div>
 
-      <div className='w-full py-5 sm:hidden'>
+      {/* <div className='w-full py-5 sm:hidden'>
         <button className='text-white bg-black w-full py-3 '>Continuar</button>
-      </div>
+      </div> */}
 
       <PortalComponent open={modal} setOpen={setModal}>
         <div className='bg-white px-10 pb-10 pt-14   sm:rounded-lg relative h-full w-full sm:w-[500px] sm:h-auto'

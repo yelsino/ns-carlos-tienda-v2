@@ -2,7 +2,6 @@ import Select from '../../../Atoms/Select';
 import PropTypes from 'prop-types';
 
 const TypePayment = ({typePayment,setTypePayment}) => {
-
   return (
     <>
       <p className='flex justify-between w-full pt-3 font-bold'>
@@ -20,7 +19,7 @@ const TypePayment = ({typePayment,setTypePayment}) => {
         <Select
           checked={typePayment === 'tarjeta'}
           onClick={() => {
-            setTypePayment('tarjeta');
+            setTypePayment('contra-entrega');
           }}
           text='Deseo pagar ahora con tarjeta'
         />
