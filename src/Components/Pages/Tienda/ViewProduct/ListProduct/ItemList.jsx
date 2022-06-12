@@ -23,12 +23,12 @@ const ItemList = ({ item, selectProduct }) => {
     const quantity = quantities.reduce((acc, curr) => {
       switch (typeOfsale) {
         case 'UNIDADES':
-          return acc + curr.quantity;
+          return acc + curr?.quantity;
 
         case 'KILOGRAMOS':
         case 'LITROS':
         case 'FRACCIONES':
-          return acc + (curr.quantity * curr.weight) / 1000;
+          return acc + (curr?.quantity * curr?.weight) / 1000;
 
         default:
           return console.log('no ocurrio nada');
@@ -57,7 +57,7 @@ const ItemList = ({ item, selectProduct }) => {
 
   const totalAmount = () => {
     const amountOfProduct = quantities.reduce(
-      (acc, curr) => acc + curr.quantity * curr.price,
+      (acc, curr) => acc + curr?.quantity * curr?.price,
       0
     );
     return (
