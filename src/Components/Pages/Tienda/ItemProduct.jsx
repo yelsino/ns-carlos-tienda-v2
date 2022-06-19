@@ -33,7 +33,7 @@ const ItemProduct = ({ product, index }) => {
       variants={itemstyle}
       className='flex relative'
     >
-      <div className='bg-emerald-200 rounded-lg w-[88px] h-[74px]'/>
+      <div className='bg-emerald-200 rounded-lg w-[88px] h-[74px] '/>
       <div className='bg-white rounded-lg -translate-x-1 shadow-md w-[110.76px] p-2 flex justify-center items-center flex-col text-gray-600'>
         <p className='font-medium font-poppins tracking-tighter'>
           {name}
