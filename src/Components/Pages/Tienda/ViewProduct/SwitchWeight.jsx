@@ -6,12 +6,12 @@ import { ListContext } from '../../../../Context/List/ListContext';
 import { useOnClick } from '../../../../Hooks/useOnClick';
 import { AuthContext } from '../../../../Context/auth/AuthContext';
 import { SocketContext } from '../../../../Context/SocketContext';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { IconDelete } from '../../../Atoms/Icons';
 import { formatToMoney } from '../../../../helpers/formatToMoney';
 
 const SwitchWeight = ({ product }) => {
-  const [disabled, setDisabled] = useOnClick(200);
+  const [disabled, setDisabled] = useOnClick(300);
   const { auth } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
   const {
@@ -19,9 +19,9 @@ const SwitchWeight = ({ product }) => {
   } = useContext(ListContext);
   const [alterproduct, setAlterProduct] = useState(null);
   const [weight, setWeight] = useState('');
-  const {
-    liststate: { lists },
-  } = useContext(ListContext);
+  // const {
+  //   liststate: { lists },
+  // } = useContext(ListContext);
 
   const transformWeight = () => {
     const { pricePerWeight, typeOfsale } = product;
@@ -163,6 +163,7 @@ const SwitchWeight = ({ product }) => {
       setPriceSelected(getPriceWeightSelected());
       setQuantitySelected(getQuantityWeightSelected());
       setTotalProduct(getTotalQuantityAndPrice());
+      setTotalWeight(getTotalWeight())
     }
   }, [alterproduct]);
 
@@ -183,7 +184,7 @@ const SwitchWeight = ({ product }) => {
   };
 
   const getTotalQuantityAndPrice = () => {
-    const { typeOfsale } = alterproduct;
+    const { typeOfsale } = product;
     const productOfList = listOfProducts?.products.find(
       p => p.product._id === product._id
     );
@@ -202,33 +203,78 @@ const SwitchWeight = ({ product }) => {
 
       switch (typeOfsale) {
         case 'KILOGRAMOS':
-          return ` ${weight / 1000} ${
+          return ` ${
             weight < 1000 ? 'gr' : 'kg'
           } = S/ ${formatToMoney(price)}`;
+          // return ` ${weight / 1000} ${
+          //   weight < 1000 ? 'gr' : 'kg'
+          // } = S/ ${formatToMoney(price)}`;
 
         case 'LITROS':
-          return ` ${weight / 1000} ${
+          return ` ${
             weight < 1000 ? 'ml' : 'lt'
           } = S/ ${formatToMoney(price)}`;
+          // return ` ${weight / 1000} ${
+          //   weight < 1000 ? 'ml' : 'lt'
+          // } = S/ ${formatToMoney(price)}`;
 
+          // # falta trabajar
         case 'FRACCIONES':
-          return ` ${weight / 1000} ${
+          return ` ${
             weight < 1000 ? 'ml' : 'lt'
           } = S/ ${formatToMoney(price)}`;
 
         case 'UNIDADES':
-          return ` ${quantity} ${
+          return ` ${
             quantity <= 1 ? 'und' : 'unds'
           } = S/ ${formatToMoney(price)}`;
+          // return ` ${quantity} ${
+          //   quantity <= 1 ? 'und' : 'unds'
+          // } = S/ ${formatToMoney(price)}`;
       }
 
-      return ` ${weight / 1000} ${
+      return ` ${
         weight < 1000 ? 'gr' : 'kg'
       } = S/ ${formatToMoney(price)}`;
+      // return ` ${weight / 1000} ${
+      //   weight < 1000 ? 'gr' : 'kg'
+      // } = S/ ${formatToMoney(price)}`;
     } else {
-      return '0 = S/ 0.00';
+      return ' = S/ 0.00';
     }
   };
+
+  const [totalWeight, setTotalWeight] = useState(0);
+
+  const getTotalWeight = () => {
+    const { typeOfsale } = product;
+    const productOfList = listOfProducts?.products.find(
+      p => p.product._id === product._id
+    );
+
+    if (productOfList) {
+      const weight = productOfList?.quantities.reduce((acc, cur) => {
+        return acc + cur.weight * cur.quantity;
+      }, 0);
+
+      const quantity = productOfList?.quantities.reduce((acc, cur) => {
+        return acc + cur.quantity;
+      }, 0);
+      switch (typeOfsale) {
+        case 'KILOGRAMOS':
+        case 'LITROS':
+        case 'FRACCIONES':
+          return weight / 1000;
+        case 'UNIDADES':
+          return quantity;
+        default:
+          return 0;
+      }
+    } else {
+      return 0;
+    }
+
+  }
 
   useEffect(() => {
     transformWeight();
@@ -237,9 +283,19 @@ const SwitchWeight = ({ product }) => {
 
   useEffect(() => {
     if (weight) {
-      getPriceWeightSelected();
+      setPriceSelected(getPriceWeightSelected());
+      setQuantitySelected(getQuantityWeightSelected());
     }
   }, [weight]);
+
+  useEffect(()=>{
+    if(alterproduct){
+      console.log(alterproduct);
+      setQuantitySelected(getQuantityWeightSelected());
+      setTotalProduct(getTotalQuantityAndPrice());
+      setTotalWeight(getTotalWeight())
+    }
+  },[listOfProducts])
 
   return (
     <>
@@ -289,7 +345,22 @@ const SwitchWeight = ({ product }) => {
             </p>
             <p className='flex justify-between w-full'>
               <span>Total</span>
-              <span className='text-color_green_7'>{totalProduct}</span>
+                <p 
+                className='text-color_green_7'>
+                  <motion.span
+                    initial={{ scale: 1.5 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    exit={{ scaleY: 0 }}
+                    key={totalProduct}
+                    className='font-bold inline-block'
+                  >
+
+                    {totalWeight}
+                  </motion.span>
+                  {totalProduct}</p>
+              
+              
             </p>
           </div>
 
