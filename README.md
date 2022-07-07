@@ -28,7 +28,7 @@
     <img src="https://res.cloudinary.com/dwkfj5sxb/image/upload/v1656606163/CLASICO/favicon_j4mpbw.svg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">COMSATEL TASKS</h3>
+  <h3 align="center">YOLA APP</h3>
 
   <p align="center">
     Una aplicación web pensada en móvil para gestionar tus tareas cotidianas.
