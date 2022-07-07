@@ -25,7 +25,7 @@
 <br />
 <div align="center">
   <a href="https://comsatel-tasks.web.app/" target="_blank">
-    <img src="https://res.cloudinary.com/dwkfj5sxb/image/upload/v1657160765/SCREEN-MY-APPS/yola-app-tienda_ev4fgd.png" alt="Logo" width="80" height="80">
+    <img src="https://res.cloudinary.com/dwkfj5sxb/image/upload/v1656606163/CLASICO/favicon_j4mpbw.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">COMSATEL TASKS</h3>
@@ -178,4 +178,4 @@ Gracias a estas librerias pude construir este proyecto!
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [linkedin-url]: https://www.linkedin.com/in/yelsin-caso-alanya-511824210/
-[product-screenshot]: https://res.cloudinary.com/dwkfj5sxb/image/upload/v1656607041/mobile-comsatel-task_tbt8uq.png
+[product-screenshot]: https://res.cloudinary.com/dwkfj5sxb/image/upload/v1657160765/SCREEN-MY-APPS/yola-app-tienda_ev4fgd.png
