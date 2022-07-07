@@ -1,7 +1,5 @@
 const Reclamos = () => {
-    return ( 
-        <div>SOY LA Reclamos</div>
-     );
+  return <div>SOY LA Reclamos</div>
 }
- 
-export default Reclamos;
+
+export default Reclamos

@@ -1,13 +1,13 @@
-import './Coffe.css';
+import './Coffe.css'
 
 const AnimationCoffe = () => {
-    return ( 
-        <div className="coffee">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-     );
+  return (
+    <div className="coffee">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  )
 }
- 
-export default AnimationCoffe;
+
+export default AnimationCoffe

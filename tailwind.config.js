@@ -1,5 +1,7 @@
+/** @type {import('tailwindcss').Config} */
+
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -17,17 +19,17 @@ module.exports = {
 
         red_primary: '#FF181F',
         alert_primary: '#FF8400',
-        success_primary: '#00C851',
+        success_primary: '#00C851'
       },
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
-        'concert-one': ['Concert One', 'cursive'],
+        poppins: ['Poppins', 'sans-serif'],
+        'concert-one': ['Concert One', 'cursive']
       },
       screens: {
-        'tall': { 'raw': '(min-height: 550px)' },
+        tall: { raw: '(min-height: 550px)' }
         // => @media (min-height: 800px) { ... }
       }
-    },
+    }
   },
-  plugins: [],
+  plugins: []
 }

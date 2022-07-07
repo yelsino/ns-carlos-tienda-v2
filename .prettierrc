@@ -1,6 +1,5 @@
 {
-  "useTaps": true,
-  "jsxSingleQuote": true,
-  "singleQuote": true,
-  "arrowParens": "avoid"
+  "trailingComma": "none",
+  "semi": false,
+  "singleQuote": true
 }
