@@ -3,7 +3,7 @@ import { IconRight } from '../../Atoms/Icons'
 import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ListContext } from '../../../Context/List/ListContext'
+import { ListContext } from '../../../Context/List/ListProvider'
 import { formatToMoney } from '../../../helpers/formatToMoney'
 
 const EachList = ({ list, setList, currlist, deleteList }) => {

@@ -1,16 +1,16 @@
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useContext, useState } from 'react'
-import { AuthContext } from '../../../Context/auth/AuthContext'
-import { ListContext } from '../../../Context/List/ListContext'
+import { ListContext } from '../../../Context/List/ListProvider'
 import { SocketContext } from '../../../Context/SocketContext'
 import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import EachList from './EachList'
 import Input from '../../Atoms/Input'
+import { AuthContext } from 'Context/auth/AuthContext'
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext)
-  const { auth } = useContext(AuthContext)
+  const { uid } = useContext(AuthContext)
   const {
     liststate: { lists, list },
     setList
@@ -22,7 +22,7 @@ export const MyLists = () => {
   const createNewList = (NAMELIST) => {
     socket?.emit('update-list', {
       type: 'CREATE_LIST',
-      userID: auth.uid,
+      userID: uid,
       nameList: NAMELIST
     })
 
@@ -32,7 +32,7 @@ export const MyLists = () => {
   const deleteList = (listID) => {
     socket?.emit('update-list', {
       type: 'DELETE_LIST',
-      userID: auth.uid,
+      userID: uid,
       listID
     })
 

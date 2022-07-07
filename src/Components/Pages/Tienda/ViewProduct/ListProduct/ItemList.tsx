@@ -1,9 +1,9 @@
+import { AuthContext } from 'Context/auth/AuthContext'
 import { AnimatePresence, motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../../../../Context/auth/AuthContext'
-import { ListContext } from '../../../../../Context/List/ListContext'
+import { ListContext } from '../../../../../Context/List/ListProvider'
 import { ProductContext } from '../../../../../Context/Product/ProductContext'
 import { SocketContext } from '../../../../../Context/SocketContext'
 import { useOnClick } from '../../../../../Hooks/useOnClick'
@@ -117,7 +117,7 @@ const Content = ({ data }) => {
   const {
     liststate: { list }
   } = useContext(ListContext)
-  const { auth } = useContext(AuthContext)
+  const { uid } = useContext(AuthContext)
 
   const [stateQuantities, setStateQuantities] = useState([])
 
@@ -133,7 +133,7 @@ const Content = ({ data }) => {
       type: 'REMOVE_WEIGHT_OF_PRODUCT',
       listID: list._id,
       productID: data.product._id,
-      userID: auth.uid,
+      userID: uid,
       weightID
     })
   }
@@ -144,7 +144,7 @@ const Content = ({ data }) => {
       type: 'REMOVE_PRODUCT_OF_LIST',
       listID: list._id,
       productID: data.product._id,
-      userID: auth.uid
+      userID: uid
       // mountID: weight,
     })
   }

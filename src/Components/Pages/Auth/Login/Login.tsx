@@ -8,10 +8,10 @@ import woman from '../../../../Assets/woman.svg'
 import heart from '../../../../Assets/heart.gif'
 import { motion } from 'framer-motion'
 import SwitchLogin from './SwitchLogin'
-import { AuthContext } from '../../../../Context/auth/AuthContext'
+import { AuthContext } from 'Context/auth/AuthContext'
 
 const Login = () => {
-  const { login } = useContext(AuthContext)
+  const { userLogin } = useContext(AuthContext)
   // const navigate = useNavigate();
 
   const validar = Yup.object().shape({
@@ -43,7 +43,7 @@ const Login = () => {
             }}
             validationSchema={validar}
             onSubmit={async (values) => {
-              await login(values.email, values.password)
+              await userLogin(values.email, values.password)
             }}
           >
             {({ errors, touched }) => (
@@ -111,7 +111,7 @@ const Login = () => {
                   </div>
 
                   <button
-                    to="/auth/restore"
+                    // to="/auth/restore"
                     className="cursor-pointer text-center text-color_green_4"
                   >
                     <p className="mb-3 cursor-pointer text-center text-gray-500">

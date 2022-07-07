@@ -1,7 +1,16 @@
 // const baseUrl = process.env.REACT_APP_API_URL;
 const baseUrl = import.meta.env.VITE_SOME_KEY
+interface Props {
+  endpoint: string
+  body?: object
+  method?: string
+}
 
-export const fetchSinToken = async (endpoint, data, method = 'GET') => {
+export const fetchSinToken = async ({
+  endpoint,
+  body,
+  method = 'GET'
+}: Props) => {
   const url = `${baseUrl}/api/${endpoint}`
 
   if (method === 'GET') {
@@ -13,14 +22,18 @@ export const fetchSinToken = async (endpoint, data, method = 'GET') => {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(body)
     })
 
     return await resp.json()
   }
 }
 
-export const fetchConToken = async (endpoint, data, method = 'GET') => {
+export const fetchConToken = async ({
+  endpoint,
+  body,
+  method = 'GET'
+}: Props) => {
   const url = `${baseUrl}/api/${endpoint}`
   const token = localStorage.getItem('token') || ''
 
@@ -37,7 +50,7 @@ export const fetchConToken = async (endpoint, data, method = 'GET') => {
       headers: {
         'x-token': token
       },
-      body: data
+      body: JSON.stringify(body)
     })
 
     return await resp.json()

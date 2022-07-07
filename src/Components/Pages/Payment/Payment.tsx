@@ -1,10 +1,10 @@
+import { AuthContext } from 'Context/auth/AuthContext'
 import { motion } from 'framer-motion'
 import { Suspense, useContext, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import imgDelivery from '../../../Assets/delivery.png'
-import { AuthContext } from '../../../Context/auth/AuthContext'
-import { DirectionContext } from '../../../Context/Direction/DirectionContext'
-import { ListContext } from '../../../Context/List/ListContext'
+import { DirectionContext } from '../../../Context/Direction/DirectionProvider'
+import { ListContext } from '../../../Context/List/ListProvider'
 import { SocketContext } from '../../../Context/SocketContext'
 import { useOnClick } from '../../../Hooks/useOnClick'
 import { IconArrow } from '../../Atoms/Icons'
@@ -22,7 +22,7 @@ const Payment = () => {
   const currentPath = pathname.split('/')
 
   const { liststate } = useContext(ListContext)
-  const { auth } = useContext(AuthContext)
+  const { uid } = useContext(AuthContext)
   const {
     setDirection,
     data,
@@ -33,7 +33,7 @@ const Payment = () => {
   const [orderData, setOrderData] = useState({
     typePayment: '',
     directionID: direction?._id,
-    userID: auth.uid,
+    userID: uid,
     listID: liststate?.list?._id
   })
   const { socket } = useContext(SocketContext)
@@ -144,7 +144,7 @@ const Payment = () => {
                 <Outlet
                   context={{
                     socket,
-                    auth,
+                    // auth,
                     setDirection,
                     data,
                     setOrderData,

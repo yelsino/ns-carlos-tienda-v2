@@ -1,7 +1,7 @@
 import { LayoutGroup, motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import { ListContext } from '../../../Context/List/ListContext'
+import { ListContext } from '../../../Context/List/ListProvider'
 import { formatToMoney } from '../../../helpers/formatToMoney'
 import { IconListas } from '../../Atoms/Icons'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'

@@ -1,3 +1,7 @@
+export type ProductAction =
+  | { type: 'GET_PRODUCTS'; payload: AuthProps }
+  | { type: 'SELECT_PRODUCT'; payload: AuthProps }
+
 export const ProductReducer = (state, action) => {
   switch (action.type) {
     case 'GET_PRODUCTS':

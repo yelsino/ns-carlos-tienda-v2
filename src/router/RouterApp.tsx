@@ -1,3 +1,4 @@
+import { AuthContext } from 'Context/auth/AuthContext'
 import { useContext, useEffect } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import SearchMovil from '../Components/Moleculas/Search/SearchMovil'
@@ -12,16 +13,15 @@ import YourPayment from '../Components/Pages/Payment/YourPayment'
 import Reclamos from '../Components/Pages/Reclamos/Reclamos'
 import Tienda from '../Components/Pages/Tienda/Tienda'
 import LoadingPage from '../Components/Plantillas/LoadinPage'
-import { AuthContext } from '../Context/auth/AuthContext'
 import PublicRoute from './PublicRoute'
 
 const RouterApp = () => {
-  const { auth, verificarToken } = useContext(AuthContext)
+  const { checking, logged, verificarToken } = useContext(AuthContext)
 
   const routes = [
     {
       path: '/auth',
-      element: <PublicRoute isAutenticated={auth.logged} />,
+      element: <PublicRoute isAutenticated={logged} />,
       children: [{ path: '/auth/login', element: <Login /> }]
     },
     {
@@ -31,7 +31,7 @@ const RouterApp = () => {
 
     {
       path: '/',
-      element: <MainStore isAutenticated={auth.logged} />,
+      element: <MainStore isAutenticated={logged} />,
       children: [
         {
           path: '/tienda',
@@ -84,7 +84,7 @@ const RouterApp = () => {
     verificarToken()
   }, [verificarToken])
 
-  if (auth.checking) {
+  if (checking) {
     return <LoadingPage />
   }
 

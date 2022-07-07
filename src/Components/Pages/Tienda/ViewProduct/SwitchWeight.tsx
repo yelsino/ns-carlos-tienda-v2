@@ -2,17 +2,17 @@ import { useContext, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import PropTypes from 'prop-types'
 import './cssViewProduct.css'
-import { ListContext } from '../../../../Context/List/ListContext'
+import { ListContext } from '../../../../Context/List/ListProvider'
 import { useOnClick } from '../../../../Hooks/useOnClick'
-import { AuthContext } from '../../../../Context/auth/AuthContext'
 import { SocketContext } from '../../../../Context/SocketContext'
 import { motion } from 'framer-motion'
 import { IconDelete } from '../../../Atoms/Icons'
 import { formatToMoney } from '../../../../helpers/formatToMoney'
+import { AuthContext } from 'Context/auth/AuthContext'
 
 const SwitchWeight = ({ product }) => {
   const [disabled, setDisabled] = useOnClick(300)
-  const { auth } = useContext(AuthContext)
+  const { uid } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
   const {
     liststate: { list: listOfProducts }
@@ -132,7 +132,7 @@ const SwitchWeight = ({ product }) => {
     console.log(weight)
     socket?.emit('update-list', {
       type: 'ADD_PRODUCT_TO_LIST',
-      userID: auth.uid,
+      userID: uid,
       listID: listOfProducts._id,
       productID: product._id,
       mountID: weight
@@ -143,7 +143,7 @@ const SwitchWeight = ({ product }) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
-      userID: auth.uid,
+      userID: uid,
       listID: listOfProducts._id,
       productID: product._id,
       mountID: weight

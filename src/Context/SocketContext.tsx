@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect } from 'react'
 import { useSocket } from '../Hooks/useSocket'
 import PropTypes from 'prop-types'
-import { ProductContext } from './Product/ProductContext'
-import { ListContext } from './List/ListContext'
+import { ProductContext } from './Product/ProductProvider'
+import { ListContext } from './List/ListProvider'
 import { AuthContext } from './auth/AuthContext'
 // import algoliasearch from 'algoliasearch';
 const baseUrl = import.meta.env.VITE_SOME_KEY
@@ -14,19 +14,19 @@ export const SocketProvider = ({ children }) => {
 
   const { dispatchProduct } = useContext(ProductContext)
   const { liststate, setList } = useContext(ListContext)
-  const { auth, setAuth } = useContext(AuthContext)
+  const { logged } = useContext(AuthContext)
 
   useEffect(() => {
-    if (auth.logged) {
+    if (logged) {
       connectSocket()
     }
-  }, [auth, connectSocket])
+  }, [connectSocket])
 
   useEffect(() => {
-    if (!auth.logged) {
+    if (!logged) {
       disconnectSocket()
     }
-  }, [auth, disconnectSocket])
+  }, [logged, disconnectSocket])
 
   useEffect(() => {
     socket?.on('user-actions', (user) => {
