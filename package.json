@@ -19,6 +19,7 @@
     "@algolia/autocomplete-core": "^1.7.1",
     "@algolia/autocomplete-js": "^1.7.1",
     "@headlessui/react": "^1.6.5",
+    "@types/socket.io-client": "^3.0.0",
     "algoliasearch": "^4.13.1",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",

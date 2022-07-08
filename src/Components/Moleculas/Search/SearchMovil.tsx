@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { getAlgoliaResults } from '@algolia/autocomplete-js'
 import algoliasearch from 'algoliasearch'
 import { IconArrow, IconLink, IconSearch } from '../../Atoms/Icons'
-import { ProductContext } from '../../../Context/Product/ProductContext'
+import { ProductContext } from '../../../Context/Product/ProductProvider'
 
 interface PropsAutocompleteItem {
   name: string

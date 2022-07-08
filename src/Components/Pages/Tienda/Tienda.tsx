@@ -8,7 +8,7 @@ import './Tienda.css'
 import { useContext, useEffect, useState } from 'react'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import ViewProduct from './ViewProduct/ViewProduct'
-import { ProductContext } from '../../../Context/Product/ProductContext'
+import { ProductContext } from '../../../Context/Product/ProductProvider'
 import ProductSqueleton from '../../Plantillas/ProductSqueleton'
 
 const Tienda = () => {

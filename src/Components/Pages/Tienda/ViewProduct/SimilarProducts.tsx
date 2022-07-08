@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
-import { ProductContext } from '../../../../Context/Product/ProductContext'
+import { ProductContext } from '../../../../Context/Product/ProductProvider'
 
 import ItemProduct from '../ItemProduct'
 

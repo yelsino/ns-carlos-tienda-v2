@@ -1,14 +1,19 @@
-export type ProductAction =
-  | { type: 'GET_PRODUCTS'; payload: AuthProps }
-  | { type: 'SELECT_PRODUCT'; payload: AuthProps }
+import { Product } from 'interfaces/Interfaces'
+import { ProductState } from './ProductProvider'
 
-export const ProductReducer = (state, action) => {
+export type ProductAction =
+  | { type: 'GET_PRODUCTS'; payload: Array<Product> }
+  | { type: 'SELECT_PRODUCT'; payload: Product }
+
+export const ProductReducer = (
+  state: ProductState,
+  action: ProductAction
+): ProductState => {
   switch (action.type) {
     case 'GET_PRODUCTS':
       return {
         ...state,
-        products: action.payload,
-        ok: true
+        products: action.payload
       }
 
     case 'SELECT_PRODUCT':

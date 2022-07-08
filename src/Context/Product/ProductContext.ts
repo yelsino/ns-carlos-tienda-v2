@@ -3,8 +3,9 @@ import { createContext } from 'react'
 import { ProductAction } from './ProductReducer'
 
 interface PropsContext {
-  orders: Array<Product>
+  products: Array<Product>
+  product: Product | null
   dispatch: React.Dispatch<ProductAction>
 }
 
-export const OrderContext = createContext<PropsContext>({} as PropsContext)
+export const ProductContext = createContext<PropsContext>({} as PropsContext)

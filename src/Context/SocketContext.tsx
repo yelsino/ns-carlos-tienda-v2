@@ -1,19 +1,24 @@
 import { createContext, useContext, useEffect } from 'react'
 import { useSocket } from '../Hooks/useSocket'
 import PropTypes from 'prop-types'
-import { ProductContext } from './Product/ProductProvider'
-import { ListContext } from './List/ListProvider'
+import { ProductContext } from './Product/ProductContext'
+import { ListContext } from './List/ListContext'
 import { AuthContext } from './auth/AuthContext'
+import { List, Product, User } from 'interfaces/Interfaces'
 // import algoliasearch from 'algoliasearch';
 const baseUrl = import.meta.env.VITE_SOME_KEY
 
 export const SocketContext = createContext(null)
 
-export const SocketProvider = ({ children }) => {
+interface Props {
+  children: JSX.Element | JSX.Element[]
+}
+
+export const SocketProvider = ({ children }: Props) => {
   const { socket, online, connectSocket, disconnectSocket } = useSocket(baseUrl)
 
-  const { dispatchProduct } = useContext(ProductContext)
-  const { liststate, setList } = useContext(ListContext)
+  const { dispatch: dispatchProduct } = useContext(ProductContext)
+  const { list, dispatch: setList } = useContext(ListContext)
   const { logged } = useContext(AuthContext)
 
   useEffect(() => {
@@ -29,7 +34,7 @@ export const SocketProvider = ({ children }) => {
   }, [logged, disconnectSocket])
 
   useEffect(() => {
-    socket?.on('user-actions', (user) => {
+    socket?.on('user-actions', (user: { user: User; ok: boolean }) => {
       if (user.ok) {
         setAuth((prev) => {
           console.log(prev)
@@ -40,28 +45,28 @@ export const SocketProvider = ({ children }) => {
   }, [socket])
 
   useEffect(() => {
-    socket?.on('get-products', (products) => {
+    socket?.on('get-products', (products: Array<Product>) => {
       dispatchProduct({
         type: 'GET_PRODUCTS',
         payload: products
       })
     })
 
-    socket?.on('get-user-lists', (lists) => {
+    socket?.on('get-user-lists', (lists: Array<List>) => {
       setList({
         type: 'GET_USER_LISTS',
         payload: lists
       })
 
-      if (liststate.list) {
+      if (list) {
         console.log('hay lista')
         setList({
           type: 'SELECT_LIST',
-          payload: lists.find((list) => list._id === liststate.list._id)
+          payload: lists.find((list) => list._id === list._id) as List
         })
       }
 
-      if (!liststate.list) {
+      if (!list) {
         console.log('no hay lista')
         setList({
           type: 'SELECT_LIST',
