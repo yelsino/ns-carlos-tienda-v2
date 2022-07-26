@@ -1,9 +1,9 @@
-import { User } from 'interfaces/User'
+import { User } from 'interfaces/Interfaces'
 import { createContext } from 'react'
 import { AuthAction } from './AuthReducer'
 
 interface AuthContextProps {
-  uid: string
+  uid: string | null
   checking: boolean
   logged: boolean
   user: User | null

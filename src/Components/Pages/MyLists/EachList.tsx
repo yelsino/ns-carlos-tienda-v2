@@ -3,10 +3,18 @@ import { IconRight } from '../../Atoms/Icons'
 import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ListContext } from '../../../Context/List/ListProvider'
 import { formatToMoney } from '../../../helpers/formatToMoney'
+import { ListContext } from 'Context/List/ListContext'
+import { List } from 'interfaces/Interfaces'
+import { ListAction } from 'Context/List/listReducer'
 
-const EachList = ({ list, setList, currlist, deleteList }) => {
+interface Props {
+  list: List
+  setList: React.Dispatch<ListAction>
+  currlist: string
+  deleteList: (id: string) => void
+}
+const EachList = ({ list, setList, currlist, deleteList }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleOpen = () => setIsOpen(!isOpen)
 
@@ -18,7 +26,7 @@ const EachList = ({ list, setList, currlist, deleteList }) => {
         exit={{ opacity: 0 }}
         layout
         onClick={toggleOpen}
-        value={list}
+        value={list._id}
         id={list._id}
         className="flex w-[320px] cursor-pointer items-center justify-between gap-x-3 rounded-sm bg-white px-5 py-3 shadow-md"
       >
@@ -48,7 +56,9 @@ const EachList = ({ list, setList, currlist, deleteList }) => {
         </button>
       </motion.li>
       <AnimatePresence>
-        {isOpen && <Content listID={list._id} deleteList={deleteList} />}
+        {isOpen && (
+          <Content listID={list._id as string} deleteList={deleteList} />
+        )}
       </AnimatePresence>
     </div>
   )
@@ -64,14 +74,16 @@ EachList.propTypes = {
 }
 
 // eslint-disable-next-line react/prop-types
-const Content = ({ deleteList, listID }) => {
-  const [subTotal, setSubTotal] = useState(0)
-  const {
-    liststate: { lists, list }
-  } = useContext(ListContext)
+interface ContentProps {
+  deleteList: (id: string) => void
+  listID: string
+}
+const Content = ({ deleteList, listID }: ContentProps) => {
+  const [subTotal, setSubTotal] = useState('0')
+  const { lists, list } = useContext(ListContext)
 
   const mountTotalOfList = () => {
-    return list.products.reduce((acc, curr) => {
+    return list!.products.reduce((acc, curr) => {
       const mountPerProduct = curr.quantities.reduce((accq, q) => {
         return accq + q.quantity * q.price
       }, 0)
@@ -96,7 +108,7 @@ const Content = ({ deleteList, listID }) => {
     >
       <div>
         <p className="font-light text-color_green_7 ">Resumen</p>
-        <p>{list.products.length} productos</p>
+        <p>{list!.products.length} productos</p>
         <p>{subTotal} nuevos soles</p>
       </div>
       <p className="font-light text-color_green_7 ">Acciones</p>

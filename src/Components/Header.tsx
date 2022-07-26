@@ -1,13 +1,18 @@
 import Logo from './Atoms/Logo'
 import Search from './Moleculas/Search/Search'
-// import { BellIcon, ClipboardListIcon } from '@heroicons/react/outline';
-import PropTypes from 'prop-types'
 import './Header.css'
 import { useOnClick } from '../Hooks/useOnClick'
 import NavbarMenu from './Menu/NavbarMenu'
 import { useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { ListContext } from 'Context/List/ListContext'
 
-const Header = ({ list, setList }) => {
+
+
+const Header = () => {
+
+  const { viewList, seeCurrentList} = useContext(ListContext)
+
   const [disabled, setDisabled] = useOnClick(400)
 
   // get url from react-router-dom
@@ -19,7 +24,7 @@ const Header = ({ list, setList }) => {
   return (
     <div className="hidden justify-between border-b py-5 sm:flex">
       <Logo />
-      <Search />
+      <Search props={{}} />
       <div className="flex min-w-[160px] items-center justify-end text-color_gray_1 ">
         <span className="cursor-pointer px-3 transition duration-300 ease-in hover:text-color_green_7"></span>
         <div className="relative flex items-center gap-5 ">
@@ -28,10 +33,10 @@ const Header = ({ list, setList }) => {
               disabled={disabled}
               onClick={() => {
                 setDisabled(true)
-                setList(!list)
+                seeCurrentList(!viewList)
               }}
               className={`block h-8 w-8 cursor-pointer transition duration-700 ease-in-out ${
-                list ? 'text-color_green_7' : ''
+                viewList ? 'text-color_green_7' : ''
               }`}
             >
               {/* <ClipboardListIcon /> */}
@@ -59,8 +64,3 @@ const Header = ({ list, setList }) => {
 }
 
 export default Header
-
-Header.propTypes = {
-  list: PropTypes.bool,
-  setList: PropTypes.func
-}

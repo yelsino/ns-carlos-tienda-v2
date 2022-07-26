@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types'
 import { Navigate, Outlet } from 'react-router-dom'
 
-const PrivateRoute = ({ isAutenticated }) => {
+interface Props {
+  isAutenticated: boolean
+}
+
+const PrivateRoute = ({ isAutenticated }: Props) => {
   return <>{!isAutenticated ? <Outlet /> : <Navigate to="/tienda" />}</>
 }
 
 export default PrivateRoute
-
-PrivateRoute.propTypes = {
-  // isAutenticated: PropTypes.bool.isRequired,
-  isAutenticated: PropTypes.bool
-}

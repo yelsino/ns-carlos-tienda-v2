@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export const useOnClick = (time = 0) => {
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState<boolean>(false)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -12,5 +12,5 @@ export const useOnClick = (time = 0) => {
     return () => clearTimeout(timeout)
   }, [disabled])
 
-  return [disabled, setDisabled]
+  return [disabled, setDisabled] as const
 }

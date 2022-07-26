@@ -1,12 +1,11 @@
-import PropTypes from 'prop-types'
 import { Navigate, Outlet } from 'react-router-dom'
 
-const PublicRoute = ({ isAutenticated }) => {
+interface Props {
+  isAutenticated: boolean
+}
+
+const PublicRoute = ({ isAutenticated }: Props) => {
   return <>{!isAutenticated ? <Outlet /> : <Navigate to="/" />}</>
 }
 
 export default PublicRoute
-
-PublicRoute.propTypes = {
-  isAutenticated: PropTypes.bool
-}

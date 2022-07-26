@@ -1,14 +1,15 @@
 import { Transition } from '@headlessui/react'
+import { ListContext } from 'Context/List/ListContext'
 import { LayoutGroup, motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
-import { Link, useLocation, useOutletContext } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import AnimationBook from '../../../../Atoms/Animation/Book'
 import { IconGridView } from '../../../../Atoms/Icons'
 import ItemList from './ItemList'
-import { ListContext } from '../../../../../Context/List/ListProvider'
 
 const ListProduct = () => {
-  const [viewlist] = useOutletContext()
+
+  const { viewList} = useContext(ListContext)
   const [show, setShow] = useState(false)
 
   const location = useLocation()
@@ -16,9 +17,7 @@ const ListProduct = () => {
   const { pathname } = location
   const currentPath = pathname.split('/')
 
-  const {
-    liststate: { list }
-  } = useContext(ListContext)
+  const { list } = useContext(ListContext)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -26,7 +25,7 @@ const ListProduct = () => {
     }, 400)
 
     return () => clearTimeout(timeout)
-  }, [viewlist])
+  }, [viewList])
 
   return (
     <>

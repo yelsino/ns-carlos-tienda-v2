@@ -8,6 +8,7 @@ export interface ListState {
   lists: Array<List>
   ok: boolean
   list: List | null
+  viewList: boolean
 }
 
 interface Props {
@@ -17,17 +18,26 @@ interface Props {
 const INITIAL_STATE: ListState = {
   lists: [],
   ok: false,
-  list: null
+  list: null,
+  viewList: false
 }
 
 export const ListProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(listReducer, INITIAL_STATE)
 
+  const seeCurrentList = (viewList: boolean) => {
+    dispatch({
+      type: 'VIEW_LIST',
+      payload: viewList
+    })
+  }
+
   return (
     <ListContext.Provider
       value={{
         ...state,
-        dispatch
+        dispatch,
+        seeCurrentList
       }}
     >
       {children}

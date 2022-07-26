@@ -5,14 +5,29 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import PaymentSuccess from './PaymentSuccess'
+import { Order, RouterContext } from 'interfaces/Interfaces'
+import { ListState } from 'Context/List/ListProvider'
+import { OrderData } from './Payment'
+import { DirectionState } from 'Context/Direction/DirectionProvider'
+import { AuthState } from 'Context/auth/AuthProvider'
+import { SocketProps } from '../../../Hooks/useSocket'
+import { OrderAction } from 'Context/Order/orderReducer'
+
+export interface ResCreateOrder {
+  ok: boolean
+  codeOrder: string
+}
 
 const YourPayment = () => {
   // tarjeta
   const [metodPay, setMetodPay] = useState('contra-entrega')
 
-  const { orderData, liststate, data, auth, socket } = useOutletContext()
-  const [orderResult, setOrderResult] = useState(null)
-  const mountTotal = JSON.parse(localStorage.getItem('mountTotal'))
+  const { orderData, liststate, data, auth, socket } =
+    useOutletContext<RouterContext>()
+  const [orderResult, setOrderResult] = useState<ResCreateOrder | null>(null)
+  const mountTotal: string = JSON.parse(
+    localStorage.getItem('mountTotal') || ''
+  )
 
   const navigate = useNavigate()
 
@@ -23,7 +38,7 @@ const YourPayment = () => {
   }, [])
 
   useEffect(() => {
-    socket?.on('order-created', (result) => {
+    socket?.on('order-created', (result: ResCreateOrder) => {
       console.log(result)
       if (result.ok) {
         setOrderResult(result)
@@ -66,7 +81,7 @@ const YourPayment = () => {
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {auth?.user.mobile}
+          {auth?.user?.mobile}
         </p>
       </div>
 
@@ -77,7 +92,11 @@ const YourPayment = () => {
 
 export default YourPayment
 
-export const PayWithCard = ({ changePayMetod }) => {
+interface PayProps {
+  changePayMetod: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const PayWithCard = ({ changePayMetod }: PayProps) => {
   return (
     <>
       <div className="w-full">
@@ -142,11 +161,7 @@ export const PayWithCard = ({ changePayMetod }) => {
   )
 }
 
-PayWithCard.propTypes = {
-  changePayMetod: PropTypes.func.isRequired
-}
-
-export const PayOnDelivery = ({ changePayMetod }: Props) => {
+export const PayOnDelivery = ({ changePayMetod }: PayProps) => {
   return (
     <>
       <div className="w-full">
@@ -180,8 +195,4 @@ export const PayOnDelivery = ({ changePayMetod }: Props) => {
       </p>
     </>
   )
-}
-
-interface Props {
-  changePayMetod: (method: string) => void
 }

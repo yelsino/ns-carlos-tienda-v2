@@ -1,25 +1,22 @@
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useContext, useState } from 'react'
-import { ListContext } from '../../../Context/List/ListProvider'
-import { SocketContext } from '../../../Context/SocketContext'
+import { SocketContext } from '../../../Context/Socket/SocketContext'
 import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import EachList from './EachList'
 import Input from '../../Atoms/Input'
 import { AuthContext } from 'Context/auth/AuthContext'
+import { ListContext } from 'Context/List/ListContext'
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext)
   const { uid } = useContext(AuthContext)
-  const {
-    liststate: { lists, list },
-    setList
-  } = useContext(ListContext)
+  const { lists, list, dispatch: setList } = useContext(ListContext)
 
   const [modal, setModal] = useState(false)
   const [modal2, setModal2] = useState(false)
 
-  const createNewList = (NAMELIST) => {
+  const createNewList = (NAMELIST: string) => {
     socket?.emit('update-list', {
       type: 'CREATE_LIST',
       userID: uid,
@@ -29,7 +26,7 @@ export const MyLists = () => {
     setModal(false)
   }
 
-  const deleteList = (listID) => {
+  const deleteList = (listID: string) => {
     socket?.emit('update-list', {
       type: 'DELETE_LIST',
       userID: uid,
@@ -68,7 +65,7 @@ export const MyLists = () => {
                       list={item}
                       key={item._id}
                       setList={setList}
-                      currlist={list._id}
+                      currlist={list._id as string}
                       deleteList={deleteList}
                     />
                   ))}
@@ -122,7 +119,11 @@ export const MyLists = () => {
 }
 
 // eslint-disable-next-line react/prop-types
-const InputNewList = ({ setModal, handleSubmit }) => {
+interface InputProps {
+  setModal: React.Dispatch<React.SetStateAction<boolean>>
+  handleSubmit: (name: string) => void
+}
+const InputNewList = ({ setModal, handleSubmit }: InputProps) => {
   const [name, setName] = useState('')
   return (
     <motion.div

@@ -1,7 +1,8 @@
+import { ListContext } from 'Context/List/ListContext'
 import { LayoutGroup, motion } from 'framer-motion'
+import { RouterContext } from 'interfaces/Interfaces'
 import { useContext, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import { ListContext } from '../../../Context/List/ListProvider'
 import { formatToMoney } from '../../../helpers/formatToMoney'
 import { IconListas } from '../../Atoms/Icons'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
@@ -9,11 +10,9 @@ import Select from '../../Atoms/Select'
 import ItemList from '../Tienda/ViewProduct/ListProduct/ItemList'
 
 const YourList = () => {
-  const {
-    liststate: { list, lists },
-    setList
-  } = useContext(ListContext)
-  const { setOrderData } = useOutletContext()
+  const { list, lists, dispatch: setList } = useContext(ListContext)
+  const { setOrderData } = useOutletContext<RouterContext>()
+  // const { } = useContext(OrderContext)
 
   const [modal, setModal] = useState(false)
   const [mountDelivery, setMountDelivery] = useState(0)
@@ -38,7 +37,7 @@ const YourList = () => {
   }
   useEffect(() => {
     if (list) {
-      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(1))
+      setSubTotal(Number(Number(formatToMoney(mountTotalOfList())).toFixed(1)))
     }
   }, [list])
 
@@ -55,7 +54,7 @@ const YourList = () => {
   }, [mountDelivery])
 
   useEffect(() => {
-    localStorage.setItem('mountTotal', Number(mountDelivery) + Number(subTotal))
+    localStorage.setItem('mountTotal', `${(mountDelivery + subTotal)}`)
   }, [subTotal, mountDelivery])
 
   return (
@@ -76,6 +75,10 @@ const YourList = () => {
       </p>
 
       <LayoutGroup>
+        <button onClick={()=>{
+          console.log(list);
+          
+        }}>PROBAR</button>
         <motion.ul
           className=" flex h-[calc(100vh-400px)]   w-full flex-col gap-y-1 overflow-y-scroll px-2 pt-1 pb-14 sm:h-[calc(100vh-310px)]"
           layout

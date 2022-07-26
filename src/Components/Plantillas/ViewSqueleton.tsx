@@ -32,14 +32,13 @@ const ViewSqueleton = () => {
             Similares
           </h2>
           <motion.div className="flex flex-col items-center gap-y-10 ">
-            {[1, 2, 3, 4].map((p, i) => (
+            {['1','2','3','4'].map((p, i) => (
               <motion.div
                 layoutId={p}
-                key={p._id}
+                key={p}
                 className=" flex h-[75px] w-[192px] cursor-pointer  items-center  justify-center  "
               >
-                <div to={`/tienda`}>
-                  {/* <div to={`/tienda/${name.split(' ')[0]}`}> */}
+                <div >
                   <motion.div
                     transition={{
                       duration: 0.5
@@ -51,7 +50,7 @@ const ViewSqueleton = () => {
                     <div className="h-[74px] w-[88px] rounded-lg bg-emerald-200"></div>
                     <div className="flex w-[110.76px] -translate-x-1 flex-col items-center justify-center rounded-lg bg-white p-2 text-gray-600 shadow-md">
                       <p className="font-poppins font-medium tracking-tighter">
-                        {name}
+                        {'name'}
                       </p>
                       <p>
                         und. s/

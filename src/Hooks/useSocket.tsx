@@ -1,15 +1,24 @@
 import { useCallback, useEffect, useState } from 'react'
 // import io from 'socket.io-client'
-import { io } from 'socket.io-client'
+import { io, Socket } from 'socket.io-client'
 
-export const useSocket = (serverPath) => {
-  const [socket, setSocket] = useState(null)
+interface DefaultEventsMap {}
+
+export interface SocketProps {
+  on: (action: string, callback: (data: any) => void) => void
+  emit?: (action: string, data: object) => void
+  disconnect: () => void
+  connected: boolean
+}
+
+export const useSocket = (serverPath: string) => {
+  const [socket, setSocket] = useState<SocketProps>()
   const [online, setOnline] = useState(false)
 
   const connectSocket = useCallback(() => {
     const token = localStorage.getItem('token')
 
-    const socketTemp = io(serverPath, {
+    const socketTemp: SocketProps = io(serverPath, {
       transports: ['websocket'],
       autoConnect: true,
       forceNew: true,
@@ -26,7 +35,9 @@ export const useSocket = (serverPath) => {
   }, [socket])
 
   useEffect(() => {
-    setOnline(socket?.connected)
+    if (socket) {
+      setOnline(socket?.connected)
+    }
   }, [socket])
 
   useEffect(() => {

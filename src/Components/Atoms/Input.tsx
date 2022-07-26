@@ -2,8 +2,8 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   value: string
   title: string
-  type: string
-  name: string
+  type?: string
+  name?: string
   readOnly?: boolean
 }
 

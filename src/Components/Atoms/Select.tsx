@@ -1,7 +1,7 @@
 interface Props {
   text: string
   checked: boolean
-  icon?: string
+  icon?: JSX.Element
   onClick: () => void
 }
 

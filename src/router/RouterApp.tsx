@@ -1,5 +1,5 @@
 import { AuthContext } from 'Context/auth/AuthContext'
-import { useContext, useEffect } from 'react'
+import { lazy, useContext, useEffect } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import SearchMovil from '../Components/Moleculas/Search/SearchMovil'
 import Login from '../Components/Pages/Auth/Login/Login'
@@ -17,6 +17,18 @@ import PublicRoute from './PublicRoute'
 
 const RouterApp = () => {
   const { checking, logged, verificarToken } = useContext(AuthContext)
+  const PublicRouteLazy = lazy(()=> import("../router/PublicRoute"))
+  const MainStoreLazy = lazy(()=> import("../Components/Pages/MainStore"))
+  // const MyShoppingLazy = lazy(()=> import("../Components/Pages/Compras/MyShopping"))
+  const ReclamosLazy = lazy(()=> import("../Components/Pages/Reclamos/Reclamos"))
+  // const MyListLazy = lazy(()=> import("../Components/Pages/MyLists/MyLists"))
+  const PaymentLazy = lazy(()=> import("../Components/Pages/Payment/Payment"))
+
+  // { path: '/mis-compras', element: <MyShopping /> },
+  // { path: '/mis-reclamos', element: <Reclamos /> },
+  // { path: '/mis-listas', element: <MyLists /> }
+  // element: <Payment />,
+  // <PublicRoute isAutenticated={logged} />,
 
   const routes = [
     {
@@ -39,7 +51,7 @@ const RouterApp = () => {
           children: [
             {
               path: '/tienda/search-product',
-              element: <SearchMovil />
+              element: <SearchMovil props={{}} />
             }
           ]
         },
@@ -55,7 +67,7 @@ const RouterApp = () => {
     },
     {
       path: '/payment',
-      element: <Payment />,
+      element: <PaymentLazy />,
       children: [
         {
           path: '/payment/your-list',
@@ -78,8 +90,8 @@ const RouterApp = () => {
     }
   ]
 
-  const element = useRoutes(routes)
 
+  const element = useRoutes(routes)
   useEffect(() => {
     verificarToken()
   }, [verificarToken])

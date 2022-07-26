@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
-import { PropTypes } from 'prop-types'
 
-const ItemReceta = ({ index }) => {
+interface Props {
+  index: number
+}
+const ItemReceta = ({ index }: Props) => {
   return (
     <motion.div
       custom={index}
@@ -18,13 +20,8 @@ const ItemReceta = ({ index }) => {
 
 export default ItemReceta
 
-ItemReceta.propTypes = {
-  index: PropTypes.number
-  // animation: PropTypes.object.isRequired,
-}
-
 const variants = {
-  visible: (i) => ({
+  visible: (i: number) => ({
     scale: 1,
     transition: {
       delay: i * 0.1

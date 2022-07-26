@@ -8,34 +8,34 @@ import './Tienda.css'
 import { useContext, useEffect, useState } from 'react'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import ViewProduct from './ViewProduct/ViewProduct'
-import { ProductContext } from '../../../Context/Product/ProductProvider'
 import ProductSqueleton from '../../Plantillas/ProductSqueleton'
+import { ProductContext } from 'Context/Product/ProductContext'
+import { Product } from 'interfaces/Interfaces'
+import { ListContext } from 'Context/List/ListContext'
+
+
 
 const Tienda = () => {
-  const [viewlist] = useOutletContext()
+  const { viewList, seeCurrentList} = useContext(ListContext)
 
   const {
-    productstate: {
-      products: { products },
-      product
-    },
-    dispatchProduct
+    product,
+    products,
+    dispatch: dispatchProduct
   } = useContext(ProductContext)
 
   const navigate = useNavigate()
 
-  // const [product, setItemSelected] = useState(null);
-
-  const setItemSelected = (item) => {
+  const setItemSelected = (item: Product | null) => {
     dispatchProduct({
       type: 'SELECT_PRODUCT',
-      payload: item
+      payload: item as Product
     })
   }
 
   const [show, setShow] = useState(false)
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState<Array<Product>>([])
 
   // si no hay item seleccionado regresa a/tienda
   useEffect(() => {
@@ -67,7 +67,7 @@ const Tienda = () => {
                   duration: 0.5
                 }
               }}
-              layoutId={p}
+              layoutId={p._id}
               key={p._id}
               onClick={() => {
                 setItemSelected(p)
@@ -118,7 +118,7 @@ const Tienda = () => {
         )}
       </AnimatePresence>
 
-      {viewlist && (
+      {viewList && (
         <>
           <div className="with-animation absolute flex h-full w-full flex-col bg-white pt-10 md:relative md:flex md:w-auto  ">
             <ListProduct />

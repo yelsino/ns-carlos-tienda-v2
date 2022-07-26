@@ -1,15 +1,24 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import PortalComponent from '../../../Atoms/Portals/PortalComponent'
 import Select from '../../../Atoms/Select'
 import PropTypes from 'prop-types'
 import Input from '../../../Atoms/Input'
 import { IconLocation } from '../../../Atoms/Icons'
+import { Direction } from 'interfaces/Interfaces'
+import { DirectionContext } from 'Context/Direction/DirectionContext'
 
-const ViewDirection = ({ setShow, setDirection, data }) => {
+interface Props {
+  setShow: () => void
+  data: any
+}
+
+const ViewDirection = ({ setShow, data }: Props) => {
   const [modal, setModal] = useState(false)
 
-  const selectDirection = (direction) => {
-    setDirection({
+  const { dispatch } = useContext(DirectionContext)
+
+  const selectDirection = (direction: Direction) => {
+    dispatch({
       type: 'SELECT_DIRECTION',
       payload: direction
     })
@@ -37,14 +46,14 @@ const ViewDirection = ({ setShow, setDirection, data }) => {
           <Input
             name="ninguno"
             title="Nombre y número de dirección"
-            onChange={() => { }}
+            onChange={() => {}}
             value={data?.direction?.name}
             readOnly={true}
           />
           <Input
             name="reference"
             title="Referencia"
-            onChange={() => { }}
+            onChange={() => {}}
             readOnly={true}
             value={data?.direction?.reference}
           />
@@ -73,7 +82,7 @@ const ViewDirection = ({ setShow, setDirection, data }) => {
             actual que está generando
           </p>
           <div className=" flex h-[300px] flex-col gap-y-3 overflow-y-scroll">
-            {data?.directions.map((d, i) => (
+            {data?.directions.map((d: Direction) => (
               <Select
                 key={d._id}
                 text={d.name}
@@ -91,8 +100,3 @@ const ViewDirection = ({ setShow, setDirection, data }) => {
 
 export default ViewDirection
 
-interface Props {
-  setShow: () => void
-  setDirection: (direction: any) => void
-  data: any
-}

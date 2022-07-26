@@ -4,13 +4,17 @@ import { Link, useLocation } from 'react-router-dom'
 import { getAlgoliaResults } from '@algolia/autocomplete-js'
 import algoliasearch from 'algoliasearch'
 import { IconSearch } from '../../Atoms/Icons'
-import { ProductContext } from '../../../Context/Product/ProductProvider'
-import { string } from 'prop-types'
+import { ProductContext } from 'Context/Product/ProductContext'
+import { Product } from 'interfaces/Interfaces'
+
+interface PricePerWeight {
+  price: number
+}
 
 interface PropsAutoCompleteItem {
   name: string
   img: string
-  pricePerWeight: []
+  pricePerWeight: Array<PricePerWeight>
 }
 
 const AutocompleteItem = ({
@@ -18,12 +22,7 @@ const AutocompleteItem = ({
   img,
   pricePerWeight
 }: PropsAutoCompleteItem) => {
-  const {
-    productstate: {
-      products: { products }
-    },
-    dispatchProduct
-  } = useContext(ProductContext)
+  const { products, dispatch: dispatchProduct } = useContext(ProductContext)
 
   return (
     <Link
@@ -32,7 +31,7 @@ const AutocompleteItem = ({
       onClick={() => {
         dispatchProduct({
           type: 'SELECT_PRODUCT',
-          payload: products.find((p) => p.name === name)
+          payload: products.find((p) => p.name === name) as Product
         })
       }}
       className="w-full"
@@ -41,18 +40,31 @@ const AutocompleteItem = ({
         <img src={img} alt={name} className="h-12 w-12 object-contain" />
         <div className="flex flex-col justify-center">
           <h3 className="font-semibold text-gray-600">{name}</h3>
-          <p className="text-xs text-gray-600">S/. {pricePerWeight[0].price}</p>
+          <p className="text-xs text-gray-600">
+            S/. {pricePerWeight.length >= 1 ? pricePerWeight[0].price : 0}
+          </p>
         </div>
       </div>
     </Link>
   )
 }
 
-export default function Search(props) {
-  const [autocompleteState, setAutocompleteState] = useState({
-    collections: [],
-    isOpen: false
-  })
+interface T {
+  props: object
+}
+
+interface AutoCompleteProps {
+  collections: Array<Product>
+  isOpen: boolean
+}
+
+export default function Search(props: T) {
+  const [autocompleteState, setAutocompleteState] = useState<AutoCompleteProps>(
+    {
+      collections: [],
+      isOpen: false
+    }
+  )
 
   const location = useLocation()
   const { pathname } = location
@@ -68,6 +80,8 @@ export default function Search(props) {
     () =>
       createAutocomplete({
         placeholder: '¿Qué estás buscando?',
+
+        // @ts-ignore: Unreachable code error
         onStateChange: ({ state }) => setAutocompleteState(state),
         getSources({ query }) {
           return [
@@ -106,6 +120,7 @@ export default function Search(props) {
   return (
     <>
       {filterRutes.length !== 1 && (
+        // @ts-ignore: Unreachable code error
         <form
           ref={formRef}
           className="flex w-[260px] justify-center   font-poppins"
@@ -116,6 +131,7 @@ export default function Search(props) {
               <span className="absolute flex items-center justify-center rounded-l-2xl   px-4 py-2 text-color_green_7">
                 <IconSearch />
               </span>
+              {/*  @ts-ignore: Unreachable code error */}
               <input
                 ref={inputRef}
                 className="w-[260px] rounded-full bg-color_green_2  py-2 pl-12 pr-3 text-color_green_7 outline-none placeholder:text-center placeholder:text-color_green_7"
@@ -123,19 +139,22 @@ export default function Search(props) {
               />
             </div>
             {autocompleteState.isOpen && (
+              // @ts-ignore: Unreachable code error
               <div
                 className="absolute top-0 left-0 z-10 mt-16 overflow-hidden rounded-lg border border-gray-100 bg-white shadow-lg"
                 ref={panelRef}
                 {...autocomplete.getPanelProps()}
               >
                 {autocompleteState.collections.map((val, index) => {
+                  console.log(val)
+                  // @ts-ignore: Unreachable code error
                   const { items } = val
-                  // console.log({ items });
+                  // console.log({ items })
                   return (
                     <section key={`section-${index}`} className="w-[260px]">
                       {items.length > 0 && (
                         <ul {...autocomplete.getListProps()}>
-                          {items.map((item) => (
+                          {items.map((item: Product) => (
                             <AutocompleteItem key={item._id} {...item} />
                           ))}
                         </ul>

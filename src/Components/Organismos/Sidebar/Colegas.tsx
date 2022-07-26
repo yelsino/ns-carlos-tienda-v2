@@ -5,7 +5,7 @@ const Colegas = () => {
     <div className=" flex flex-col border-b  border-color_green_4 pb-2 pt-3 font-poppins ">
       <p className="text-sm  text-color_green_5">Colegas</p>
       <div className="flex flex-col gap-y-4 py-4 text-sm">
-        {[1, 2, 3, 4].map((usuario) => (
+        {/* {[1, 2, 3, 4].map((usuario) => (
           <Link
             key={usuario}
             to={`/trabajadores/321321321/chat`}
@@ -30,7 +30,7 @@ const Colegas = () => {
               <span className="block h-2 w-2 rounded-full bg-gray-500"></span>
             )}
           </Link>
-        ))}
+        ))} */}
 
         <p className=" flex cursor-pointer items-center justify-between text-sm font-semibold text-color_green_7">
           <span>ver mas</span>

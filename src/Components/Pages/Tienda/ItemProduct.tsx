@@ -1,12 +1,18 @@
 import { motion } from 'framer-motion'
+import { Product } from 'interfaces/Interfaces'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const ItemProduct = ({ product, index }) => {
+interface Props {
+  product: Product
+  index: number
+}
+
+const ItemProduct = ({ product, index }: Props) => {
   const { name, img } = product
 
   const itemstyle = {
-    visible: (i) => ({
+    visible: (i: number) => ({
       scale: 1,
       transition: {
         delay: i * 0.03
@@ -25,6 +31,8 @@ const ItemProduct = ({ product, index }) => {
         initial={{ scale: 0 }}
         animate="visible"
         custom={index}
+        // ignore ts
+        // @ts-ignore
         variants={itemstyle}
         className="relative flex"
       >

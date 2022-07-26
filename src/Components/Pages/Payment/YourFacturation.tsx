@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { AuthContext } from 'Context/auth/AuthContext'
+import { SocketContext } from 'Context/Socket/SocketContext'
+import { RouterContext, User } from 'interfaces/Interfaces'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
-import Input from '../../Atoms/Input'
-import Select from '../../Atoms/Select'
 import CreateDirectionForm from './YourFacturation/CreateDirectionForm'
 import TypePayment from './YourFacturation/TypePayment'
 import UserDates from './YourFacturation/UserDates'
@@ -10,8 +11,10 @@ import ViewDirection from './YourFacturation/ViewDirection'
 const YourFacturation = () => {
   const [create, setCreate] = useState(false)
 
-  const { socket, auth, setDirection, data, setOrderData, orderData } =
-    useOutletContext()
+  const {  data, setOrderData, orderData } =
+    useOutletContext<RouterContext>()
+    const {user} = useContext(AuthContext)
+  const {socket} = useContext(SocketContext)
   const [typePayment, setTypePayment] = useState('contra-entrega')
 
   const navigete = useNavigate()
@@ -25,7 +28,7 @@ const YourFacturation = () => {
   useEffect(() => {
     if (data.direction) {
       setOrderData((prev) => {
-        return { ...prev, directionID: data.direction._id }
+        return { ...prev, directionID: data?.direction?._id as string }
       })
     }
   }, [data])
@@ -48,17 +51,16 @@ const YourFacturation = () => {
         src='https://res.cloudinary.com/dwkfj5sxb/image/upload/v1650590795/yelsin_rp8zyt.jpg'
       /> */}
 
-      <UserDates data={auth.user} />
+      <UserDates data={user} />
 
       {create ? (
         <CreateDirectionForm
           socket={socket}
           setShow={showCreateDirection}
-          auth={auth}
+          auth={user}
         />
       ) : (
         <ViewDirection
-          setDirection={setDirection}
           data={data}
           setShow={showCreateDirection}
         />

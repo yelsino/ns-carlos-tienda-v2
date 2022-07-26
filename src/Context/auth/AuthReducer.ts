@@ -1,11 +1,10 @@
-import { User } from 'interfaces/User'
+import { User } from 'interfaces/Interfaces'
 import { AuthState } from './AuthProvider'
 
 export type AuthAction =
   | { type: 'LOGOUT' }
   | { type: 'LOGIN'; payload: User }
-  | { type: 'dasdsa'; user: User }
-  | { type: '321321'; user: User }
+  | { type: 'SET_USER'; payload: User }
 
 export const authReducer = (
   state: AuthState,
@@ -15,7 +14,7 @@ export const authReducer = (
     case 'LOGOUT':
       return {
         ...state,
-        uid: '',
+        uid: null,
         checking: false,
         logged: false,
         user: null
@@ -24,6 +23,13 @@ export const authReducer = (
       return {
         ...state,
         logged: true,
+        uid: action.payload.uid,
+        checking: false,
+        user: action.payload
+      }
+    case 'SET_USER':
+      return {
+        ...state,
         user: action.payload
       }
 

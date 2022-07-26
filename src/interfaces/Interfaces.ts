@@ -1,8 +1,16 @@
+import { OrderData } from 'Components/Pages/Payment/Payment'
+import { AuthState } from 'Context/auth/AuthProvider'
+import { DirectionState } from 'Context/Direction/DirectionProvider'
+import { ListState } from 'Context/List/ListProvider'
+import { OrderAction } from 'Context/Order/orderReducer'
+import { SocketProps } from 'Hooks/useSocket'
+
 export interface User {
-  uid: string
+  uid: string | null
   email: string
   names: string
   surnames: string
+  mobile?: string
 }
 
 export interface Category {
@@ -29,12 +37,14 @@ export interface Credit {
 }
 
 export interface Direction {
+  _id?: string
   reference: string
   name: string
   user: string
 }
 
 export interface Product {
+  _id: string
   name: string
   keywords: [string]
   img: string
@@ -48,21 +58,23 @@ export interface Product {
   category: Category
 }
 
-interface ProductsList {
-  quantities: ItemList[]
+export interface ProductsList {
+  quantities: ItemQuantity[]
   product: Product
+  _id: string
 }
 
-interface ItemList {
+interface ItemQuantity {
   weight: number
   price: number
   quantity: number
+  _id?: string
 }
 
 export interface List {
   _id?: string
   name: string
-  products: ProductsList[]
+  products: Array<ProductsList>
 }
 
 export interface Message {
@@ -88,4 +100,14 @@ export interface OrdeDetail {
 
 export interface Role {
   name: string
+}
+
+export interface RouterContext {
+  orderData: OrderData
+  liststate: ListState
+  data: DirectionState
+  auth: AuthState
+  socket: SocketProps
+  setDirection: (data: DirectionState) => void
+  setOrderData: React.Dispatch<React.SetStateAction<OrderData>>
 }

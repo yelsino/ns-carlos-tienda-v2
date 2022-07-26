@@ -1,17 +1,12 @@
+import { ProductContext } from 'Context/Product/ProductContext'
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 import { useContext } from 'react'
-import { ProductContext } from '../../../../Context/Product/ProductProvider'
 
 import ItemProduct from '../ItemProduct'
 
 const SimilarProducts = ({ similarProducts }) => {
-  const {
-    dispatchProduct,
-    productstate: {
-      products: { products }
-    }
-  } = useContext(ProductContext)
+  const { dispatch: dispatchProduct, products } = useContext(ProductContext)
 
   return (
     <div className="px-10 sm:h-[600px] sm:overflow-y-scroll  sm:border-l sm:pb-32 ">

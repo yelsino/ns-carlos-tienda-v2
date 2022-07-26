@@ -7,6 +7,8 @@ interface ListContextProps {
   ok: boolean
   list: List | null
   dispatch: React.Dispatch<ListAction>
+  viewList: boolean
+  seeCurrentList: (viewList:boolean) => void
 }
 
 export const ListContext = createContext<ListContextProps>(

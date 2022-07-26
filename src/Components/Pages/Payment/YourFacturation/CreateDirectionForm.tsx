@@ -21,6 +21,9 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
     if (!calle.name || !calle.reference) {
       return alert('Por favor complete todos los campos')
     }
+    // ignore ts this line
+    // @ts-ignore
+
     setDisabled(true)
     socket?.emit('direction', {
       type: 'CREATE_DIRECTION',
@@ -32,7 +35,7 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
     setShow()
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCalle({ ...calle, [e.target.name]: e.target.value })
   }
 
@@ -41,7 +44,7 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
       <div className="flex justify-between  pt-5 font-poppins ">
         <p className="font-bold">Registrando dirección</p>{' '}
         <button
-          disabled={disabled}
+          disabled={disabled as boolean}
           onClick={createDirection}
           className="rounded-full bg-purple-500 px-3 py-1 text-white outline-none"
         >
@@ -50,6 +53,7 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
       </div>
       <Input
         name="name"
+        type="text"
         title="Nombre y número de dirección"
         value={calle.name}
         onChange={handleChange}
@@ -60,7 +64,6 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
         onChange={handleChange}
         value={calle.reference}
         type="textarea"
-        className="w-full bg-color_green_2 py-3 px-5 text-color_green_7 outline-none"
       />
 
       <button

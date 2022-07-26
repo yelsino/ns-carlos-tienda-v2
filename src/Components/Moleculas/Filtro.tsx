@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { IconSearch } from '../Atoms/Icons'
 import { Link } from 'react-router-dom'
+import { Product } from 'interfaces/Interfaces'
 
 interface Props {
-  upData: () => void
-  data: []
+  upData: Dispatch<SetStateAction<Product[]>>
+  data: Array<Product>
 }
 
 const Filtro = ({ upData, data }: Props) => {
@@ -19,9 +20,14 @@ const Filtro = ({ upData, data }: Props) => {
     )
   }, [name, letter])
 
-  const filterData = (arr = [], category = '', start = 'a', end = 'z') => {
-    const isGreater = (c1, c2) => c1 >= c2
-    const isSmaller = (c1, c2) => c1 <= c2
+  const filterData = (
+    arr: Array<Product>,
+    category = '',
+    start = 'a',
+    end = 'z'
+  ): Array<Product> => {
+    const isGreater = (c1: string, c2: string) => c1 >= c2
+    const isSmaller = (c1: string, c2: string) => c1 <= c2
 
     const filtered = arr.filter((e) => {
       const [firstChar] = e.name.toLowerCase()
@@ -46,8 +52,9 @@ const Filtro = ({ upData, data }: Props) => {
             {({ checked }) => (
               <span
                 onClick={() => name === 'vegetales' && setName('')}
-                className={`flex cursor-pointer flex-col items-center  font-medium transition duration-500 ease-in  ${checked ? 'text-color_green_7' : 'text-gray-500'
-                  }`}
+                className={`flex cursor-pointer flex-col items-center  font-medium transition duration-500 ease-in  ${
+                  checked ? 'text-color_green_7' : 'text-gray-500'
+                }`}
               >
                 <img src="https://img.icons8.com/fluency/24/undefined/broccoli.png" />
                 <p className="text-xs sm:text-sm">Vegetal</p>
@@ -60,8 +67,9 @@ const Filtro = ({ upData, data }: Props) => {
             {({ checked }) => (
               <span
                 onClick={() => name === 'frutas' && setName('')}
-                className={` flex cursor-pointer flex-col items-center  font-medium transition duration-500  ease-in  ${checked ? 'text-color_green_7' : 'text-gray-500'
-                  }`}
+                className={` flex cursor-pointer flex-col items-center  font-medium transition duration-500  ease-in  ${
+                  checked ? 'text-color_green_7' : 'text-gray-500'
+                }`}
               >
                 <img src="https://img.icons8.com/fluency/24/undefined/mango.png" />
                 <p className="text-xs sm:text-sm">Frutas</p>
@@ -74,8 +82,9 @@ const Filtro = ({ upData, data }: Props) => {
             {({ checked }) => (
               <span
                 onClick={() => name === 'abarrotes' && setName('')}
-                className={` flex cursor-pointer flex-col items-center  font-medium transition duration-500  ease-in  ${checked ? 'text-color_green_7' : 'text-gray-500'
-                  }`}
+                className={` flex cursor-pointer flex-col items-center  font-medium transition duration-500  ease-in  ${
+                  checked ? 'text-color_green_7' : 'text-gray-500'
+                }`}
               >
                 <img src="https://img.icons8.com/fluency/24/undefined/grocery-bag.png" />
                 <p className="text-xs sm:text-sm">Abarrote</p>
@@ -93,8 +102,9 @@ const Filtro = ({ upData, data }: Props) => {
             {({ checked }) => (
               <span
                 onClick={() => letter === 'ag' && setLetter('')}
-                className={`cursor-pointer  ${checked ? 'text-color_green_7' : 'text-gray-500'
-                  }`}
+                className={`cursor-pointer  ${
+                  checked ? 'text-color_green_7' : 'text-gray-500'
+                }`}
               >
                 A-G
               </span>
@@ -104,8 +114,9 @@ const Filtro = ({ upData, data }: Props) => {
             {({ checked }) => (
               <span
                 onClick={() => letter === 'hm' && setLetter('')}
-                className={`cursor-pointer  ${checked ? 'text-color_green_7' : 'text-gray-500'
-                  }`}
+                className={`cursor-pointer  ${
+                  checked ? 'text-color_green_7' : 'text-gray-500'
+                }`}
               >
                 H-M
               </span>
@@ -115,8 +126,9 @@ const Filtro = ({ upData, data }: Props) => {
             {({ checked }) => (
               <span
                 onClick={() => letter === 'oz' && setLetter('')}
-                className={`cursor-pointer  ${checked ? 'text-color_green_7' : 'text-gray-500'
-                  }`}
+                className={`cursor-pointer  ${
+                  checked ? 'text-color_green_7' : 'text-gray-500'
+                }`}
               >
                 O-Z
               </span>

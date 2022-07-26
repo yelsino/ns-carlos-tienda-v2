@@ -1,12 +1,18 @@
 import { motion } from 'framer-motion'
+import { Product } from 'interfaces/Interfaces'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const ItemProductMovil = ({ product, index }) => {
+interface Props {
+  product: Product
+  index: number
+}
+
+const ItemProductMovil = ({ product, index }: Props) => {
   const { name, img } = product
 
   const itemstyle = {
-    visible: (i) => ({
+    visible: (i: number) => ({
       scale: 1,
       transition: {
         delay: i * 0.03
@@ -25,6 +31,7 @@ const ItemProductMovil = ({ product, index }) => {
         initial={{ scale: 0 }}
         animate="visible"
         custom={index}
+        // @ts-ignore
         variants={itemstyle}
         className="relative flex flex-col items-center"
       >
@@ -48,8 +55,3 @@ const ItemProductMovil = ({ product, index }) => {
 }
 
 export default ItemProductMovil
-
-ItemProductMovil.propTypes = {
-  product: PropTypes.object.isRequired,
-  index: PropTypes.number
-}

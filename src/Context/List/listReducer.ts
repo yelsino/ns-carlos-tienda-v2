@@ -4,6 +4,7 @@ import { ListState } from './ListProvider'
 export type ListAction =
   | { type: 'GET_USER_LISTS'; payload: Array<List> }
   | { type: 'SELECT_LIST'; payload: List }
+  | { type: 'VIEW_LIST'; payload: boolean }
 
 export const listReducer = (
   state: ListState,
@@ -22,6 +23,7 @@ export const listReducer = (
         ...state,
         list: action.payload
       }
+    case 'VIEW_LIST': return { ...state, viewList: action.payload }
 
     default:
       return state

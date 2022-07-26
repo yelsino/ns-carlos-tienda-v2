@@ -1,18 +1,31 @@
 import { AuthContext } from 'Context/auth/AuthContext'
+import { ListContext } from 'Context/List/ListContext'
+import { ProductContext } from 'Context/Product/ProductContext'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Product, ProductsList } from 'interfaces/Interfaces'
 import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ListContext } from '../../../../../Context/List/ListProvider'
-import { ProductContext } from '../../../../../Context/Product/ProductProvider'
-import { SocketContext } from '../../../../../Context/SocketContext'
+import { string } from 'yup/lib/locale'
+import { SocketContext } from '../../../../../Context/Socket/SocketContext'
 import { useOnClick } from '../../../../../Hooks/useOnClick'
 import { IconDelete } from '../../../../Atoms/Icons'
 
-const ItemList = ({ item }) => {
-  // const y = useMotionValue(0);
-  // const boxShadow = useRaisedShadow(y);
+interface Props {
+  item: ProductsList
+}
 
+
+interface Quantity {
+  quantity: number
+  price: number
+  weight: number
+  _id?: string
+  weighttextmd?: string
+  weighttextlg?: string
+}
+
+const ItemList = ({ item }: Props) => {
   const {
     _id,
     product: { name, typeOfsale },
@@ -20,7 +33,7 @@ const ItemList = ({ item }) => {
   } = item
 
   const totalQuantity = () => {
-    const quantity = quantities.reduce((acc, curr) => {
+    const quantity = [...quantities].reduce((acc, curr) => {
       switch (typeOfsale) {
         case 'UNIDADES':
           return acc + curr?.quantity
@@ -31,7 +44,7 @@ const ItemList = ({ item }) => {
           return acc + (curr?.quantity * curr?.weight) / 1000
 
         default:
-          return console.log('no ocurrio nada')
+          return 0
       }
     }, 0)
 
@@ -39,17 +52,14 @@ const ItemList = ({ item }) => {
       case 'UNIDADES':
         return `${quantity} und`
       case 'KILOGRAMOS':
-        return `${
-          Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
-        } kg`
+        return `${Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
+          } kg`
       case 'LITROS':
-        return `${
-          Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
-        } lt`
+        return `${Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
+          } lt`
       case 'FRACCIONES':
-        return `${
-          Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
-        } ft`
+        return `${Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
+          } ft`
       default:
         return null
     }
@@ -71,24 +81,21 @@ const ItemList = ({ item }) => {
 
   return (
     <div
-      className={`  ${
-        isOpen ? ' rounded-lg border border-gray-100 shadow-sm' : ''
-      }`}
+      className={`  ${isOpen ? ' rounded-lg border border-gray-100 shadow-sm' : ''
+        }`}
     >
       <motion.li
         layout
         onClick={toggleOpen}
-        value={item}
+        // value={item as Item}
         id={_id}
         style={{}}
-        className={`flex   cursor-pointer items-center justify-between  rounded-lg  bg-white px-5 py-3 shadow-md  ${
-          isOpen ? ' rounded-none border-b shadow-none' : ''
-        }`}
+        className={`flex   cursor-pointer items-center justify-between  rounded-lg  bg-white px-5 py-3 shadow-md  ${isOpen ? ' rounded-none border-b shadow-none' : ''
+          }`}
       >
         <p
-          className={`truncate font-semibold transition-all duration-300 ease-in-out  ${
-            isOpen ? 'font-bold text-gray-900 ' : 'text-gray-500'
-          }`}
+          className={`truncate font-semibold transition-all duration-300 ease-in-out  ${isOpen ? 'font-bold text-gray-900 ' : 'text-gray-500'
+            }`}
         >
           {name}
         </p>
@@ -103,36 +110,36 @@ const ItemList = ({ item }) => {
           </div>
         </div>
       </motion.li>
-      <AnimatePresence>{isOpen && <Content data={item} />}</AnimatePresence>
+      <AnimatePresence>{isOpen && <Content item={item} />}</AnimatePresence>
     </div>
   )
 }
 
-const Content = ({ data }) => {
+
+
+const Content = ({ item }: Props) => {
   const [disabled, setDisabled] = useOnClick(300)
   const { socket } = useContext(SocketContext)
 
-  const { dispatchProduct } = useContext(ProductContext)
+  const { dispatch: dispatchProduct } = useContext(ProductContext)
 
-  const {
-    liststate: { list }
-  } = useContext(ListContext)
+  const { list } = useContext(ListContext)
   const { uid } = useContext(AuthContext)
 
   const [stateQuantities, setStateQuantities] = useState([])
 
   useEffect(() => {
     setStateQuantities(() => {
-      return tranformQuantities(data.quantities, data.product.typeOfsale)
+      return tranformQuantities(item.quantities, item.product.typeOfsale)
     })
-  }, [data])
+  }, [item])
 
-  const removeWeightOfProduct = (weightID) => {
+  const removeWeightOfProduct = (weightID: string) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_WEIGHT_OF_PRODUCT',
-      listID: list._id,
-      productID: data.product._id,
+      listID: list!._id,
+      productID: item.product._id,
       userID: uid,
       weightID
     })
@@ -142,14 +149,17 @@ const Content = ({ data }) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
-      listID: list._id,
-      productID: data.product._id,
+      listID: list!._id,
+      productID: item.product._id,
       userID: uid
       // mountID: weight,
     })
   }
 
-  const tranformQuantities = (dataquantities, typeOfsale) => {
+  const tranformQuantities = (
+    dataquantities: Array<Quantity>,
+    typeOfsale: string
+  ) => {
     return dataquantities.map((v) => {
       switch (typeOfsale) {
         case 'UNIDADES': {
@@ -186,13 +196,11 @@ const Content = ({ data }) => {
             v.weighttextmd = '1 kg'
             v.weighttextlg = `1 kilogramo`
             return v
-          }
-          if (v.weight !== 250 || v.weight !== 500 || v.weight !== 1000) {
+          } else {
             v.weighttextmd = `${v.weight} gr`
             v.weighttextlg = `${v.weight} gramos`
             return v
           }
-          return v
         }
 
         case 'LITROS': {
@@ -205,14 +213,11 @@ const Content = ({ data }) => {
             v.weighttextmd = '1 lt'
             v.weighttextlg = '1 litro'
             return v
-          }
-
-          if (v.weight !== 500 || v.weight !== 1000) {
+          } else {
             v.weighttextmd = `${v.weight} ml`
             v.weighttextlg = `${v.weight} mililitros`
             return v
           }
-          return v
         }
 
         case 'FRACCIONES': {
@@ -279,7 +284,7 @@ const Content = ({ data }) => {
           onClick={() => {
             dispatchProduct({
               type: 'SELECT_PRODUCT',
-              payload: data.product
+              payload: item.product
             })
           }}
           className=" font-extralight text-color_green_7"
@@ -298,13 +303,5 @@ const Content = ({ data }) => {
   )
 }
 
-Content.propTypes = {
-  data: PropTypes.object.isRequired
-}
-
 export default ItemList
 
-ItemList.propTypes = {
-  item: PropTypes.object,
-  selectProduct: PropTypes.func
-}

@@ -1,15 +1,16 @@
+import { OrderContext } from 'Context/Order/OrderContext'
+import { Order } from 'interfaces/Interfaces'
 import { useContext, useEffect } from 'react'
-import { OrderContext } from '../../../Context/Order/OrderProvider'
-import { SocketContext } from '../../../Context/SocketContext'
+import { SocketContext } from '../../../Context/Socket/SocketContext'
 import './MyShop.css'
 
 export const MyShopping = () => {
   const { socket } = useContext(SocketContext)
 
-  const { setOrder } = useContext(OrderContext)
+  const { dispatch: setOrder } = useContext(OrderContext)
 
   useEffect(() => {
-    socket?.on('get-user-orders', (orders) => {
+    socket?.on('get-user-orders', (orders: Array<Order>) => {
       setOrder({
         type: 'GET_USER_ORDERS',
         payload: orders
@@ -46,7 +47,12 @@ export const MyShopping = () => {
 }
 
 // eslint-disable-next-line react/prop-types
-const ItemTracking = ({ title, status, link }) => {
+interface ItemTracking {
+  title: string
+  link?: boolean
+  status?: boolean
+}
+const ItemTracking = ({ title, status, link }: ItemTracking) => {
   return (
     <div className="flex justify-center">
       <div className="flex w-20 flex-col  items-center justify-center">

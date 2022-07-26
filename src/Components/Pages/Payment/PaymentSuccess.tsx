@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom'
 import imgDelivery from '../../../Assets/delivery.png'
-import PropTypes from 'prop-types'
+import { ResCreateOrder } from './YourPayment'
 
-const PaymentSuccess = ({ orderResult }) => {
+interface Props {
+  orderResult: ResCreateOrder
+}
+
+const PaymentSuccess = ({ orderResult }: Props) => {
   return (
     <div className="fixed top-0  left-0 z-50 flex h-full w-full items-center bg-white font-poppins ">
       <div className=" mx-auto flex  max-w-xs flex-col items-center gap-y-5  ">
@@ -30,7 +34,3 @@ const PaymentSuccess = ({ orderResult }) => {
 }
 
 export default PaymentSuccess
-
-interface Props {
-  orderResult: any
-}

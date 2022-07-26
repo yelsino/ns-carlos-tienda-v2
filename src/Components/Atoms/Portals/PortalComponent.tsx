@@ -1,11 +1,13 @@
 import { Dialog } from '@headlessui/react'
 import { motion } from 'framer-motion'
+import { Product } from 'interfaces/Interfaces'
 
 interface Props {
   children: JSX.Element | JSX.Element[]
   open: boolean
   setOpen: (open: boolean) => void
-  closeChildren?: (children: React.ReactNode) => void
+  closeChildren?: (children: Product | null) => void
+  // closeChildren?: (children: React.ReactNode) => void
 }
 
 function PortalComponent({ children, open, setOpen, closeChildren }: Props) {

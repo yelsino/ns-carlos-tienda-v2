@@ -1,14 +1,22 @@
 import { AuthContext } from 'Context/auth/AuthContext'
+import { DirectionContext } from 'Context/Direction/DirectionContext'
+import { ListContext } from 'Context/List/ListContext'
 import { motion } from 'framer-motion'
+import { Direction } from 'interfaces/Interfaces'
 import { Suspense, useContext, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import imgDelivery from '../../../Assets/delivery.png'
-import { DirectionContext } from '../../../Context/Direction/DirectionProvider'
-import { ListContext } from '../../../Context/List/ListProvider'
-import { SocketContext } from '../../../Context/SocketContext'
+import { SocketContext } from '../../../Context/Socket/SocketContext'
 import { useOnClick } from '../../../Hooks/useOnClick'
 import { IconArrow } from '../../Atoms/Icons'
 import LoadingPage from '../../Plantillas/LoadinPage'
+
+export interface OrderData {
+  typePayment: string
+  directionID: string
+  userID: string
+  listID: string
+}
 
 const Payment = () => {
   const token = localStorage.getItem('token')
@@ -21,31 +29,21 @@ const Payment = () => {
   const { pathname } = location
   const currentPath = pathname.split('/')
 
-  const { liststate } = useContext(ListContext)
+  const { list } = useContext(ListContext)
   const { uid } = useContext(AuthContext)
-  const {
-    setDirection,
-    data,
-    data: { direction }
-  } = useContext(DirectionContext)
+  const { dispatch: setDirection, direction } = useContext(DirectionContext)
 
   const [disabled, setDisabled] = useOnClick(1000)
-  const [orderData, setOrderData] = useState({
+  const [orderData, setOrderData] = useState<OrderData>({
     typePayment: '',
-    directionID: direction?._id,
-    userID: uid,
-    listID: liststate?.list?._id
+    directionID: direction?._id as string,
+    userID: uid as string,
+    listID: list?._id as string
   })
   const { socket } = useContext(SocketContext)
 
-  const {
-    liststate: { list }
-  } = useContext(ListContext)
-
   useEffect(() => {
-    console.log('get directions')
-    socket?.on('get-user-directions', (directions) => {
-      console.log(directions)
+    socket?.on('get-user-directions', (directions: Array<Direction>) => {
       setDirection({
         type: 'GET_USER_DIRECTIONS',
         payload: directions
@@ -58,6 +56,8 @@ const Payment = () => {
   }, [socket])
 
   useEffect(() => {
+    // ignore this line, typescript error
+    // @ts-ignore
     setDisabled(true)
   }, [])
 
@@ -135,8 +135,7 @@ const Payment = () => {
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: 1,
-                  transition: { duration: 0.5 },
-                  delay: 0.1
+                  transition: { duration: 0.5 }
                 }}
                 exit={{ opacity: 0 }}
                 className="mx-auto flex max-w-sm flex-col items-center gap-y-3 px-5 py-10"
@@ -146,9 +145,9 @@ const Payment = () => {
                     socket,
                     // auth,
                     setDirection,
-                    data,
+                    // data,
                     setOrderData,
-                    liststate,
+                    // liststate,
                     orderData
                   }}
                 />

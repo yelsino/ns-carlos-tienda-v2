@@ -2,21 +2,19 @@ import { useContext, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import PropTypes from 'prop-types'
 import './cssViewProduct.css'
-import { ListContext } from '../../../../Context/List/ListProvider'
 import { useOnClick } from '../../../../Hooks/useOnClick'
-import { SocketContext } from '../../../../Context/SocketContext'
+import { SocketContext } from '../../../../Context/Socket/SocketContext'
 import { motion } from 'framer-motion'
 import { IconDelete } from '../../../Atoms/Icons'
 import { formatToMoney } from '../../../../helpers/formatToMoney'
 import { AuthContext } from 'Context/auth/AuthContext'
+import { ListContext } from 'Context/List/ListContext'
 
 const SwitchWeight = ({ product }) => {
   const [disabled, setDisabled] = useOnClick(300)
   const { uid } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
-  const {
-    liststate: { list: listOfProducts }
-  } = useContext(ListContext)
+  const { list: listOfProducts } = useContext(ListContext)
   const [alterproduct, setAlterProduct] = useState(null)
   const [weight, setWeight] = useState('')
   // const {
@@ -150,10 +148,10 @@ const SwitchWeight = ({ product }) => {
     })
   }
 
-  const getPriceWeightSelected = () => {
+  const getPriceWeightSelected = ():number => {
     const { pricePerWeight } = alterproduct
     const price = pricePerWeight.find((v) => v._id === weight)
-    return formatToMoney(price.price)
+    return Number(formatToMoney(price.price))
   }
   const [priceSelected, setPriceSelected] = useState(0)
   const [quantitySelected, setQuantitySelected] = useState(0)
@@ -336,7 +334,7 @@ const SwitchWeight = ({ product }) => {
             </p>
             <p className="flex w-full justify-between">
               <span>Total</span>
-              <p className="text-color_green_7">
+              <span className="text-color_green_7">
                 <motion.span
                   initial={{ scale: 1.5 }}
                   animate={{ scale: 1 }}
@@ -348,7 +346,7 @@ const SwitchWeight = ({ product }) => {
                   {totalWeight}
                 </motion.span>
                 {totalProduct}
-              </p>
+              </span>
             </p>
           </div>
 

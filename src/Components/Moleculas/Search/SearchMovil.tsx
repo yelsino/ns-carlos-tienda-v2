@@ -5,12 +5,16 @@ import { Link } from 'react-router-dom'
 import { getAlgoliaResults } from '@algolia/autocomplete-js'
 import algoliasearch from 'algoliasearch'
 import { IconArrow, IconLink, IconSearch } from '../../Atoms/Icons'
-import { ProductContext } from '../../../Context/Product/ProductProvider'
+import { ProductContext } from 'Context/Product/ProductContext'
+import { Product } from 'interfaces/Interfaces'
 
+interface PricePerWeight {
+  price: number
+}
 interface PropsAutocompleteItem {
   name: string
   img: string
-  pricePerWeight: []
+  pricePerWeight: Array<PricePerWeight>
 }
 
 const AutocompleteItem = ({
@@ -18,12 +22,7 @@ const AutocompleteItem = ({
   img,
   pricePerWeight
 }: PropsAutocompleteItem) => {
-  const {
-    productstate: {
-      products: { products }
-    },
-    dispatchProduct
-  } = useContext(ProductContext)
+  const { products, dispatch: dispatchProduct } = useContext(ProductContext)
 
   return (
     <Link
@@ -32,7 +31,7 @@ const AutocompleteItem = ({
       onClick={() => {
         dispatchProduct({
           type: 'SELECT_PRODUCT',
-          payload: products.find((p) => p.name === name)
+          payload: products.find((p) => p.name === name) as Product
         })
       }}
       className="flex w-full items-center justify-between py-3"
@@ -51,11 +50,22 @@ const AutocompleteItem = ({
   )
 }
 
-export default function SearchMovil(props) {
-  const [autocompleteState, setAutocompleteState] = useState({
-    collections: [],
-    isOpen: false
-  })
+interface T {
+  props: object
+}
+
+interface AutoCompleteProps {
+  collections: Array<Product>
+  isOpen: boolean
+}
+
+export default function SearchMovil(props: T) {
+  const [autocompleteState, setAutocompleteState] = useState<AutoCompleteProps>(
+    {
+      collections: [],
+      isOpen: false
+    }
+  )
 
   const appId = '5RCKHIZLLD'
   const apiKey = 'a6a8ef3b732553e5967193427cb04be2'
@@ -65,6 +75,7 @@ export default function SearchMovil(props) {
     () =>
       createAutocomplete({
         placeholder: '¿Qué estás buscando?',
+        // @ts-ignore: Unreachable code error
         onStateChange: ({ state }) => setAutocompleteState(state),
         getSources({ query }) {
           return [
@@ -103,12 +114,14 @@ export default function SearchMovil(props) {
 
   return (
     <div className="fixed top-0 left-0 h-full w-full bg-white sm:hidden">
+      {/* @ts-ignore: Unreachable code error */}
       <form ref={formRef} className="mx-auto max-w-sm pt-10" {...formProps}>
         <div className="relative flex w-full flex-col">
           <div className="flex w-full  items-center">
             <span className="absolute flex items-center justify-center rounded-l-2xl   px-4 py-2 text-color_green_7">
               <IconSearch />
             </span>
+            {/* @ts-ignore: Unreachable code error */}
             <input
               ref={inputRef}
               className="w-full rounded-full bg-color_green_2  py-2 pl-12 pr-3 text-color_green_7 outline-none placeholder:text-center placeholder:text-color_green_7"
@@ -116,15 +129,18 @@ export default function SearchMovil(props) {
             />
           </div>
           {autocompleteState.isOpen && (
+            // @ts-ignore: Unreachable code error
             <div className="" ref={panelRef} {...autocomplete.getPanelProps()}>
               {autocompleteState.collections.map((val, index) => {
+                // @ts-ignore: Unreachable code error
                 const { items } = val
                 // console.log({ items });
                 return (
                   <section key={`section-${index}`} className="">
                     {items.length > 0 && (
                       <ul {...autocomplete.getListProps()}>
-                        {items.map((item) => (
+                        {/* @ts-ignore: Unreachable code error */}
+                        {items.map((item: Product) => (
                           <AutocompleteItem key={item._id} {...item} />
                         ))}
                       </ul>

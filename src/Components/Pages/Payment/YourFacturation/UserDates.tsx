@@ -2,8 +2,18 @@ import Input from '../../../Atoms/Input'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
+import { User } from 'interfaces/Interfaces'
+import { SocketProps } from 'Hooks/useSocket'
 
-const UserDates = ({ data }) => {
+interface Props {
+  data: User
+}
+
+interface PropsContext {
+  socket: SocketProps
+}
+
+const UserDates = ({ data }: Props) => {
   const [show, setShow] = useState(false)
   const [user, setUser] = useState({
     names: data?.names,
@@ -12,7 +22,7 @@ const UserDates = ({ data }) => {
     mobile: data?.mobile
   })
 
-  const { socket } = useOutletContext()
+  const { socket } = useOutletContext<PropsContext>()
 
   const showUpdateUser = () => {
     setShow(true)
@@ -33,7 +43,7 @@ const UserDates = ({ data }) => {
     if (!user.names || !user.surnames || !user.email || !user.mobile) {
       return alert('Por favor complete todos los campos')
     }
-    socket.emit('user', {
+    socket!.emit!('user', {
       userID: data?.uid,
       data: user,
       type: 'UPDATE_USER'
@@ -42,7 +52,7 @@ const UserDates = ({ data }) => {
     setShow(false)
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value
@@ -88,16 +98,10 @@ const UserDates = ({ data }) => {
           name="mobile"
           title="Celular"
           readOnly={!show}
-          value={user?.mobile}
+          value={user?.mobile as string}
           onChange={handleChange}
         />
-        {/* <Input
-          name='email'
-          title='Correo'
-          readOnly={!show}
-          value={user.email}
-          onChange={handleChange}
-        /> */}
+
         {show && (
           <button
             onClick={cancelUpdateUser}

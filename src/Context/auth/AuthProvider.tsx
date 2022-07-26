@@ -2,11 +2,11 @@ import { useCallback, useReducer } from 'react'
 import { fetchConToken, fetchSinToken } from '../../helpers/fetch'
 import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
-import { User } from 'interfaces/User'
 import { AuthContext } from './AuthContext'
+import { User } from 'interfaces/Interfaces'
 
 export interface AuthState {
-  uid: string
+  uid: string | null
   checking: boolean
   logged: boolean
   user: User | null
@@ -92,8 +92,8 @@ export const AuthProvider = ({ children }: Props) => {
     <AuthContext.Provider
       value={{
         ...state,
-        userLogin,
         dispatch,
+        userLogin,
         verificarToken,
         userLogout
       }}
