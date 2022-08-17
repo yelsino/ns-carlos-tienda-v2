@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-// import io from 'socket.io-client'
-import { io, Socket } from 'socket.io-client'
-
-interface DefaultEventsMap {}
+import { io } from 'socket.io-client'
 
 export interface SocketProps {
   on: (action: string, callback: (data: any) => void) => void

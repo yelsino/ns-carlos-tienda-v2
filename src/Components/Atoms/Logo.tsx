@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 
 const Logo = () => {
   return (
-    <Link to="/tienda" className="flex w-60 gap-2 md:w-64">
+    // <Link to="/tienda" className=" hidden w-60 gap-2 md:w-64 lg:flex">
+    <Link to="/tienda" className="flex w-52 gap-2 md:w-64">
       <div>
         <img
           className=""

@@ -56,7 +56,7 @@ const Tienda = () => {
       <div className="w-full">
         <Filtro upData={setData} data={products} />
 
-        <motion.div className="layout h-[calc(100vh-100px)] gap-6 overflow-y-scroll pt-5  pb-24 sm:h-[calc(100vh-180px)] ">
+        <motion.div className="layout  h-[calc(100vh-100px)] gap-6 overflow-y-scroll pt-5  pb-24 sm:h-[calc(100vh-210px)] ">
           {data?.map((p, i) => (
             <motion.div
               animate={{
@@ -82,7 +82,7 @@ const Tienda = () => {
           {products?.length === 0 &&
             [...Array(10)].map((_, i) => <ProductSqueleton key={i} />)}
 
-          {data?.length === 0 && (
+          {/* {data?.length === 0 && (
             <motion.div
               initial={{ scale: 0.7 }}
               animate={{
@@ -98,7 +98,7 @@ const Tienda = () => {
                 NO HAY COINCIDENCIAS
               </p>
             </motion.div>
-          )}
+          )} */}
         </motion.div>
       </div>
 

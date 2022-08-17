@@ -84,9 +84,3 @@ const ViewProduct = ({ product, setModal, setItem }) => {
 
 export default ViewProduct
 
-ViewProduct.propTypes = {
-  product: PropTypes.object,
-  setModal: PropTypes.func,
-  setItem: PropTypes.func,
-  upLista: PropTypes.func
-}

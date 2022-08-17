@@ -54,7 +54,7 @@ const YourList = () => {
   }, [mountDelivery])
 
   useEffect(() => {
-    localStorage.setItem('mountTotal', `${(mountDelivery + subTotal)}`)
+    localStorage.setItem('mountTotal', `${mountDelivery + subTotal}`)
   }, [subTotal, mountDelivery])
 
   return (
@@ -75,10 +75,13 @@ const YourList = () => {
       </p>
 
       <LayoutGroup>
-        <button onClick={()=>{
-          console.log(list);
-          
-        }}>PROBAR</button>
+        <button
+          onClick={() => {
+            console.log(list)
+          }}
+        >
+          PROBAR
+        </button>
         <motion.ul
           className=" flex h-[calc(100vh-400px)]   w-full flex-col gap-y-1 overflow-y-scroll px-2 pt-1 pb-14 sm:h-[calc(100vh-310px)]"
           layout

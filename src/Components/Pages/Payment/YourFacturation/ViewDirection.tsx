@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react'
 import PortalComponent from '../../../Atoms/Portals/PortalComponent'
 import Select from '../../../Atoms/Select'
-import PropTypes from 'prop-types'
 import Input from '../../../Atoms/Input'
 import { IconLocation } from '../../../Atoms/Icons'
 import { Direction } from 'interfaces/Interfaces'
@@ -9,13 +8,12 @@ import { DirectionContext } from 'Context/Direction/DirectionContext'
 
 interface Props {
   setShow: () => void
-  data: any
 }
 
-const ViewDirection = ({ setShow, data }: Props) => {
+const ViewDirection = ({ setShow }: Props) => {
   const [modal, setModal] = useState(false)
 
-  const { dispatch } = useContext(DirectionContext)
+  const { dispatch, directions, direction } = useContext(DirectionContext)
 
   const selectDirection = (direction: Direction) => {
     dispatch({
@@ -32,7 +30,7 @@ const ViewDirection = ({ setShow, data }: Props) => {
           añadir
         </button>
       </div>
-      {data.directions.length > 0 ? (
+      {directions.length > 0 ? (
         <>
           <button
             onClick={() => setModal(true)}
@@ -46,16 +44,16 @@ const ViewDirection = ({ setShow, data }: Props) => {
           <Input
             name="ninguno"
             title="Nombre y número de dirección"
-            onChange={() => {}}
-            value={data?.direction?.name}
+            // onChange={() => {}}
+            value={direction?.name}
             readOnly={true}
           />
           <Input
             name="reference"
             title="Referencia"
-            onChange={() => {}}
+            // onChange={() => {}}
             readOnly={true}
-            value={data?.direction?.reference}
+            value={direction?.reference}
           />
         </>
       ) : (
@@ -82,12 +80,12 @@ const ViewDirection = ({ setShow, data }: Props) => {
             actual que está generando
           </p>
           <div className=" flex h-[300px] flex-col gap-y-3 overflow-y-scroll">
-            {data?.directions.map((d: Direction) => (
+            {directions.map((d: Direction) => (
               <Select
                 key={d._id}
                 text={d.name}
                 onClick={() => selectDirection(d)}
-                checked={d._id === data?.direction?._id}
+                checked={d._id === direction?._id}
                 icon={<IconLocation />}
               />
             ))}
@@ -99,4 +97,3 @@ const ViewDirection = ({ setShow, data }: Props) => {
 }
 
 export default ViewDirection
-

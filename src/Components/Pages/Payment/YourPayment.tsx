@@ -2,7 +2,7 @@ import { IconCheck } from '../../Atoms/Icons'
 import imgDelivery1 from '../../../Assets/delivery1.png'
 import PropTypes from 'prop-types'
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import PaymentSuccess from './PaymentSuccess'
 import { Order, RouterContext } from 'interfaces/Interfaces'
@@ -12,6 +12,10 @@ import { DirectionState } from 'Context/Direction/DirectionProvider'
 import { AuthState } from 'Context/auth/AuthProvider'
 import { SocketProps } from '../../../Hooks/useSocket'
 import { OrderAction } from 'Context/Order/orderReducer'
+import { ListContext } from 'Context/List/ListContext'
+import { DirectionContext } from 'Context/Direction/DirectionContext'
+import { AuthContext } from 'Context/auth/AuthContext'
+import { SocketContext } from 'Context/Socket/SocketContext'
 
 export interface ResCreateOrder {
   ok: boolean
@@ -21,9 +25,12 @@ export interface ResCreateOrder {
 const YourPayment = () => {
   // tarjeta
   const [metodPay, setMetodPay] = useState('contra-entrega')
+  const { list } = useContext(ListContext)
+  const { direction } = useContext(DirectionContext)
+  const { user } = useContext(AuthContext)
+  const { socket } = useContext(SocketContext)
 
-  const { orderData, liststate, data, auth, socket } =
-    useOutletContext<RouterContext>()
+  const { orderData } = useOutletContext<RouterContext>()
   const [orderResult, setOrderResult] = useState<ResCreateOrder | null>(null)
   const mountTotal: string = JSON.parse(
     localStorage.getItem('mountTotal') || ''
@@ -63,25 +70,25 @@ const YourPayment = () => {
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {liststate?.list?.name}
+          {list?.name}
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {liststate?.list?.products?.length} productos en total
+          {list?.products?.length} productos en total
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {data?.direction?.name}
+          {direction?.name}
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {auth?.user?.mobile}
+          {user?.mobile}
         </p>
       </div>
 

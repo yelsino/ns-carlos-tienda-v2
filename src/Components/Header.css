@@ -1,6 +1,6 @@
 .imagen {
     border-radius: 50%;
-    transition: ease-in-out 0.8s;
+    transition: ease-in-out 0.5s;
     cursor: pointer;
   }
   

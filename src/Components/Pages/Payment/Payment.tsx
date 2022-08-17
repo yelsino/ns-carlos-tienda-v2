@@ -25,6 +25,7 @@ const Payment = () => {
     navigate('/auth/login')
   }
 
+  // para condicionar la navegacion a responsivo
   const location = useLocation()
   const { pathname } = location
   const currentPath = pathname.split('/')
@@ -56,8 +57,6 @@ const Payment = () => {
   }, [socket])
 
   useEffect(() => {
-    // ignore this line, typescript error
-    // @ts-ignore
     setDisabled(true)
   }, [])
 
@@ -83,7 +82,7 @@ const Payment = () => {
           >
             <div className="relative row-span-full hidden select-none items-center justify-center bg-black sm:col-span-1 sm:flex">
               <div
-                className=" fixed left-1/4 top-1/2 flex max-w-xs -translate-y-[200px] -translate-x-[160px] flex-col items-center gap-y-5  text-white
+                className=" fixed left-1/4 top-1/2 flex max-w-xs -translate-y-52 -translate-x-40 flex-col items-center gap-y-5  text-white
      "
               >
                 <img src={imgDelivery} className="w-9/12" />
@@ -142,12 +141,7 @@ const Payment = () => {
               >
                 <Outlet
                   context={{
-                    socket,
-                    // auth,
-                    setDirection,
-                    // data,
                     setOrderData,
-                    // liststate,
                     orderData
                   }}
                 />

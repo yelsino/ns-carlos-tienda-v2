@@ -6,15 +6,27 @@ import NavbarMenu from './Menu/NavbarMenu'
 import { useLocation } from 'react-router-dom'
 import { useContext } from 'react'
 import { ListContext } from 'Context/List/ListContext'
-
-
+import { IconBell, IconClipBoard } from './Atoms/Icons'
+import { motion, Variants } from 'framer-motion'
+import { useIsLarge, useIsMedium, useIsSmall } from 'Hooks/utils/mediaQuery'
 
 const Header = () => {
-
-  const { viewList, seeCurrentList} = useContext(ListContext)
+  const { viewList, seeCurrentList } = useContext(ListContext)
 
   const [disabled, setDisabled] = useOnClick(400)
+  const isLarge = useIsMedium()
 
+  const variants: Variants = isLarge
+    ? {
+        animate: {
+          width: viewList ? 600 : 250
+        }
+      }
+    : {
+        animate: {
+          width: viewList ? 400 : 250
+        }
+      }
   // get url from react-router-dom
 
   const location = useLocation()
@@ -25,7 +37,16 @@ const Header = () => {
     <div className="hidden justify-between border-b py-5 sm:flex">
       <Logo />
       <Search props={{}} />
-      <div className="flex min-w-[160px] items-center justify-end text-color_gray_1 ">
+      <motion.div
+        // variants={variants}
+        animate={
+          isLarge
+            ? { width: viewList ? 600 : 250 }
+            : { width: viewList ? 250 : 250 }
+        }
+        transition={{ duration: 0.4, delay: 0 }}
+        className="flex min-w-[160px] items-center justify-end text-color_gray_1 "
+      >
         <span className="cursor-pointer px-3 transition duration-300 ease-in hover:text-color_green_7"></span>
         <div className="relative flex items-center gap-5 ">
           {currentPath.includes('tienda') && (
@@ -39,13 +60,13 @@ const Header = () => {
                 viewList ? 'text-color_green_7' : ''
               }`}
             >
-              {/* <ClipboardListIcon /> */}
+              <IconClipBoard />
             </button>
           )}
 
-          {/* <span className='block w-8 h-8 hover:text-color_green_7 transition ease-in-out duration-500 cursor-pointer'>
-            <BellIcon />
-          </span> */}
+          <span className="block h-8 w-8 cursor-pointer transition duration-500 ease-in-out hover:text-color_green_7">
+            <IconBell />
+          </span>
 
           <div className="navbar_perfil  relative z-50   ">
             <img
@@ -58,7 +79,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

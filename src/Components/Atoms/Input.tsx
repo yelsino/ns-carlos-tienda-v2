@@ -1,5 +1,5 @@
 interface Props {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   value: string
   title: string
   type?: string

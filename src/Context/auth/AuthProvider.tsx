@@ -9,6 +9,7 @@ export interface AuthState {
   uid: string | null
   checking: boolean
   logged: boolean
+  loading: boolean
   user: User | null
   directions: []
 }
@@ -17,6 +18,7 @@ const INITIAL_STATE: AuthState = {
   uid: '',
   checking: true,
   logged: false,
+  loading: false,
   user: null,
   directions: []
 }
@@ -26,17 +28,16 @@ interface Props {
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  // const { dispatch } = useContext(ChatContext)
-  // const navigate = useNavigate();
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
 
   const userLogin = async (email: string, password: string) => {
+    dispatch({ type: 'LOADING', payload: true })
     const resp = await fetchSinToken({
       endpoint: 'login/worker',
       body: { email, password },
       method: 'POST'
     })
-
+    dispatch({ type: 'LOADING', payload: false })
     if (resp.ok) {
       localStorage.setItem('token', resp.token)
       const { usuario } = resp
@@ -47,6 +48,8 @@ export const AuthProvider = ({ children }: Props) => {
       })
       return true
     }
+
+    localStorage.setItem('noPassword', 'true')
     return false
   }
 

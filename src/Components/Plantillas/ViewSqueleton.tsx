@@ -3,10 +3,7 @@ import { motion } from 'framer-motion'
 const ViewSqueleton = () => {
   return (
     <motion.div
-      //   initial={{ scale: 0.5 }}
-      //   animate={{ scale: 1 }}
-      //   exit={{ scale: 0 }}
-      //   transition={{ duration: 0.3 }}
+  
       className={`relative h-screen   w-full
     overflow-y-scroll   bg-white p-10 sm:h-auto sm:max-h-[600px] sm:w-auto sm:overflow-y-hidden  sm:rounded-2xl `}
       onClick={(e) => e.stopPropagation()}
@@ -18,14 +15,12 @@ const ViewSqueleton = () => {
         <motion.div className="flex max-w-xs flex-col items-center gap-7 sm:h-[600px] sm:overflow-y-scroll sm:px-5 sm:pb-20 ">
           <p className="pt-5 font-poppins text-xl font-semibold"></p>
           <div className="mb-3 flex h-[130px] w-[140px] items-center justify-center rounded-tl-[50px] rounded-tr-[10px] rounded-bl-[20px] rounded-br-[50px] bg-emerald-300 bg-opacity-50 ">
-            {/* <img src={img} className=' scale-125 mb-3' /> */}
           </div>
-
-          {/* <SwitchWeight  product={product} /> */}
+ {/* <SwitchWeight  product={product} /> */}
 
           <div className="w-full  break-all ">{/* <p>{description}</p> */}</div>
         </motion.div>
-        {/* <SimilarProducts  similarProducts={similarProducts}/> */}
+
 
         <div className="border-l px-10 sm:h-[600px]  sm:overflow-y-scroll sm:pb-32 ">
           <h2 className="pb-7 text-center font-poppins text-lg font-medium tracking-tight text-gray-500">

@@ -8,8 +8,7 @@ import { IconGridView } from '../../../../Atoms/Icons'
 import ItemList from './ItemList'
 
 const ListProduct = () => {
-
-  const { viewList} = useContext(ListContext)
+  const { viewList } = useContext(ListContext)
   const [show, setShow] = useState(false)
 
   const location = useLocation()

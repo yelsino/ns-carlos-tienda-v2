@@ -2,7 +2,6 @@ import { OrderData } from 'Components/Pages/Payment/Payment'
 import { AuthState } from 'Context/auth/AuthProvider'
 import { DirectionState } from 'Context/Direction/DirectionProvider'
 import { ListState } from 'Context/List/ListProvider'
-import { OrderAction } from 'Context/Order/orderReducer'
 import { SocketProps } from 'Hooks/useSocket'
 
 export interface User {
@@ -104,10 +103,5 @@ export interface Role {
 
 export interface RouterContext {
   orderData: OrderData
-  liststate: ListState
-  data: DirectionState
-  auth: AuthState
-  socket: SocketProps
-  setDirection: (data: DirectionState) => void
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>
 }

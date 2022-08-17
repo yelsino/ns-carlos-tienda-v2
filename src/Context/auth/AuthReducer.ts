@@ -5,6 +5,7 @@ export type AuthAction =
   | { type: 'LOGOUT' }
   | { type: 'LOGIN'; payload: User }
   | { type: 'SET_USER'; payload: User }
+  | { type: 'LOADING'; payload: boolean }
 
 export const authReducer = (
   state: AuthState,
@@ -26,6 +27,11 @@ export const authReducer = (
         uid: action.payload.uid,
         checking: false,
         user: action.payload
+      }
+    case 'LOADING':
+      return {
+        ...state,
+        loading: action.payload
       }
     case 'SET_USER':
       return {

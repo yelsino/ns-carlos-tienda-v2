@@ -2,9 +2,10 @@ import { OrderContext } from 'Context/Order/OrderContext'
 import { Order } from 'interfaces/Interfaces'
 import { useContext, useEffect } from 'react'
 import { SocketContext } from '../../../Context/Socket/SocketContext'
+import { ItemTracking } from './ItemTracking'
 import './MyShop.css'
 
-export const MyShopping = () => {
+const MyShopping = () => {
   const { socket } = useContext(SocketContext)
 
   const { dispatch: setOrder } = useContext(OrderContext)
@@ -46,28 +47,4 @@ export const MyShopping = () => {
   )
 }
 
-// eslint-disable-next-line react/prop-types
-interface ItemTracking {
-  title: string
-  link?: boolean
-  status?: boolean
-}
-const ItemTracking = ({ title, status, link }: ItemTracking) => {
-  return (
-    <div className="flex justify-center">
-      <div className="flex w-20 flex-col  items-center justify-center">
-        <span className="pb-5 text-sm text-gray-400">{title}</span>
-        <div className="relative flex items-center ">
-          <span
-            className={`block h-5 w-5 rounded-full ${
-              status ? 'bg-emerald-400' : 'bg-gray-300'
-            }`}
-          />
-          {link && (
-            <span className="absolute block h-1 w-20 translate-x-5 bg-gray-200" />
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
+export default MyShopping

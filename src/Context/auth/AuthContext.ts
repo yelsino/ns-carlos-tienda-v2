@@ -8,6 +8,7 @@ interface AuthContextProps {
   logged: boolean
   user: User | null
   directions: []
+  loading: boolean
   userLogin: (email: string, password: string) => Promise<boolean>
   verificarToken: () => Promise<boolean>
   userLogout: () => void

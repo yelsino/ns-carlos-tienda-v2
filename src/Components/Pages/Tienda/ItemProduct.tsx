@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { Product } from 'interfaces/Interfaces'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 interface Props {
@@ -57,7 +56,4 @@ const ItemProduct = ({ product, index }: Props) => {
 
 export default ItemProduct
 
-ItemProduct.propTypes = {
-  product: PropTypes.object.isRequired,
-  index: PropTypes.number
-}
+

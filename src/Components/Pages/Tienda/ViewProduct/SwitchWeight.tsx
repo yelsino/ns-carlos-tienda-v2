@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
-import PropTypes from 'prop-types'
 import './cssViewProduct.css'
 import { useOnClick } from '../../../../Hooks/useOnClick'
 import { SocketContext } from '../../../../Context/Socket/SocketContext'
@@ -10,6 +9,7 @@ import { formatToMoney } from '../../../../helpers/formatToMoney'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
 
+
 const SwitchWeight = ({ product }) => {
   const [disabled, setDisabled] = useOnClick(300)
   const { uid } = useContext(AuthContext)
@@ -17,9 +17,8 @@ const SwitchWeight = ({ product }) => {
   const { list: listOfProducts } = useContext(ListContext)
   const [alterproduct, setAlterProduct] = useState(null)
   const [weight, setWeight] = useState('')
-  // const {
-  //   liststate: { lists },
-  // } = useContext(ListContext);
+
+
 
   const transformWeight = () => {
     const { pricePerWeight, typeOfsale } = product
@@ -137,8 +136,12 @@ const SwitchWeight = ({ product }) => {
     })
   }
 
-  const removeProductOfList = () => {
+  const removeProductOfList = (e) => {
+    e.stopPropagation()
+    console.log("eliminando");
+    
     setDisabled(true)
+
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
       userID: uid,
@@ -147,6 +150,8 @@ const SwitchWeight = ({ product }) => {
       mountID: weight
     })
   }
+
+ 
 
   const getPriceWeightSelected = ():number => {
     const { pricePerWeight } = alterproduct
@@ -365,7 +370,7 @@ const SwitchWeight = ({ product }) => {
 
             <button
               onClick={removeProductOfList}
-              className="flex h-full w-14 items-center justify-center text-2xl"
+              className="flex h-full w-14 items-center justify-center text-2xl hover:text-green-400"
             >
               <IconDelete />
             </button>
@@ -377,7 +382,3 @@ const SwitchWeight = ({ product }) => {
 }
 
 export default SwitchWeight
-
-SwitchWeight.propTypes = {
-  product: PropTypes.object
-}

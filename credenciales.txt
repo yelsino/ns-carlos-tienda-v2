@@ -1,0 +1,5 @@
+ID CLIENTE
+653478787151-rsqel05mplg0th1dn964v8a7tbc6bfrs.apps.googleusercontent.com
+
+CLAVE SECRETA
+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

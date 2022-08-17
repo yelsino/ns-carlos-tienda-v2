@@ -1,6 +1,7 @@
 import { AuthContext } from 'Context/auth/AuthContext'
+import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
-import { RouterContext, User } from 'interfaces/Interfaces'
+import { RouterContext } from 'interfaces/Interfaces'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import CreateDirectionForm from './YourFacturation/CreateDirectionForm'
@@ -11,11 +12,11 @@ import ViewDirection from './YourFacturation/ViewDirection'
 const YourFacturation = () => {
   const [create, setCreate] = useState(false)
 
-  const {  data, setOrderData, orderData } =
-    useOutletContext<RouterContext>()
-    const {user} = useContext(AuthContext)
-  const {socket} = useContext(SocketContext)
+  const { user } = useContext(AuthContext)
+  const { socket } = useContext(SocketContext)
   const [typePayment, setTypePayment] = useState('contra-entrega')
+  const { direction } = useContext(DirectionContext)
+  const { setOrderData, orderData } = useOutletContext<RouterContext>()
 
   const navigete = useNavigate()
 
@@ -26,12 +27,12 @@ const YourFacturation = () => {
   }, [typePayment])
 
   useEffect(() => {
-    if (data.direction) {
+    if (direction) {
       setOrderData((prev) => {
-        return { ...prev, directionID: data?.direction?._id as string }
+        return { ...prev, directionID: direction?._id as string }
       })
     }
-  }, [data])
+  }, [direction])
 
   const showCreateDirection = () => {
     setCreate(!create)
@@ -60,10 +61,7 @@ const YourFacturation = () => {
           auth={user}
         />
       ) : (
-        <ViewDirection
-          data={data}
-          setShow={showCreateDirection}
-        />
+        <ViewDirection setShow={showCreateDirection} />
       )}
 
       <TypePayment typePayment={typePayment} setTypePayment={setTypePayment} />
