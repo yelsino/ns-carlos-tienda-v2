@@ -39,6 +39,8 @@
     "tailwindcss/no-contradicting-classname": "error",
     "prettier/prettier": ["error",{
       "endOfLine": "auto"
-    }]
+    }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "strictPropertyInitialization": false
   }
 }

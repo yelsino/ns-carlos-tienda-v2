@@ -1,3 +1,4 @@
+import { useOnClick } from 'Hooks/useOnClick'
 import { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import Header from '../Header'
@@ -8,14 +9,16 @@ interface Props {
 }
 
 const MainStore = ({ isAutenticated }: Props) => {
+
+  const [adding, setAdding] = useOnClick(300);
   return (
     <>
       {isAutenticated ? (
         <div className="mx-auto max-w-[100rem] px-5">
-          <Header />
+          <Header adding={adding} />
           <div className="flex">
             <div className="w-full px-5 pt-5 ">
-              <Outlet />
+              <Outlet context={{setAdding, adding}} />
             </div>
             <MenuMovil />
           </div>

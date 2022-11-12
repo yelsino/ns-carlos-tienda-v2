@@ -49,7 +49,7 @@ export interface Product {
   img: string
   description: string
   typeOfsale: string
-  pricePerWeight: [{ weight: number; price: number }]
+  pricePerWeight: [{ weight: number; price: number, _id:string }]
   quantityPerUnits: number
   unitPrice: number
   units: number

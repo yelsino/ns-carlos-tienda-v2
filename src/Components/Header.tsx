@@ -10,7 +10,11 @@ import { IconBell, IconClipBoard } from './Atoms/Icons'
 import { motion, Variants } from 'framer-motion'
 import { useIsLarge, useIsMedium, useIsSmall } from 'Hooks/utils/mediaQuery'
 
-const Header = () => {
+interface Props {
+  adding: boolean
+}
+
+const Header = ({adding}:Props ) => {
   const { viewList, seeCurrentList } = useContext(ListContext)
 
   const [disabled, setDisabled] = useOnClick(400)
@@ -34,7 +38,7 @@ const Header = () => {
   const currentPath = pathname.split('/')
 
   return (
-    <div className="hidden justify-between border-b py-5 sm:flex">
+    <div className="hidden justify-between border-b py-3 sm:flex">
       <Logo />
       <Search props={{}} />
       <motion.div
@@ -48,7 +52,8 @@ const Header = () => {
         className="flex min-w-[160px] items-center justify-end text-color_gray_1 "
       >
         <span className="cursor-pointer px-3 transition duration-300 ease-in hover:text-color_green_7"></span>
-        <div className="relative flex items-center gap-5 ">
+        <div className={`relative flex items-center gap-5 z-50 bg-white p-2 pl-4  rounded-full `}>
+         
           {currentPath.includes('tienda') && (
             <button
               disabled={disabled}
@@ -56,10 +61,19 @@ const Header = () => {
                 setDisabled(true)
                 seeCurrentList(!viewList)
               }}
-              className={`block h-8 w-8 cursor-pointer transition duration-700 ease-in-out ${
+              className={`block h-8 w-8 cursor-pointer transition duration-700 ease-in-out relative ${
                 viewList ? 'text-color_green_7' : ''
               }`}
             >
+              {
+                adding &&  
+                <motion.span 
+                  exit={{ opacity: 0 }}
+                  animate={{ opacity: 0 }}
+                  initial={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className='absolute -top-2 -right-2 text-xs font-bold rounded-full bg-orange-600 p-1 text-white font-poppins w-5 h-5 flex justify-center items-center'>+1</motion.span>
+              }
               <IconClipBoard />
             </button>
           )}
@@ -68,7 +82,7 @@ const Header = () => {
             <IconBell />
           </span>
 
-          <div className="navbar_perfil  relative z-50   ">
+          <div className="navbar_perfil  relative    ">
             <img
               src="https://res.cloudinary.com/dwkfj5sxb/image/upload/v1650590795/yelsin_rp8zyt.jpg"
               alt="img user"

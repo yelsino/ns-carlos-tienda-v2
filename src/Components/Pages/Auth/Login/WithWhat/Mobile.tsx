@@ -22,6 +22,7 @@ export const Mobile = ({ errors, touched }) => {
           <Field
             type="number"
             autoComplete="off"
+            autoFocus={false}
             className=" w-full rounded-md bg-color_green_2 p-4 text-color_green_7 outline-none"
             name="email"
             id="email"
@@ -42,7 +43,8 @@ export const Mobile = ({ errors, touched }) => {
         </div>
 
         <Field
-          autoComplete="new-password"
+          autoComplete=""
+          // autoFocus={false}
           className=" w-full rounded-md bg-color_green_2 p-4 text-color_green_7 outline-none"
           name="password"
           id="password"

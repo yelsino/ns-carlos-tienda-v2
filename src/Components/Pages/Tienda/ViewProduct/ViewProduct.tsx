@@ -1,23 +1,29 @@
 import { motion } from 'framer-motion'
-import PropTypes from 'prop-types'
 import SwitchWeight from './SwitchWeight'
 import algoliasearch from 'algoliasearch'
 import { useEffect, useState } from 'react'
 import SimilarProducts from './SimilarProducts'
+import { Product } from 'interfaces/Interfaces'
+import { ProductModel } from 'schemas/Product.model'
 
-const ViewProduct = ({ product, setModal, setItem }) => {
-  const { name, img, description, keywords } = product
+interface Props {
+  product: Product
+  setModal: React.Dispatch<React.SetStateAction<boolean>>
+  setItem: (item: Product | null) => void,
+  setAdding: React.Dispatch<React.SetStateAction<boolean>>
+  adding: boolean
+}
+
+const ViewProduct = ({ product, setModal, setItem, setAdding, adding }: Props) => {
+    const { name, img, description, keywords } = product
 
   const appId = '5RCKHIZLLD'
-  const apiKey = 'a6a8ef3b732553e5967193427cb04be2'
+     const apiKey = 'a6a8ef3b732553e5967193427cb04be2'
   const searchClient = algoliasearch(appId, apiKey)
 
   const [similarProducts, setSimilarProducts] = useState([])
-
-  // get similar products with algolia
-
   const index = searchClient.initIndex('products-negocios-carlos')
-
+  // construir un mapper para setear valores requeridos
   const getSimilarProducts = async () => {
     const tags = keywords.reduce(
       (acc, curr) =>
@@ -25,15 +31,13 @@ const ViewProduct = ({ product, setModal, setItem }) => {
       ''
     )
 
-    console.log(tags)
-
     const { hits } = await index.search('', {
       filters: `${tags}`
     })
 
     setSimilarProducts(hits)
   }
-
+  
   useEffect(() => {
     getSimilarProducts()
   }, [product])
@@ -57,6 +61,7 @@ const ViewProduct = ({ product, setModal, setItem }) => {
       >
         Cerrar
       </button>
+
       {/* contenido */}
       <motion.div className="mx-auto  flex max-w-xs flex-col gap-10 pt-5 sm:max-w-none sm:flex-row">
         <motion.div className="flex max-w-xs flex-col items-center gap-7 sm:h-[600px] sm:overflow-y-scroll sm:px-5 sm:pb-20 ">
@@ -65,7 +70,7 @@ const ViewProduct = ({ product, setModal, setItem }) => {
             <img src={img} className=" mb-3 scale-125" />
           </div>
 
-          <SwitchWeight product={product} />
+          <SwitchWeight product={new ProductModel(product)} setAdding={setAdding} adding={adding} />
 
           <div className="flex  w-full flex-col gap-y-3">
             {description &&
@@ -83,4 +88,3 @@ const ViewProduct = ({ product, setModal, setItem }) => {
 }
 
 export default ViewProduct
-

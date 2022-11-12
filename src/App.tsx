@@ -8,6 +8,8 @@ import { SocketProvider } from 'Context/Socket/SocketProvider'
 import RouterApp from 'router/RouterApp'
 import 'app.css'
 import { gapi } from 'gapi-script'
+import Notificaciones from 'Components/Moleculas/Notificaciones/Notificaciones'
+import { NotificacionProvider } from 'Context/Notificaciones/NotificacionProvider'
 
 window.addEventListener('DOMContentLoad', () => {
   gapi.client
@@ -24,21 +26,24 @@ window.addEventListener('DOMContentLoad', () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <ListProvider>
-        <ProductProvider>
-          <DirectionProvider>
-            <OrderProvider>
-              <SocketProvider>
-                <Router>
-                  <RouterApp />
-                </Router>
-              </SocketProvider>
-            </OrderProvider>
-          </DirectionProvider>
-        </ProductProvider>
-      </ListProvider>
-    </AuthProvider>
+    <NotificacionProvider>
+      <AuthProvider>
+        <ListProvider>
+          <ProductProvider>
+            <DirectionProvider>
+              <OrderProvider>
+                <SocketProvider>
+                  <Router>
+                    <RouterApp />
+                  </Router>
+                </SocketProvider>
+              </OrderProvider>
+            </DirectionProvider>
+          </ProductProvider>
+        </ListProvider>
+      </AuthProvider>
+      <Notificaciones />
+    </NotificacionProvider>
   )
 }
 

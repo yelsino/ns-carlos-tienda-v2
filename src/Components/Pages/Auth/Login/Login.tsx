@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Field, Form, Formik } from 'formik'
-import * as Yup from 'yup'
-import flag from '../../../../Assets/peru.png'
+import {  Form, Formik } from 'formik'
 import bird from '../../../../Assets/bird.svg'
 import plants from '../../../../Assets/plants.svg'
 import woman from '../../../../Assets/woman.svg'
@@ -14,6 +12,8 @@ import { FacebookLoginButton } from 'Components/Moleculas/FacebookLogin'
 import { Link } from 'react-router-dom'
 import { Correo } from './WithWhat/Correo'
 import { Mobile } from './WithWhat/Mobile'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
+import { validAuth } from 'schemas/authValidation'
 
 type WithWhat = 'correo' | 'mobile'
 
@@ -21,15 +21,19 @@ const Login = () => {
   const { userLogin, loading } = useContext(AuthContext)
   const [noPass, setNoPass] = useState(false)
   const [withWhat, setWithWhat] = useState<WithWhat>('correo')
-  // const navigate = useNavigate();
 
-  const validar = Yup.object().shape({
-    email: Yup.string().email('formato invalido').required('es requerido'),
-    password: Yup.string().required('es requerido')
-  })
+  const { setNotificacion } = useContext(NotificacionContext)
+
+
 
   const olvideMisCredenciales = (e) => {
     e.stopPropagation()
+  }
+
+  const onSubmit = async (values,actions) => {
+    const ok = await userLogin(values.email, values.password)
+    if(!ok) setNotificacion({message:"ocurrio algo", type: 1})
+    actions.resetForm();
   }
 
   useEffect(() => {
@@ -55,7 +59,7 @@ const Login = () => {
       <div className="flex  max-w-5xl items-center justify-center ">
         <div className="flex w-full flex-col items-center gap-5 p-10 font-poppins md:w-1/2">
           <p className="w-72 text-left sm:w-80">Iniciar sesion con</p>
-
+         
           <SwitchLogin setWithWhat={setWithWhat} />
 
           <Formik
@@ -63,14 +67,15 @@ const Login = () => {
               email: 'yelsin@gmail.com',
               password: 'Ilovelife@321'
             }}
-            validationSchema={validar}
-            onSubmit={async (values) => {
-              await userLogin(values.email, values.password)
-            }}
+            validationSchema={validAuth}
+            onSubmit={onSubmit}
           >
-            {({ errors, touched }) => (
-              <Form autoComplete="new-password" className="">
-                <div className=" relative flex w-72 flex-col gap-y-7 sm:w-80">
+
+            {({ errors, touched, isSubmitting }) => (
+              <Form 
+                autoComplete="new-password"
+                className='relative flex w-72 flex-col gap-y-7 sm:w-80'
+              >
                   {withWhat === 'correo' ? (
                     <Correo errors={errors} touched={touched} />
                   ) : (
@@ -78,7 +83,8 @@ const Login = () => {
                   )}
 
                   <button
-                    disabled={loading}
+                    disabled={isSubmitting}
+                    type="submit"
                     className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
                   >
                     {loading ? 'INICIANDO...' : 'INICIAR'}
@@ -98,7 +104,7 @@ const Login = () => {
                       Crear una cuenta
                     </Link>
 
-                    {noPass && (
+                     {noPass && (
                       <button
                         type="button"
                         onClick={olvideMisCredenciales}
@@ -106,9 +112,8 @@ const Login = () => {
                       >
                         Olvidé mis contraseña
                       </button>
-                    )}
+                    )} 
                   </div>
-                </div>
               </Form>
             )}
           </Formik>

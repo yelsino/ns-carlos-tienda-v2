@@ -1,32 +1,40 @@
 import { useContext, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import './cssViewProduct.css'
-import { useOnClick } from '../../../../Hooks/useOnClick'
 import { SocketContext } from '../../../../Context/Socket/SocketContext'
 import { motion } from 'framer-motion'
 import { IconDelete } from '../../../Atoms/Icons'
 import { formatToMoney } from '../../../../helpers/formatToMoney'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
+import { Product } from 'interfaces/Interfaces'
+import { ProductModel } from 'schemas/Product.model'
+
+interface Props {
+  product: ProductModel
+  setAdding: React.Dispatch<React.SetStateAction<boolean>>
+  adding: boolean
+}
 
 
-const SwitchWeight = ({ product }) => {
-  const [disabled, setDisabled] = useOnClick(300)
+const SwitchWeight = ({ product, setAdding, adding }:Props) => {
+  
   const { uid } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
   const { list: listOfProducts } = useContext(ListContext)
-  const [alterproduct, setAlterProduct] = useState(null)
+  const [alterproduct, setAlterProduct] = useState<ProductModel>(null)
   const [weight, setWeight] = useState('')
 
-
-
   const transformWeight = () => {
+
     const { pricePerWeight, typeOfsale } = product
+    
     // const { pricePerWeight, typeOfsale } = alterproduct;
     switch (typeOfsale) {
       case 'KILOGRAMOS':
+        // necesitamos tranformar la data
         return setAlterProduct({
-          ...alterproduct,
+          ...product,
           pricePerWeight: pricePerWeight.map((v) => {
             if (v.weight === 250) {
               v.weighttextmd = '1/4'
@@ -125,37 +133,35 @@ const SwitchWeight = ({ product }) => {
   }
 
   const addProductToList = () => {
-    setDisabled(true)
-    console.log(weight)
+    
+    setAdding(true)
     socket?.emit('update-list', {
       type: 'ADD_PRODUCT_TO_LIST',
       userID: uid,
       listID: listOfProducts._id,
-      productID: product._id,
+      productID: product.id,
       mountID: weight
     })
   }
 
   const removeProductOfList = (e) => {
     e.stopPropagation()
-    console.log("eliminando");
-    
-    setDisabled(true)
+    console.log('eliminando')
+
+    setAdding(true)
 
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
       userID: uid,
       listID: listOfProducts._id,
-      productID: product._id,
+      productID: product.id,
       mountID: weight
     })
   }
 
- 
-
-  const getPriceWeightSelected = ():number => {
+  const getPriceWeightSelected = (): number => {
     const { pricePerWeight } = alterproduct
-    const price = pricePerWeight.find((v) => v._id === weight)
+    const price = pricePerWeight.find((v) => v.id === weight)
     return Number(formatToMoney(price.price))
   }
   const [priceSelected, setPriceSelected] = useState(0)
@@ -171,16 +177,17 @@ const SwitchWeight = ({ product }) => {
   }, [alterproduct])
 
   const getQuantityWeightSelected = () => {
-    // const { pricePerWeight } = alterproduct;
+    
     const productOfList = listOfProducts.products.find(
-      (p) => p.product._id === product._id
+      (p) => p.product._id === product.id
     )
-
+    console.log(productOfList);
     if (productOfList) {
       const quantity = productOfList?.quantities.find(
         (v) => v._id === weight
-      ).quantity
-      return quantity
+      )
+      
+      return quantity[0]  ? quantity[0]: 0
     } else {
       return 0
     }
@@ -189,7 +196,7 @@ const SwitchWeight = ({ product }) => {
   const getTotalQuantityAndPrice = () => {
     const { typeOfsale } = product
     const productOfList = listOfProducts?.products.find(
-      (p) => p.product._id === product._id
+      (p) => p.product._id === product.id
     )
 
     if (productOfList) {
@@ -244,7 +251,7 @@ const SwitchWeight = ({ product }) => {
   const getTotalWeight = () => {
     const { typeOfsale } = product
     const productOfList = listOfProducts?.products.find(
-      (p) => p.product._id === product._id
+      (p) => p.product._id === product.id
     )
 
     if (productOfList) {
@@ -272,7 +279,7 @@ const SwitchWeight = ({ product }) => {
 
   useEffect(() => {
     transformWeight()
-    setWeight(product.pricePerWeight[0]._id)
+    setWeight(product.pricePerWeight[0].id)
   }, [])
 
   useEffect(() => {
@@ -304,10 +311,10 @@ const SwitchWeight = ({ product }) => {
             className="flex w-full justify-between"
           >
             {alterproduct.pricePerWeight.map(
-              ({ _id, weighttextlg, weighttextmd }) => (
+              ({ id, weighttextlg, weighttextmd }) => (
                 <RadioGroup.Option
-                  key={_id}
-                  value={_id}
+                  key={id}
+                  value={id}
                   className="flex w-full justify-between gap-x-3"
                 >
                   {({ checked }) => (
@@ -327,9 +334,13 @@ const SwitchWeight = ({ product }) => {
           </RadioGroup>
 
           <div className="flex w-full flex-col gap-y-1">
-            <p className="flex w-full justify-between">
-              <span>Precio</span>
-              <span>{priceSelected}</span>
+            <p className="flex w-full justify-between ">
+              <span className=''>Precio</span>
+              <span>
+                <span className='text-lg font-extrabold'>{priceSelected} </span>
+                <span className='text-md'>s/ </span>
+                
+              </span>
             </p>
 
             <p className="flex w-full justify-between">
@@ -357,12 +368,12 @@ const SwitchWeight = ({ product }) => {
 
           <div className="flex w-full items-center justify-between">
             <motion.button
-              animate={disabled ? { scale: 0.95 } : { scale: 1 }}
+              animate={adding ? { scale: 0.95 } : { scale: 1 }}
               transition={{ duration: 0.2 }}
               onClick={addProductToList}
-              disabled={disabled}
+              disabled={adding}
               className={`w-48 bg-orange-600 py-3 font-poppins font-semibold text-white ${
-                disabled ? 'cursor-wait' : 'cursor-pointer'
+                adding ? 'cursor-wait' : 'cursor-pointer'
               }`}
             >
               Añadir
@@ -370,7 +381,7 @@ const SwitchWeight = ({ product }) => {
 
             <button
               onClick={removeProductOfList}
-              className="flex h-full w-14 items-center justify-center text-2xl hover:text-green-400"
+              className="flex h-full w-14 items-center justify-center text-2xl hover:text-orange-600 ease-in duration-300"
             >
               <IconDelete />
             </button>

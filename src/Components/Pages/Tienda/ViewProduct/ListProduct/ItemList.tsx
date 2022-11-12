@@ -251,7 +251,7 @@ const Content = ({ item }: Props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <p className=" pb-1 font-semibold text-gray-700">Resumen</p>
+      <p className=" pb-1 font-semibold text-gray-700">Resumene</p>
       {stateQuantities.map(
         (item) =>
           item.quantity > 0 && (

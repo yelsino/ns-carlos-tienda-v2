@@ -12,11 +12,18 @@ import ProductSqueleton from '../../Plantillas/ProductSqueleton'
 import { ProductContext } from 'Context/Product/ProductContext'
 import { Product } from 'interfaces/Interfaces'
 import { ListContext } from 'Context/List/ListContext'
+import { useOnClick } from 'Hooks/useOnClick'
 
 
+interface Outlet {
+  setAdding : React.Dispatch<React.SetStateAction<boolean>>
+  adding : boolean
+}
 
-const Tienda = () => {
+const Tienda = ( ) => {
   const { viewList, seeCurrentList} = useContext(ListContext)
+
+  const {setAdding, adding} = useOutletContext<Outlet>();
 
   const {
     product,
@@ -36,6 +43,8 @@ const Tienda = () => {
   const [show, setShow] = useState(false)
 
   const [data, setData] = useState<Array<Product>>([])
+
+  
 
   // si no hay item seleccionado regresa a/tienda
   useEffect(() => {
@@ -113,6 +122,8 @@ const Tienda = () => {
               product={product}
               setModal={setShow}
               setItem={setItemSelected}
+              setAdding={setAdding}
+              adding={adding}
             />
           </PortalComponent>
         )}

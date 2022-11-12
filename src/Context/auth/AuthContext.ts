@@ -1,3 +1,4 @@
+import { Authentication } from 'interfaces/Auth.interface'
 import { User } from 'interfaces/Interfaces'
 import { createContext } from 'react'
 import { AuthAction } from './AuthReducer'
@@ -10,6 +11,7 @@ interface AuthContextProps {
   directions: []
   loading: boolean
   userLogin: (email: string, password: string) => Promise<boolean>
+  userRegister: (data:Authentication) => Promise<boolean>
   verificarToken: () => Promise<boolean>
   userLogout: () => void
   dispatch: React.Dispatch<AuthAction>

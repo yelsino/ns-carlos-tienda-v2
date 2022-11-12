@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import bird from '../../../../Assets/bird.svg'
 import plants from '../../../../Assets/plants.svg'
@@ -17,13 +17,15 @@ import { Link } from 'react-router-dom'
 type WithWhat = 'correo' | 'mobile'
 
 const Registro = () => {
-  const { userLogin, loading } = useContext(AuthContext)
+  const { userRegister, loading } = useContext(AuthContext)
 
   const [withWhat, setWithWhat] = useState<WithWhat>('correo')
 
   const validar = Yup.object().shape({
     email: Yup.string().email('formato invalido').required('es requerido'),
     password: Yup.string().required('es requerido')
+                          .min(4,"con pocos carácteres")
+                          .max(30, "maximo 30 letras")
   })
 
   return (
@@ -50,11 +52,11 @@ const Registro = () => {
             }}
             validationSchema={validar}
             onSubmit={async (values) => {
-              await userLogin(values.email, values.password)
+              await userRegister({...values,type: 'email'})
             }}
           >
             {({ errors, touched }) => (
-              <form autoComplete="new-password">
+              <Form autoComplete="new-password">
                 <div className=" relative flex w-72 flex-col gap-y-7 sm:w-80">
                   {withWhat === 'correo' ? (
                     <Correo errors={errors} touched={touched} />
@@ -66,6 +68,7 @@ const Registro = () => {
                   <button
                     disabled={loading}
                     className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
+                    type="button"
                   >
                     {loading ? 'REGISTRANDOSE...' : 'REGISTRARME'}
                   </button>
@@ -82,7 +85,7 @@ const Registro = () => {
                     ya estoy registrado
                   </Link>
                 </div>
-              </form>
+              </Form>
             )}
           </Formik>
         </div>

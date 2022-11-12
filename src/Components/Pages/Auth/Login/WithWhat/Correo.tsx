@@ -41,7 +41,7 @@ export const Correo = ({ errors, touched }) => {
           name="password"
           id="password"
           type="password"
-          autoFocus={true}
+          autoFocus={false}
         />
       </div>
     </>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
 import { User } from 'interfaces/Interfaces'
+import { Authentication } from 'interfaces/Auth.interface'
 
 export interface AuthState {
   uid: string | null
@@ -30,14 +31,14 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
 
-  const userLogin = async (email: string, password: string) => {
+  const userLogin = async (email: string, password: string): Promise<boolean> => {
     dispatch({ type: 'LOADING', payload: true })
     const resp = await fetchSinToken({
-      endpoint: 'login/worker',
+      endpoint: 'login/client',
       body: { email, password },
       method: 'POST'
-    })
-    dispatch({ type: 'LOADING', payload: false })
+    }).finally(()=>dispatch({ type: 'LOADING', payload: false }));
+    
     if (resp.ok) {
       localStorage.setItem('token', resp.token)
       const { usuario } = resp
@@ -51,6 +52,31 @@ export const AuthProvider = ({ children }: Props) => {
 
     localStorage.setItem('noPassword', 'true')
     return false
+  }
+
+  const userRegister = async (data: Authentication): Promise<boolean> => {
+    dispatch({ type: 'LOADING', payload: true })
+    let resp = null;
+    if(data.type === "email"){
+      resp = await fetchSinToken({
+        endpoint: 'login/new',
+        body: data,
+        method: 'POST'
+      })
+    }
+    dispatch({ type: 'LOADING', payload: false })
+    if(resp.ok){
+      localStorage.setItem('token', resp.token)
+      const { usuario } = resp
+      dispatch({
+        type: 'LOGIN',
+        payload: usuario
+      })
+      return true
+    }
+    localStorage.setItem('noPassword', 'true');
+    return false
+
   }
 
   const verificarToken = useCallback(async () => {
@@ -98,7 +124,8 @@ export const AuthProvider = ({ children }: Props) => {
         dispatch,
         userLogin,
         verificarToken,
-        userLogout
+        userLogout,
+        userRegister
       }}
     >
       {children}

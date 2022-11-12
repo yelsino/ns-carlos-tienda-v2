@@ -4,6 +4,7 @@ import { AuthState } from './AuthProvider'
 export type AuthAction =
   | { type: 'LOGOUT' }
   | { type: 'LOGIN'; payload: User }
+  | { type: 'REGISTER'; payload: User }
   | { type: 'SET_USER'; payload: User }
   | { type: 'LOADING'; payload: boolean }
 
@@ -20,6 +21,7 @@ export const authReducer = (
         logged: false,
         user: null
       }
+    case 'REGISTER':
     case 'LOGIN':
       return {
         ...state,
