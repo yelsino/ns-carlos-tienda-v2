@@ -10,7 +10,7 @@ interface Props {
 
 const MainStore = ({ isAutenticated }: Props) => {
 
-  const [adding, setAdding] = useOnClick(300);
+  const [adding, setAdding] = useOnClick(400);
   return (
     <>
       {isAutenticated ? (

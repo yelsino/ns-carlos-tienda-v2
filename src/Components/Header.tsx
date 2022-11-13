@@ -67,10 +67,11 @@ const Header = ({adding}:Props ) => {
             >
               {
                 adding &&  
+
                 <motion.span 
-                  exit={{ opacity: 0 }}
-                  animate={{ opacity: 0 }}
-                  initial={{ opacity: 1 }}
+                  initial={{ y: 20, opacity: 0.5, }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{animation: 0.4, opacity:0}}
                   transition={{ duration: 0.4 }}
                   className='absolute -top-2 -right-2 text-xs font-bold rounded-full bg-orange-600 p-1 text-white font-poppins w-5 h-5 flex justify-center items-center'>+1</motion.span>
               }
