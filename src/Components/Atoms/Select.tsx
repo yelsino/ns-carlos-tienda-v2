@@ -12,8 +12,8 @@ const Select = ({ text, onClick, checked, icon }: Props) => {
       className="flex cursor-pointer items-center justify-between border px-5 py-4"
     >
       <div className="flex gap-x-3">
-        <span>{icon}</span>
-        <span className="truncate first-letter:uppercase">{text}</span>
+        <span className={`${checked ? 'text-color_green_7' : ''}`}>{icon}</span>
+        <span className={`truncate first-letter:uppercase `}>{text}</span>
       </div>
       <input
         className="accent-violet-500"

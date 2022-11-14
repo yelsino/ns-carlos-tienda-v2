@@ -1,8 +1,5 @@
 import { OrderData } from 'Components/Pages/Payment/Payment'
-import { AuthState } from 'Context/auth/AuthProvider'
-import { DirectionState } from 'Context/Direction/DirectionProvider'
-import { ListState } from 'Context/List/ListProvider'
-import { SocketProps } from 'Hooks/useSocket'
+
 
 export interface User {
   uid: string | null

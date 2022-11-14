@@ -105,7 +105,7 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
 
           {/* BUTTONS */}
 
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full items-center justify-between" >
             <motion.button
               animate={adding ? { scale: 0.95 } : { scale: 1 }}
               transition={{ duration: 0.2 }}
@@ -118,12 +118,12 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
               Añadir
             </motion.button>
 
-            <button
+            <motion.button
               onClick={removeProductOfList}
               className="flex h-full w-14 items-center justify-center text-2xl hover:text-orange-600 ease-in duration-300"
             >
               <IconDelete />
-            </button>
+            </motion.button>
           </div>
         </>
       )}

@@ -1,7 +1,10 @@
 import { NavLink, useLocation } from 'react-router-dom'
 import {
   IconCardBuyInactive,
+  IconListas,
   IconProductInactivo,
+  IconStore,
+  IconStoreInactive,
   IconWork
 } from '../Atoms/Icons'
 
@@ -25,7 +28,7 @@ const MenuMovil = () => {
                   : 'text-color_gray_1'
               }`}
             >
-              <IconCardBuyInactive />
+              <IconStoreInactive />
             </NavLink>
 
             <NavLink
@@ -36,7 +39,7 @@ const MenuMovil = () => {
                 }`
               }
             >
-              <IconProductInactivo />
+              <IconListas />
             </NavLink>
             <NavLink
               to="/mis-compras"
@@ -46,7 +49,7 @@ const MenuMovil = () => {
                   : 'text-color_gray_1'
               }`}
             >
-              <IconWork />
+              <IconCardBuyInactive />
             </NavLink>
           </div>
         </div>

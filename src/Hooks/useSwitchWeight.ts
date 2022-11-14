@@ -1,5 +1,6 @@
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
 import { formatToMoney } from 'helpers/formatToMoney'
 import { useContext, useEffect, useState } from 'react'
@@ -18,7 +19,7 @@ const { socket } = useContext(SocketContext)
 const { list: listOfProducts } = useContext(ListContext)
 const [modProduct, setModProduct] = useState<ProductModel>(null)
 const [weight, setWeight] = useState('');
-
+const { setNotificacion } = useContext(NotificacionContext)
 
 
 // transforma el producto
@@ -138,11 +139,8 @@ const addProductToList = () => {
   })
 }
 
-const removeProductOfList = (e) => {
-  e.stopPropagation()
-
-  setAdding(true)
-
+const removeProductOfList = () => {
+ 
   socket?.emit('update-list', {
     type: 'REMOVE_PRODUCT_OF_LIST',
     userID: uid,
@@ -150,6 +148,7 @@ const removeProductOfList = (e) => {
     productID: product.id,
     mountID: weight
   })
+  setNotificacion({message:`Quitó ${product.name} de lista`, type: 1})
 }
 
 const getPriceWeightSelected = (): number => {
@@ -269,8 +268,6 @@ const getTotalWeight = () => {
 }
 
 useEffect(() => {
-  console.log("algo");
-  
   transformWeight()
   const position = JSON.parse(localStorage.getItem("position")) ? Number(JSON.parse(localStorage.getItem("position"))) : 0
   setWeight(product.pricePerWeight[position].id)

@@ -10,7 +10,7 @@ const Notificaciones = () => {
   const { notificaciones } = notificacionContext;
 
   return createPortal(
-    <div className='fixed bottom-10 left-4  '>
+    <div className='fixed bottom-10 left-4 z-50'>
       {notificaciones.map(v => (
         <Notificacion
           key={v.id}

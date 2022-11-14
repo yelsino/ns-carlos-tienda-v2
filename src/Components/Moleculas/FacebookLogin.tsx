@@ -1,8 +1,6 @@
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 export const FacebookLoginButton = () => {
-  const responseFacebook = (response) => {
-    console.log(response)
-  }
+  const responseFacebook = () => console.log
 
   return (
     <FacebookLogin

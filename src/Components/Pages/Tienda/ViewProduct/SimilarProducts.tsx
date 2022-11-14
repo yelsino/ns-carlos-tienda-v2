@@ -1,6 +1,5 @@
 import { ProductContext } from 'Context/Product/ProductContext'
 import { motion } from 'framer-motion'
-import PropTypes from 'prop-types'
 import { useContext } from 'react'
 
 import ItemProduct from '../ItemProduct'
@@ -23,17 +22,14 @@ const SimilarProducts = ({ similarProducts }) => {
               
               const findProduct = products.find((v) => v.name === p.name)
               
-              if (findProduct) {
-                dispatchProduct({
-                  type: 'SELECT_PRODUCT',
-                  payload: findProduct
-                })
-                console.log('Producto encontrado')
-                return
-              } else {
-                console.log('Producto no existe')
-                return
-              }
+              if (!findProduct) 
+              return console.log('Producto no encontrado');
+              
+              dispatchProduct({
+                type: 'SELECT_PRODUCT',
+                payload: findProduct
+              })
+             
             }}
             className=" flex h-[75px] w-[192px] cursor-pointer  items-center  justify-center  "
           >
@@ -52,6 +48,3 @@ const SimilarProducts = ({ similarProducts }) => {
 
 export default SimilarProducts
 
-SimilarProducts.propTypes = {
-  similarProducts: PropTypes.array.isRequired
-}

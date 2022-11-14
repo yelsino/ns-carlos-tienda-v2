@@ -2,11 +2,10 @@ import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
 import { ProductContext } from 'Context/Product/ProductContext'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Product, ProductsList } from 'interfaces/Interfaces'
-import PropTypes from 'prop-types'
+import { formatToMoney } from 'helpers/formatToMoney'
+import {  ProductsList } from 'interfaces/Interfaces'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { string } from 'yup/lib/locale'
 import { SocketContext } from '../../../../../Context/Socket/SocketContext'
 import { useOnClick } from '../../../../../Hooks/useOnClick'
 import { IconDelete } from '../../../../Atoms/Icons'
@@ -70,10 +69,7 @@ const ItemList = ({ item }: Props) => {
       (acc, curr) => acc + curr?.quantity * curr?.price,
       0
     )
-    return (
-      (Math.round(((Math.round(amountOfProduct * 100) / 5) * 5) / 5) * 5) /
-      100
-    ).toFixed(2)
+    return formatToMoney(amountOfProduct) 
   }
 
   const [isOpen, setIsOpen] = useState(false)
@@ -81,7 +77,7 @@ const ItemList = ({ item }: Props) => {
 
   return (
     <div
-      className={`  ${isOpen ? ' rounded-lg border border-gray-100 shadow-sm' : ''
+      className={`  ${isOpen ? ' rounded-lg border border-gray-100 shadow-sm px-2' : ''
         }`}
     >
       <motion.li
@@ -251,23 +247,23 @@ const Content = ({ item }: Props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <p className=" pb-1 font-semibold text-gray-700">Resumene</p>
+      <p className=" pb-1 font-semibold text-gray-700">Resumen</p>
       {stateQuantities.map(
         (item) =>
           item.quantity > 0 && (
             <div key={item._id} className="flex justify-between text-gray-600">
               <span>{item.weighttextlg}</span>
-              <div className="flex  ">
+              <div className="flex ">
                 <span className="w-20">{item.quantity} und</span>
-                <div className="flex w-16 items-center justify-between ">
+                <div className="flex w-16 items-center justify-between relative ">
                   <span className="text-[12px] ">S/.</span>
                   <span className="font-semibold text-color_green_7">
-                    {item.price * item.quantity}
+                    {formatToMoney(item.price * item.quantity)}
                   </span>
                   <button
                     disabled={disabled}
                     onClick={() => removeWeightOfProduct(item._id)}
-                    className=" pl-3 text-gray-400"
+                    className="  text-gray-400 absolute  -right-5 hover:text-orange-600 ease-in duration-400"
                   >
                     <IconDelete stile={'w-4 h-4'} />
                   </button>
@@ -287,16 +283,16 @@ const Content = ({ item }: Props) => {
               payload: item.product
             })
           }}
-          className=" font-extralight text-color_green_7"
+          className=" font-normal text-color_green_7"
         >
           Agregar
         </Link>
         <button
           disabled={disabled}
           onClick={removeProductOfList}
-          className="font-light text-rose-500"
+          className="font-normal text-rose-500"
         >
-          Eliminar
+          Quitar
         </button>
       </div>
     </motion.div>

@@ -1,9 +1,10 @@
 import { AuthContext } from 'Context/auth/AuthContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
-import { RouterContext } from 'interfaces/Interfaces'
+import {  RouterContext } from 'interfaces/Interfaces'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
+import { LocalStorageService } from 'schemas/LocalStorageService'
 import CreateDirectionForm from './YourFacturation/CreateDirectionForm'
 import TypePayment from './YourFacturation/TypePayment'
 import UserDates from './YourFacturation/UserDates'
@@ -16,12 +17,14 @@ const YourFacturation = () => {
   const { socket } = useContext(SocketContext)
   const [typePayment, setTypePayment] = useState('contra-entrega')
   const { direction } = useContext(DirectionContext)
-  const { setOrderData, orderData } = useOutletContext<RouterContext>()
+  const { setOrderData } = useOutletContext<RouterContext>()
 
-  const navigete = useNavigate()
+  const lsService = new LocalStorageService()
+
 
   useEffect(() => {
     setOrderData((prev) => {
+      lsService.setItem('tipoPago', typePayment)
       return { ...prev, typePayment }
     })
   }, [typePayment])
@@ -29,28 +32,18 @@ const YourFacturation = () => {
   useEffect(() => {
     if (direction) {
       setOrderData((prev) => {
-        return { ...prev, directionID: direction?._id as string }
+        return { ...prev, directionID: direction._id }
       })
     }
   }, [direction])
 
-  const showCreateDirection = () => {
-    setCreate(!create)
-  }
+  const showCreateDirection = () => setCreate(!create)
 
-  useEffect(() => {
-    if (!orderData.listID) {
-      navigete('/payment/your-list')
-    }
-  }, [])
 
   return (
     <>
-      <h2 className="font-poppins text-3xl font-extrabold">Su Facturación</h2>
-      {/* <img
-        className='rounded-full object-cover w-32 h-32'
-        src='https://res.cloudinary.com/dwkfj5sxb/image/upload/v1650590795/yelsin_rp8zyt.jpg'
-      /> */}
+      <h2 className="font-poppins text-3xl font-extrabold pt-10">Su Facturación</h2>
+      
 
       <UserDates data={user} />
 

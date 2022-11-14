@@ -48,8 +48,9 @@ const ListProduct = () => {
           {/* LISTA */}
 
           <LayoutGroup>
+            {/* w-[350] */}
             <motion.ul
-              className=" flex h-[calc(100vh-220px)]   w-[340px]  flex-col gap-y-1 overflow-y-scroll px-4 pb-5"
+              className=" flex h-[calc(100vh-220px)]   w-[350px]  flex-col gap-y-1 overflow-y-scroll px-4 pb-5"
               layout
               initial={{ borderRadius: 25 }}
             >
@@ -65,7 +66,7 @@ const ListProduct = () => {
                   to="/payment"
                   className="flex  w-full   justify-center rounded-lg  bg-white py-3   px-5 font-semibold    text-color_green_7 shadow-md"
                 >
-                  Pedir envio
+                  Pedir envío
                 </Link>
               )}
 
@@ -78,9 +79,7 @@ const ListProduct = () => {
                     </p>
                   ) : (
                     <p className="px-5 text-center text-gray-500 ">
-                      Esta lista está vacia, sin productos, dirigete a la tienda
-                      en el siguiente enlace y empieza a llenarlo de los mejores
-                      productos.{' '}
+                      Esta lista está vacía, nuestra tienda está repleta de productos que le faltan en su almacén.{' '}
                       <Link to="/tienda" className="text-purple-500">
                         Ir a la tienda
                       </Link>

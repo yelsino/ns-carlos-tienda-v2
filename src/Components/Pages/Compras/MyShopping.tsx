@@ -6,18 +6,7 @@ import { ItemTracking } from './ItemTracking'
 import './MyShop.css'
 
 const MyShopping = () => {
-  const { socket } = useContext(SocketContext)
 
-  const { dispatch: setOrder } = useContext(OrderContext)
-
-  useEffect(() => {
-    socket?.on('get-user-orders', (orders: Array<Order>) => {
-      setOrder({
-        type: 'GET_USER_ORDERS',
-        payload: orders
-      })
-    })
-  }, [socket])
 
   return (
     <div className="pt-5">

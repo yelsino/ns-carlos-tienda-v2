@@ -1,6 +1,5 @@
 import { useContext, useMemo, useRef, useState } from 'react'
 import { createAutocomplete } from '@algolia/autocomplete-core'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { getAlgoliaResults } from '@algolia/autocomplete-js'
 import algoliasearch from 'algoliasearch'
@@ -134,7 +133,6 @@ export default function SearchMovil(props: T) {
               {autocompleteState.collections.map((val, index) => {
                 // @ts-ignore: Unreachable code error
                 const { items } = val
-                // console.log({ items });
                 return (
                   <section key={`section-${index}`} className="">
                     {items.length > 0 && (

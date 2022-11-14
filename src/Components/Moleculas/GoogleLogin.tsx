@@ -1,9 +1,6 @@
-import React from 'react'
 import { GoogleLogin as ButtonGoogle } from 'react-google-login'
 export const GoogleLogin = () => {
-  const responseGoogle = (response) => {
-    console.log(response)
-  }
+  const responseGoogle = () => console.log
 
   return (
     <ButtonGoogle

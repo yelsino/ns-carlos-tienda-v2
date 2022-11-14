@@ -18,14 +18,14 @@ const ViewDirection = ({ setShow }: Props) => {
   const selectDirection = (direction: Direction) => {
     dispatch({
       type: 'SELECT_DIRECTION',
-      payload: direction
+      payload: direction._id
     })
   }
 
   return (
     <div className=" flex w-full flex-col gap-y-3">
       <div className="flex justify-between  pt-5 font-poppins">
-        <p className="font-bold">Indique su dirección</p>{' '}
+        <p className="font-bold">Indique dirección de envío</p>{' '}
         <button onClick={setShow} className="text-purple-500 outline-none">
           añadir
         </button>
@@ -58,8 +58,7 @@ const ViewDirection = ({ setShow }: Props) => {
         </>
       ) : (
         <p className="text-gray-500">
-          Actualmente no cuenta con direcciones registradas, precione en añadir
-          para registrar una nueva dirección
+          Aún no cuenta con direcciones registradas, añada uno.
         </p>
       )}
 

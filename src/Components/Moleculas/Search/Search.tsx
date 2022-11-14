@@ -146,10 +146,8 @@ export default function Search(props: T) {
                 {...autocomplete.getPanelProps()}
               >
                 {autocompleteState.collections.map((val, index) => {
-                  console.log(val)
                   // @ts-ignore: Unreachable code error
                   const { items } = val
-                  // console.log({ items })
                   return (
                     <section key={`section-${index}`} className="w-[260px]">
                       {items.length > 0 && (

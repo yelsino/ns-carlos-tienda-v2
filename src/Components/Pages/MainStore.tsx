@@ -1,5 +1,4 @@
 import { useOnClick } from 'Hooks/useOnClick'
-import { useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import Header from '../Header'
 import MenuMovil from '../Menu/MenuMovil'
@@ -11,6 +10,7 @@ interface Props {
 const MainStore = ({ isAutenticated }: Props) => {
 
   const [adding, setAdding] = useOnClick(400);
+
   return (
     <>
       {isAutenticated ? (

@@ -1,21 +1,14 @@
 import { IconCheck } from '../../Atoms/Icons'
 import imgDelivery1 from '../../../Assets/delivery1.png'
-import PropTypes from 'prop-types'
-
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 import PaymentSuccess from './PaymentSuccess'
-import { Order, RouterContext } from 'interfaces/Interfaces'
-import { ListState } from 'Context/List/ListProvider'
-import { OrderData } from './Payment'
-import { DirectionState } from 'Context/Direction/DirectionProvider'
-import { AuthState } from 'Context/auth/AuthProvider'
-import { SocketProps } from '../../../Hooks/useSocket'
-import { OrderAction } from 'Context/Order/orderReducer'
 import { ListContext } from 'Context/List/ListContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
+import { RouterContext } from 'interfaces/Interfaces'
+import { useOrder } from 'Hooks/useOrder'
 
 export interface ResCreateOrder {
   ok: boolean
@@ -29,34 +22,30 @@ const YourPayment = () => {
   const { direction } = useContext(DirectionContext)
   const { user } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
+  const { setOrderData } = useOutletContext<RouterContext>()
 
-  const { orderData } = useOutletContext<RouterContext>()
   const [orderResult, setOrderResult] = useState<ResCreateOrder | null>(null)
-  const mountTotal: string = JSON.parse(
-    localStorage.getItem('mountTotal') || ''
-  )
+  const {total} = useOrder({list})
 
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!orderData.listID || !orderData.typePayment || !orderData.directionID) {
-      navigate('/payment/your-list')
-    }
-  }, [])
+  // NOTE: trabajar tipo pago en ls
 
   useEffect(() => {
     socket?.on('order-created', (result: ResCreateOrder) => {
-      console.log(result)
-      if (result.ok) {
-        setOrderResult(result)
-      } else {
-        alert('ocurrio un error al crear la orden')
-      }
+      if(!result.ok) return alert('ocurrio un error al crear la orden');
+      setOrderResult(result)
+    
     })
   }, [socket])
 
+
+  useEffect(() => {
+    setOrderData((prev) => {
+      return { ...prev, listID: list?._id }
+    })
+   }, [list])
+
   return (
-    <>
+    <div className='pt-10'>
       {metodPay === 'contra-entrega' ? (
         <PayOnDelivery changePayMetod={setMetodPay} />
       ) : (
@@ -65,35 +54,35 @@ const YourPayment = () => {
 
       <div className="flex w-full flex-col gap-y-3">
         <p className="text-lg font-bold">Resumen de pedido</p>
-        <span className="text-3xl font-black">S/ {mountTotal}</span>
+        <span className="text-3xl font-black">S/ {total}</span>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {list?.name}
+          Lista: {list?.name}
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {list?.products?.length} productos en total
+          Productos: {list?.products?.length}  en total
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {direction?.name}
+          Dirección: {direction?.name}
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          {user?.mobile}
+          Número Movil: {user?.mobile}
         </p>
       </div>
 
       {orderResult?.ok && <PaymentSuccess orderResult={orderResult} />}
-    </>
+    </div>
   )
 }
 

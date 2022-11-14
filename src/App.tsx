@@ -19,9 +19,7 @@ window.addEventListener('DOMContentLoad', () => {
         '653478787151-rtiim08kirr2rrqjg5ld1j5jju5f081k.apps.googleusercontent.com',
       ux_mode: 'redirect'
     })
-    .then(function (e) {
-      console.log(e)
-    })
+    .then(console.log)
 })
 
 function App() {

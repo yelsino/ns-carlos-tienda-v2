@@ -1,5 +1,4 @@
 import { useContext, useReducer } from 'react'
-import PropTypes from 'prop-types'
 import { ProductReducer } from './ProductReducer'
 import { Product } from 'interfaces/Interfaces'
 import { ProductContext } from './ProductContext'
@@ -31,11 +30,7 @@ export const ProductProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(ProductReducer, INITIAL_STATE)
   const { socket } = useContext(SocketContext)
 
-  const removeProductOfList = (data:RemoveProductSocket) => {
-    console.log(data);
-    
-    socket?.emit('update-list', data)
-  }
+  const removeProductOfList = (data:RemoveProductSocket) => socket?.emit('update-list', data)
 
   return (
     <ProductContext.Provider

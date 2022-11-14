@@ -7,6 +7,9 @@ import EachList from './EachList'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
 import InputNewList from './InputNewList'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
+import { IconNoView, IconStore, IconView } from 'Components/Atoms/Icons'
+import { Link } from 'react-router-dom'
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext)
@@ -15,8 +18,15 @@ export const MyLists = () => {
 
   const [modal, setModal] = useState(false)
   const [modal2, setModal2] = useState(false)
+  const [modal3, setModal3] = useState(false)
+
+  const {setNotificacion} = useContext(NotificacionContext)
 
   const createNewList = (NAMELIST: string) => {
+    if(!NAMELIST){
+      return setNotificacion({message:"Ops! el nombre está vacio", type:1})
+    }
+    
     socket?.emit('update-list', {
       type: 'CREATE_LIST',
       userID: uid,
@@ -35,9 +45,8 @@ export const MyLists = () => {
 
     setList({
       type: 'SELECT_LIST',
-      payload: lists[0]
+      payload: lists[0]._id
     })
-    console.log(listID)
   }
 
   return (
@@ -46,16 +55,17 @@ export const MyLists = () => {
         <div className="mx-auto max-w-5xl pt-10">
           <div className="flex  ">
             <div className=" mx-auto flex flex-col  gap-y-1">
-              <h2 className=" flex justify-between pb-5">
+              <h2 className=" flex justify-between pb-5 items-center">
                 <span className="font-poppins text-xl font-bold ">
                   MIS LISTAS
                 </span>
 
                 <button
                   onClick={() => setModal2(true)}
-                  className="text-lg font-bold text-color_green_7 sm:hidden"
+                  className="font-semibold text-color_green_7 bg-color_green_2 p-2 rounded-full px-4 sm:hidden flex gap-x-1"
                 >
                   Ver lista
+                  <IconView />
                 </button>
               </h2>
               <LayoutGroup>
@@ -65,17 +75,18 @@ export const MyLists = () => {
                       list={item}
                       key={item._id}
                       setList={setList}
-                      currlist={list._id as string}
+                      currlist={list._id}
                       deleteList={deleteList}
+                      // setModalDelete={setModal3}
                     />
                   ))}
                 </motion.ul>
               </LayoutGroup>
               <button
                 onClick={() => setModal(true)}
-                className="flex w-[320px] max-w-xs cursor-pointer items-center justify-center gap-x-3 rounded-sm rounded-t-none bg-white px-5 py-3 text-color_green_7 shadow-md"
+                className="flex w-[320px] max-w-xs cursor-pointer items-center justify-center gap-x-3 rounded-sm rounded-t-none bg-white px-5 font-bold py-3 text-color_green_7 shadow-md"
               >
-                Añadir lista
+                Crear lista
               </button>
             </div>
             <div className=" hidden w-full sm:block">
@@ -93,10 +104,17 @@ export const MyLists = () => {
                   <ListProduct />
                   <button
                     onClick={() => setModal2(false)}
-                    className="absolute top-0 right-0 rounded-sm bg-red-500 px-3 py-2 text-sm font-bold text-white"
+                    className="flex items-center gap-x-2 absolute top-0 right-0 rounded-sm bg-color_green_2 px-3 p-3 text-sm font-bold text-color_green_7 rounded-bl-3xl pr-2 sm:hidden "
                   >
-                    Cerrar
+                     <IconNoView />
                   </button>
+
+                  {/* <Link
+                to="/tienda"
+                className="  fixed bottom-0 left-0 bg-rose-500 p-2 text-rose-50  rounded-tr-3xl "
+              >
+                <IconStore stile="h-10 w-10 pr-2" />
+              </Link> */}
                 </div>
               </PortalComponent>
             )}
@@ -105,13 +123,33 @@ export const MyLists = () => {
           <AnimatePresence>
             {modal && (
               <PortalComponent open={modal} setOpen={setModal}>
-                <InputNewList
-                  setModal={setModal}
-                  handleSubmit={createNewList}
-                />
+                {modal && (
+                  <InputNewList
+                    setModal={setModal}
+                    handleSubmit={createNewList}
+                  />
+                )}
+                {modal3 && (
+                  <InputNewList
+                    setModal={setModal}
+                    handleSubmit={createNewList}
+                  />
+                )}
               </PortalComponent>
             )}
           </AnimatePresence>
+          <Link
+            to="/tienda"
+            className="fixed top-0 right-0 bg-rose-500 p-2 text-rose-50  rounded-bl-3xl sm:hidden"
+          >
+            <IconStore stile="h-10 w-10 pl-2" />
+          </Link>
+          <Link
+                to="/tienda"
+                className="  fixed bottom-0 left-0 bg-rose-500 p-2 text-rose-50  rounded-tr-3xl "
+              >
+                <IconStore stile="h-10 w-10 pr-2" />
+              </Link>
         </div>
       )}
     </>

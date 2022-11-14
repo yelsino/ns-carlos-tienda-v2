@@ -1,8 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { IconRight } from '../../Atoms/Icons'
-import PropTypes from 'prop-types'
+import { IconDelete, IconRight } from '../../Atoms/Icons'
 import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatToMoney } from '../../../helpers/formatToMoney'
 import { ListContext } from 'Context/List/ListContext'
 import { List } from 'interfaces/Interfaces'
@@ -13,6 +12,7 @@ interface Props {
   setList: React.Dispatch<ListAction>
   currlist: string
   deleteList: (id: string) => void
+  // setModalDelete: React.Dispatch<boolean>
 }
 const EachList = ({ list, setList, currlist, deleteList }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -42,22 +42,26 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
             e.stopPropagation()
             setList({
               type: 'SELECT_LIST',
-              payload: list
+              payload: list._id
             })
           }}
         >
           <input
             readOnly
             value={list._id}
-            type="checkbox"
+            type="radio"
             checked={list._id === currlist}
-            className="h-5 w-5 cursor-pointer accent-violet-500"
+            className="h-4 w-4 cursor-pointer accent-violet-500"
           />
         </button>
       </motion.li>
       <AnimatePresence>
         {isOpen && (
-          <Content listID={list._id as string} deleteList={deleteList} />
+          <Content list={list} 
+            deleteList={deleteList}
+            setList={setList} 
+            // setModalDelete={setModalDelete} 
+          />
         )}
       </AnimatePresence>
     </div>
@@ -66,21 +70,19 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
 
 export default EachList
 
-EachList.propTypes = {
-  list: PropTypes.object.isRequired,
-  setList: PropTypes.func.isRequired,
-  currlist: PropTypes.string.isRequired,
-  deleteList: PropTypes.func.isRequired
-}
+
 
 // eslint-disable-next-line react/prop-types
 interface ContentProps {
   deleteList: (id: string) => void
-  listID: string
+  list: List,
+  setList: React.Dispatch<ListAction>
+  // setModalDelete: React.Dispatch<boolean>
 }
-const Content = ({ deleteList, listID }: ContentProps) => {
+const Content = ({ deleteList, list,setList  }: ContentProps) => {
   const [subTotal, setSubTotal] = useState('0')
-  const { lists, list } = useContext(ListContext)
+  const { lists } = useContext(ListContext)
+  const navigate = useNavigate()
 
   const mountTotalOfList = () => {
     return list!.products.reduce((acc, curr) => {
@@ -94,13 +96,13 @@ const Content = ({ deleteList, listID }: ContentProps) => {
 
   useEffect(() => {
     if (list) {
-      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(1))
+      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(2))
     }
   }, [list])
 
   return (
     <motion.div
-      className="flex  w-[320px] flex-col gap-y-3 bg-white p-4 px-5 shadow-md"
+      className="flex  w-[320px] flex-col gap-y-3 bg-white p-4 px-5 shadow-md relative "
       layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -108,26 +110,34 @@ const Content = ({ deleteList, listID }: ContentProps) => {
     >
       <div>
         <p className="font-light text-color_green_7 ">Resumen</p>
-        <p>{list!.products.length} productos</p>
-        <p>{subTotal} nuevos soles</p>
+        <p>Productos: {list!.products.length}</p>
+        <p>Total: {subTotal} S/</p>
       </div>
       <p className="font-light text-color_green_7 ">Acciones</p>
 
       <Link
         to="/tienda"
-        className="rounded-sm border bg-white px-4 py-2 text-center font-semibold text-color_green_7"
+        onClick={()=>setList({ type: 'SELECT_LIST', payload: list._id})}
+        className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto "
       >
         Agregar productos
       </Link>
+      <button
+        onClick={()=> {
+          setList({ type: 'SELECT_LIST', payload: list._id})
+          navigate('/payment')
+        }}
+        className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto mb-5"
+      >
+        Pedir envío
+      </button>
 
       {lists.length > 1 && (
         <button
-          onClick={() => {
-            deleteList(listID)
-          }}
-          className="rounded-sm border bg-white px-4 py-2 font-semibold text-rose-500"
+          onClick={() => deleteList(list._id)}
+          className=" hover:text-white ease-in duration-300 rounded-tl-3xl absolute bottom-0 right-0 text-rose-200 bg-rose-600 p-2"
         >
-          Eliminar lista
+          <IconDelete stile='w-6 h-6' />
         </button>
       )}
     </motion.div>
