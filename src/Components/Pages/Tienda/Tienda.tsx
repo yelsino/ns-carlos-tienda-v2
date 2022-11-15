@@ -3,7 +3,6 @@ import ItemProduct from './ItemProduct'
 import ListProduct from './ViewProduct/ListProduct/ListProduct'
 import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import imgEstrellado from '../../../Assets/estrellado.svg'
 import './Tienda.css'
 import { useContext, useEffect, useState } from 'react'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
@@ -12,7 +11,6 @@ import ProductSqueleton from '../../Plantillas/ProductSqueleton'
 import { ProductContext } from 'Context/Product/ProductContext'
 import { Product } from 'interfaces/Interfaces'
 import { ListContext } from 'Context/List/ListContext'
-import { useOnClick } from 'Hooks/useOnClick'
 
 
 interface Outlet {

@@ -5,7 +5,6 @@ import { IconDelete } from '../../../Atoms/Icons'
 
 import { ProductModel } from 'schemas/Product.model'
 import { useSwitchWeight } from 'Hooks/useSwitchWeight'
-import { useState } from 'react'
 
 interface Props {
   product: ProductModel
