@@ -104,18 +104,7 @@ const YourList = () => {
         </div>
       </PortalComponent>
 
-      {/* <Link
-        to="/tienda"
-        className=" absolute top-0 right-0 bg-rose-500  p-2 rounded-bl-3xl  text-rose-50 sm:hidden"
-      >
-        <IconStore stile='h-10 w-10 pl-2' />
-      </Link> */}
-      {/* <Link
-        to="/tienda"
-        className=" hidden absolute  bottom-0 left-0 bg-rose-500 p-2 text-rose-50 sm:flex rounded-tr-3xl "
-      >
-        <IconStore stile='h-10 w-10 pr-2' />
-      </Link> */}
+     
     </>
   )
 }

@@ -126,16 +126,10 @@ const Payment = () => {
                 )}
               </div>
              
-
-              {/* <Link
-                to="/tienda"
-                className=" fixed top-0 right-0 bg-rose-500  p-2 rounded-bl-3xl  text-rose-50 sm:hidden"
-              >
-                <IconStore stile="h-10 w-10 pl-2" />
-              </Link> */}
+            
             </div>
             {/* contendio */}
-            <div className=" col-span-2 row-span-full  bg-white sm:col-span-1 border ">
+            <div className=" col-span-2 row-span-full  bg-white sm:col-span-1 border pb-7">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
