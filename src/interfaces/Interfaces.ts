@@ -80,6 +80,7 @@ export interface Message {
 }
 
 export interface Order {
+  _id: string
   client: User
   list: List
   direction: Direction
@@ -101,4 +102,14 @@ export interface Role {
 export interface RouterContext {
   orderData: OrderData
   setOrderData: React.Dispatch<React.SetStateAction<OrderData>>
+}
+
+
+export interface Quantity {
+  quantity: number
+  price: number
+  weight: number
+  _id?: string
+  weighttextmd?: string
+  weighttextlg?: string
 }

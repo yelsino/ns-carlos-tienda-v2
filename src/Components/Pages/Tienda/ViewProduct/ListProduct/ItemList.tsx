@@ -3,9 +3,11 @@ import { ListContext } from 'Context/List/ListContext'
 import { ProductContext } from 'Context/Product/ProductContext'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatToMoney } from 'helpers/formatToMoney'
-import {  ProductsList } from 'interfaces/Interfaces'
+import {  ProductsList, Quantity } from 'interfaces/Interfaces'
+import { PRODUCTO_VENTA } from 'interfaces/Producto.interface'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ProductModel } from 'schemas/Product.model'
 import { SocketContext } from '../../../../../Context/Socket/SocketContext'
 import { useOnClick } from '../../../../../Hooks/useOnClick'
 import { IconDelete } from '../../../../Atoms/Icons'
@@ -15,14 +17,7 @@ interface Props {
 }
 
 
-interface Quantity {
-  quantity: number
-  price: number
-  weight: number
-  _id?: string
-  weighttextmd?: string
-  weighttextlg?: string
-}
+
 
 const ItemList = ({ item }: Props) => {
   const {
@@ -30,6 +25,7 @@ const ItemList = ({ item }: Props) => {
     product: { name, typeOfsale },
     quantities
   } = item
+
 
   const totalQuantity = () => {
     const quantity = [...quantities].reduce((acc, curr) => {
@@ -158,7 +154,7 @@ const Content = ({ item }: Props) => {
   ) => {
     return dataquantities.map((v) => {
       switch (typeOfsale) {
-        case 'UNIDADES': {
+        case PRODUCTO_VENTA.UNIDADES: {
           if (v.weight === 250) {
             v.weighttextmd = 'chico'
             v.weighttextlg = 'pequeño'
@@ -170,14 +166,14 @@ const Content = ({ item }: Props) => {
             return v
           }
           if (v.weight === 1000) {
-            v.weighttextmd = 'extra'
+            v.weighttextmd = 'grande'
             v.weighttextlg = 'grande'
             return v
           }
           return v
         }
 
-        case 'KILOGRAMOS': {
+        case PRODUCTO_VENTA.KILOGRAMOS: {
           if (v.weight === 250) {
             v.weighttextmd = '1/4'
             v.weighttextlg = `${v.weight} gramos`
@@ -199,7 +195,7 @@ const Content = ({ item }: Props) => {
           }
         }
 
-        case 'LITROS': {
+        case PRODUCTO_VENTA.LITROS: {
           if (v.weight === 500) {
             v.weighttextmd = '1/2'
             v.weighttextlg = '1/2 litro'
@@ -216,7 +212,7 @@ const Content = ({ item }: Props) => {
           }
         }
 
-        case 'FRACCIONES': {
+        case PRODUCTO_VENTA.FRACCIONES: {
           if (v.weight === 250) {
             v.weighttextmd = '1/4'
             v.weighttextlg = 'un cuarto'

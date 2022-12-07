@@ -33,12 +33,12 @@ const transformWeight = () => {
         pricePerWeight: pricePerWeight.map((v) => {
           if (v.weight === 250) {
             v.weighttextmd = '1/4'
-            v.weighttextlg = `${v.weight} gramos`
+            v.weighttextlg = `250 gramos`
             return v
           }
           if (v.weight === 500) {
             v.weighttextmd = '1/2'
-            v.weighttextlg = `${v.weight} gramos`
+            v.weighttextlg = `500 gramos`
             return v
           }
           if (v.weight === 1000) {
@@ -60,8 +60,8 @@ const transformWeight = () => {
         ...modProduct,
         pricePerWeight: pricePerWeight.map((v) => {
           if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = '1/2 litro'
+            v.weighttextmd = '500 ml'
+            v.weighttextlg = 'medio litro'
             return v
           }
           if (v.weight === 1000) {
@@ -85,7 +85,7 @@ const transformWeight = () => {
         pricePerWeight: pricePerWeight.map((v) => {
           if (v.weight === 250) {
             v.weighttextmd = '1/4'
-            v.weighttextlg = 'un cuarto'
+            v.weighttextlg = 'cuarta parte'
             return v
           }
           if (v.weight === 500) {
@@ -117,8 +117,8 @@ const transformWeight = () => {
             return v
           }
           if (v.weight === 1000) {
-            v.weighttextmd = 'extra'
-            v.weighttextlg = 'grande'
+            v.weighttextmd = 'grande'
+            v.weighttextlg = 'el grande'
             return v
           }
           return v

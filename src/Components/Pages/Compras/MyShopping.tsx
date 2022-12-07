@@ -1,19 +1,19 @@
+
 import { OrderContext } from 'Context/Order/OrderContext'
-import { Order } from 'interfaces/Interfaces'
-import { useContext, useEffect } from 'react'
-import { SocketContext } from '../../../Context/Socket/SocketContext'
+import { useContext } from 'react'
 import { ItemTracking } from './ItemTracking'
 import './MyShop.css'
 
 const MyShopping = () => {
 
+  const { dispatch: setOrders, orders } = useContext(OrderContext)
 
   return (
     <div className="pt-5">
       <h2 className="pb-5 text-center text-2xl font-bold">Mis pedidos</h2>
       <div className="layout_shop h-[calc(100vh-100px)] gap-6 overflow-x-hidden overflow-y-scroll  pt-5 pb-24 sm:h-[calc(100vh-180px)]">
-        {[1, 2, 3, 4, 5, 6].map((item) => (
-          <div key={item} className="flex  h-60 items-center justify-center ">
+        {orders.map((order) => (
+          <div key={order._id} className="flex  h-60 items-center justify-center ">
             <div className="flex h-60 w-full max-w-md flex-col items-center gap-y-5 border py-5 text-center ">
               <span className="font-poppins text-2xl font-bold">S/ 84.50</span>
               <div className="flex">
