@@ -1,11 +1,12 @@
-import { Direction } from 'interfaces/Interfaces'
+
+import { IDireccion } from 'interfaces/direccion.interface'
 import { useReducer } from 'react'
 import { DirectionContext } from './DirectionContext'
 import { directionReducer } from './DirectionReducer'
 
 export interface DirectionState {
-  directions: Array<Direction>
-  direction: Direction | null
+  directions: Array<IDireccion>
+  direction: IDireccion | null
 }
 
 interface Props {

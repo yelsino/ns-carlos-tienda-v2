@@ -10,13 +10,8 @@ import { useOnClick } from 'Hooks/useOnClick';
 import { SocketContext } from 'Context/Socket/SocketContext'
 import LoadingPage from 'Components/Plantillas/LoadinPage'
 import { IconArrow, IconStore } from 'Components/Atoms/Icons'
+import { IOrderData } from 'interfaces/routerContext.interface'
 
-export interface OrderData {
-  typePayment: string
-  directionID: string
-  userID: string
-  listID: string
-}
 
 const Payment = () => {
   const token = localStorage.getItem('token')
@@ -37,7 +32,7 @@ const Payment = () => {
   const { direction } = useContext(DirectionContext)
 
   const [disabled, setDisabled] = useOnClick(500)
-  const [orderData, setOrderData] = useState<OrderData>({
+  const [orderData, setOrderData] = useState<IOrderData>({
     typePayment: lsService.getItem('tipoPago') ? lsService.getItem('tipoPago'): '',
     directionID: '',
     userID: uid,

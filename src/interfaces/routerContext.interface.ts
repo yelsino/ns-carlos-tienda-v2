@@ -1,9 +1,11 @@
-export interface RouterContext {
- nombre: Roles;
+export interface IRouterContext {
+ orderData: IOrderData
+ setOrderData: React.Dispatch<React.SetStateAction<IOrderData>>
 }
 
-type Roles = 
- | 'USUARIO'
- | 'CASERO'
- | 'TRABAJADOR'
- | 'ADMIN'
+export interface IOrderData {
+ typePayment: string
+ directionID: string
+ userID: string
+ listID: string
+}

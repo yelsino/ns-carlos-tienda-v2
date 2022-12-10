@@ -1,9 +1,9 @@
 import { AuthContext } from 'Context/auth/AuthContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
-import { RouterContext } from 'interfaces/routerContext.interface'
+import { IRouterContext } from 'interfaces/routerContext.interface'
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 import { LocalStorageService } from 'schemas/LocalStorageService'
 import CreateDirectionForm from './YourFacturation/CreateDirectionForm'
 import TypePayment from './YourFacturation/TypePayment'
@@ -17,7 +17,7 @@ const YourFacturation = () => {
   const { socket } = useContext(SocketContext)
   const [typePayment, setTypePayment] = useState('contra-entrega')
   const { direction } = useContext(DirectionContext)
-  const { setOrderData } = useOutletContext<RouterContext>()
+  const { setOrderData } = useOutletContext<IRouterContext>()
 
   const lsService = new LocalStorageService()
 

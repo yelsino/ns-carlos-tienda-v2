@@ -1,11 +1,12 @@
-import { Product } from 'interfaces/Interfaces'
+
+import { IProducto } from 'interfaces/Producto.interface'
 import { createContext } from 'react'
 import { RemoveProductSocket } from './ProductProvider'
 import { ProductAction } from './ProductReducer'
 
 interface PropsContext {
-  products: Array<Product>
-  product: Product | null
+  products: Array<IProducto>
+  product: IProducto | null
   dispatch: React.Dispatch<ProductAction>
   removeProductOfList: (data:RemoveProductSocket) => void
 }

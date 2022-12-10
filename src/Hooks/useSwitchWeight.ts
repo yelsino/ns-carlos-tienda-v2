@@ -133,7 +133,7 @@ const addProductToList = () => {
   socket?.emit('update-list', {
     type: 'ADD_PRODUCT_TO_LIST',
     userID: uid,
-    listID: listOfProducts._id,
+    listID: listOfProducts.id,
     productID: product.id,
     mountID: weight
   })
@@ -144,7 +144,7 @@ const removeProductOfList = () => {
   socket?.emit('update-list', {
     type: 'REMOVE_PRODUCT_OF_LIST',
     userID: uid,
-    listID: listOfProducts._id,
+    listID: listOfProducts.id,
     productID: product.id,
     mountID: weight
   })
@@ -170,35 +170,35 @@ useEffect(() => {
 // obtener cantidad del producto en la lista seleccionada
 const getQuantityWeightSelected = (): number => {
   
-  const productOfList = listOfProducts.products.find(
-    (p) => p.product._id === product.id)
+  const productOfList = listOfProducts.productos.find(
+    (p) => p.producto.id === product.id)
   
   if(!productOfList) return 0
-  const quantity = productOfList.quantities.find(
-    (v) => v._id === weight
+  const quantity = productOfList.cantidades.find(
+    (v) => v.id === weight
   )
   
   if(!quantity) return 0
 
-  return quantity.quantity
+  return quantity.cantidad
 }
 
 const getTotalQuantityAndPrice = () => {
   const { typeOfsale } = product
-  const productOfList = listOfProducts?.products.find(
-    (p) => p.product._id === product.id
+  const productOfList = listOfProducts?.productos.find(
+    (p) => p.producto.id === product.id
   )
 
   if (productOfList) {
-    const weight = productOfList?.quantities.reduce((acc, cur) => {
-      return acc + cur.weight * cur.quantity
+    const weight = productOfList?.cantidades.reduce((acc, cur) => {
+      return acc + cur.peso * cur.cantidad
     }, 0)
-    const price = productOfList?.quantities.reduce((acc, cur) => {
-      return acc + cur.quantity * cur.price
+    const price = productOfList?.cantidades.reduce((acc, cur) => {
+      return acc + cur.cantidad * cur.precio
     }, 0)
 
-    const quantity = productOfList?.quantities.reduce((acc, cur) => {
-      return acc + cur.quantity
+    const quantity = productOfList?.cantidades.reduce((acc, cur) => {
+      return acc + cur.cantidad
     }, 0)
 
     switch (typeOfsale) {
@@ -240,17 +240,17 @@ const [totalWeight, setTotalWeight] = useState(0)
 
 const getTotalWeight = () => {
   const { typeOfsale } = product
-  const productOfList = listOfProducts?.products.find(
-    (p) => p.product._id === product.id
+  const productOfList = listOfProducts?.productos.find(
+    (p) => p.producto.id === product.id
   )
 
   if (productOfList) {
-    const weight = productOfList?.quantities.reduce((acc, cur) => {
-      return acc + cur.weight * cur.quantity
+    const weight = productOfList?.cantidades.reduce((acc, cur) => {
+      return acc + cur.peso * cur.cantidad
     }, 0)
 
-    const quantity = productOfList?.quantities.reduce((acc, cur) => {
-      return acc + cur.quantity
+    const quantity = productOfList?.cantidades.reduce((acc, cur) => {
+      return acc + cur.cantidad
     }, 0)
     switch (typeOfsale) {
       case 'KILOGRAMOS':

@@ -1,7 +1,8 @@
-import { Order } from 'interfaces/Interfaces'
+
+import { IPedido } from 'interfaces/pedido.interface';
 import { OrderState } from './OrderProvider'
 
-export type OrderAction = { type: 'GET_USER_ORDERS'; payload: Array<Order> }
+export type OrderAction = { type: 'GET_USER_ORDERS'; payload: Array<IPedido> }
 
 export const orderReducer = (
   state: OrderState,

@@ -1,9 +1,10 @@
-import { Order } from 'interfaces/Interfaces'
+
+import { IPedido } from 'interfaces/pedido.interface'
 import { createContext } from 'react'
 import { OrderAction } from './orderReducer'
 
 interface PropsContext {
-  orders: Array<Order>
+  orders: Array<IPedido>
   dispatch: React.Dispatch<OrderAction>
 }
 

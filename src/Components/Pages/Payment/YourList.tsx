@@ -1,17 +1,17 @@
 import { ListContext } from 'Context/List/ListContext'
 import { LayoutGroup, motion } from 'framer-motion'
 import { useOrder } from 'Hooks/useOrder'
-import { RouterContext } from 'interfaces/Interfaces'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { IconListas, IconStore,  } from '../../Atoms/Icons'
 import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import Select from '../../Atoms/Select'
 import ItemList from '../Tienda/ViewProduct/ListProduct/ItemList'
+import { IRouterContext } from 'interfaces/routerContext.interface';
 
 const YourList = () => {
   const { list, lists, dispatch: setList } = useContext(ListContext)
-  const { setOrderData } = useOutletContext<RouterContext>()
+  const { setOrderData } = useOutletContext<IRouterContext>()
   const [modal, setModal] = useState(false)
 
   const {subTotal, delivery, total } = useOrder({list})

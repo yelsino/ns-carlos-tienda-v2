@@ -1,9 +1,7 @@
-import PropTypes from 'prop-types'
-import { List } from 'interfaces/Interfaces'
 import { useReducer } from 'react'
-import { Notificacion, NotificacionState } from 'interfaces/Notificacion'
 import { notificacionReducer } from './NotificacionReducer'
 import { NotificacionContext } from './NotificacionContext'
+import { INotificacion, NotificacionState } from 'interfaces/Notificacion'
 
 
 
@@ -18,7 +16,7 @@ const INITIAL_STATE: NotificacionState = {
 export const NotificacionProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(notificacionReducer, INITIAL_STATE)
 
-  const setNotificacion = (props:Notificacion) => {
+  const setNotificacion = (props:INotificacion) => {
     const finditem = state.notificaciones.find(v => v.message === props.message);
     if (finditem) removeNotificacion(finditem.id);
      dispatch({

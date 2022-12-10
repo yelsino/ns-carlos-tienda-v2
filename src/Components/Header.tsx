@@ -1,7 +1,6 @@
 import Logo from './Atoms/Logo'
 import Search from './Moleculas/Search/Search'
 import './Header.css'
-import { useOnClick } from '../Hooks/useOnClick'
 import NavbarMenu from './Menu/NavbarMenu'
 import { useLocation } from 'react-router-dom'
 import { useContext } from 'react'
@@ -9,6 +8,7 @@ import { ListContext } from 'Context/List/ListContext'
 import { IconBell, IconClipBoard } from './Atoms/Icons'
 import { motion, Variants } from 'framer-motion'
 import { useIsLarge, useIsMedium, useIsSmall } from 'Hooks/utils/mediaQuery'
+import { useOnClick } from 'Hooks/useOnClick';
 
 interface Props {
   adding: boolean

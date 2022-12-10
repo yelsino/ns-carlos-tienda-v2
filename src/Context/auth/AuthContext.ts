@@ -1,8 +1,8 @@
 
-import { IAuth } from 'interfaces/auth.interface'
 import { createContext } from 'react'
 import { AuthAction } from './AuthReducer'
 import { IUsuario } from 'interfaces/usuario.interface';
+import { IAuth } from 'interfaces/auth.interface';
 
 interface AuthContextProps {
   uid: string | null

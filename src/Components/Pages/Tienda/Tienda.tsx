@@ -1,16 +1,16 @@
-import Filtro from '../../Moleculas/Filtro'
 import ItemProduct from './ItemProduct'
 import ListProduct from './ViewProduct/ListProduct/ListProduct'
 import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import './Tienda.css'
 import { useContext, useEffect, useState } from 'react'
-import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import ViewProduct from './ViewProduct/ViewProduct'
-import ProductSqueleton from '../../Plantillas/ProductSqueleton'
 import { ProductContext } from 'Context/Product/ProductContext'
-import { Product } from 'interfaces/Interfaces'
 import { ListContext } from 'Context/List/ListContext'
+import { IProducto } from 'interfaces/producto.interface';
+import Filtro from 'Components/Moleculas/Filtro'
+import ProductSqueleton from 'Components/Plantillas/ProductSqueleton'
+import PortalComponent from './../../Atoms/Portals/PortalComponent';
 
 
 interface Outlet {
@@ -31,16 +31,16 @@ const Tienda = ( ) => {
 
   const navigate = useNavigate()
 
-  const setItemSelected = (item: Product | null) => {
+  const setItemSelected = (item: IProducto | null) => {
     dispatchProduct({
       type: 'SELECT_PRODUCT',
-      payload: item as Product
+      payload: item as IProducto
     })
   }
 
   const [show, setShow] = useState(false)
 
-  const [data, setData] = useState<Array<Product>>([])
+  const [data, setData] = useState<Array<IProducto>>([])
 
   
 
@@ -74,8 +74,8 @@ const Tienda = ( ) => {
                   duration: 0.5
                 }
               }}
-              layoutId={p._id}
-              key={p._id}
+              layoutId={p.id}
+              key={p.id}
               onClick={() => {
                 setItemSelected(p)
               }}

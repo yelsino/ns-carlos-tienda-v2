@@ -1,5 +1,5 @@
 import { IUsuario } from "./usuario.interface"
-import { IProducto } from './producto.interface';
+import { IProducto } from './Producto.interface';
 
 export interface ILista {
   id: string
@@ -14,6 +14,7 @@ interface DetailProduct {
 }
 
 interface Cantidad {
+  id: string
   peso: number
   precio: number
   cantidad: number

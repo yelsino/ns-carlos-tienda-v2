@@ -1,16 +1,17 @@
+import { IconDelete } from 'Components/Atoms/Icons'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
 import { ProductContext } from 'Context/Product/ProductContext'
+import { SocketContext } from 'Context/Socket/SocketContext'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatToMoney } from 'helpers/formatToMoney'
+import { useOnClick } from 'Hooks/useOnClick'
 import {  ProductsList, Quantity } from 'interfaces/Interfaces'
 import { PRODUCTO_VENTA } from 'interfaces/producto.interface'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ProductModel } from 'schemas/Product.model'
-import { SocketContext } from '../../../../../Context/Socket/SocketContext'
-import { useOnClick } from '../../../../../Hooks/useOnClick'
-import { IconDelete } from '../../../../Atoms/Icons'
+
 
 interface Props {
   item: ProductsList
@@ -47,13 +48,13 @@ const ItemList = ({ item }: Props) => {
       case 'UNIDADES':
         return `${quantity} und`
       case 'KILOGRAMOS':
-        return `${Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
+        return `${number.isInteger(quantity) ? quantity : quantity.toFixed(2)
           } kg`
       case 'LITROS':
-        return `${Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
+        return `${number.isInteger(quantity) ? quantity : quantity.toFixed(2)
           } lt`
       case 'FRACCIONES':
-        return `${Number.isInteger(quantity) ? quantity : quantity.toFixed(2)
+        return `${number.isInteger(quantity) ? quantity : quantity.toFixed(2)
           } ft`
       default:
         return null

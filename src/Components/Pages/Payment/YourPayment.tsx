@@ -7,8 +7,8 @@ import { ListContext } from 'Context/List/ListContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
-import { RouterContext } from 'interfaces/Interfaces'
 import { useOrder } from 'Hooks/useOrder'
+import { IRouterContext } from 'interfaces/routerContext.interface';
 
 export interface ResCreateOrder {
   ok: boolean
@@ -22,7 +22,7 @@ const YourPayment = () => {
   const { direction } = useContext(DirectionContext)
   const { user } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
-  const { setOrderData } = useOutletContext<RouterContext>()
+  const { setOrderData } = useOutletContext<IRouterContext>()
 
   const [orderResult, setOrderResult] = useState<ResCreateOrder | null>(null)
   const {total} = useOrder({list})
@@ -77,7 +77,7 @@ const YourPayment = () => {
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          Número Movil: {user?.mobile}
+          Número Movil: {user?.celular}
         </p>
       </div>
 

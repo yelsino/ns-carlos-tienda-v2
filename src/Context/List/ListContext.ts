@@ -1,11 +1,12 @@
-import { List } from 'interfaces/Interfaces'
+
+import { ILista } from 'interfaces/lista.interface'
 import { createContext } from 'react'
 import { ListAction } from './listReducer'
 
 interface ListContextProps {
-  lists: Array<List>
+  lists: Array<ILista>
   ok: boolean
-  list: List | null
+  list: ILista | null
   dispatch: React.Dispatch<ListAction>
   viewList: boolean
   seeCurrentList: (viewList:boolean) => void

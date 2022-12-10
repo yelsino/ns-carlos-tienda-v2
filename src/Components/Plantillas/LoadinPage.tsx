@@ -1,4 +1,4 @@
-import AnimationCoffe from '../Atoms/Animation/Coffe'
+import AnimationCoffe from "Components/Atoms/Animation/Coffe"
 
 const LoadingPage = () => {
   return (

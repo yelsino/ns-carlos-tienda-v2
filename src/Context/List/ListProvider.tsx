@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types'
 import { listReducer } from './listReducer'
-import { List } from 'interfaces/Interfaces'
 import { useReducer } from 'react'
 import { ListContext } from './ListContext'
+import { ILista } from 'interfaces/lista.interface'
 
 export interface ListState {
-  lists: Array<List>
+  lists: Array<ILista>
   ok: boolean
-  list: List | null
+  list: ILista | null
   viewList: boolean
 }
 

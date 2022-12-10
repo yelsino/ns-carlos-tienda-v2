@@ -1,10 +1,10 @@
 import { RadioGroup } from '@headlessui/react'
 import './cssViewProduct.css'
 import { motion } from 'framer-motion'
-import { IconDelete } from '../../../Atoms/Icons'
 
 import { ProductModel } from 'schemas/Product.model'
 import { useSwitchWeight } from 'Hooks/useSwitchWeight'
+import { IconDelete } from 'Components/Atoms/Icons';
 
 interface Props {
   product: ProductModel

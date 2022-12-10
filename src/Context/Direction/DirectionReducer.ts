@@ -1,9 +1,10 @@
-import { Direction } from 'interfaces/Interfaces'
+
+import { IDireccion } from 'interfaces/direccion.interface';
 import { LocalStorageService } from 'schemas/LocalStorageService';
 import { DirectionState } from './DirectionProvider'
 
 export type DirectionAction =
-  | { type: 'GET_USER_DIRECTIONS'; payload: Array<Direction> }
+  | { type: 'GET_USER_DIRECTIONS'; payload: Array<IDireccion> }
   | { type: 'SELECT_DIRECTION'; payload: string }
 
 export const directionReducer = (
@@ -22,7 +23,7 @@ export const directionReducer = (
 
     case 'SELECT_DIRECTION':
       lsService.setItem('directionSelected',action.payload)
-      const getDirection = state.directions.find((d)=>d._id === action.payload)
+      const getDirection = state.directions.find((d)=>d.id === action.payload)
 
       return {
         ...state,

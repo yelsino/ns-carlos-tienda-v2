@@ -1,12 +1,12 @@
 import { useContext, useReducer } from 'react'
 import { ProductReducer } from './ProductReducer'
-import { Product } from 'interfaces/Interfaces'
 import { ProductContext } from './ProductContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
+import { IProducto } from './../../interfaces/Producto.interface';
 
 export interface ProductState {
-  products: Array<Product>
-  product: Product | null
+  products: Array<IProducto>
+  product: IProducto | null
 }
 interface Props {
   children: JSX.Element | JSX.Element[]

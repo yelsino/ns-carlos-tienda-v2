@@ -1,7 +1,7 @@
+import Header from 'Components/Header';
+import MenuMovil from 'Components/Menu/MenuMovil';
 import { useOnClick } from 'Hooks/useOnClick'
 import { Navigate, Outlet } from 'react-router-dom'
-import Header from '../Header'
-import MenuMovil from '../Menu/MenuMovil'
 
 interface Props {
   isAutenticated: boolean

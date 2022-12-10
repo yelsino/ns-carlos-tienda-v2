@@ -1,9 +1,10 @@
 import { useCallback, useReducer } from 'react'
-import { fetchConToken, fetchSinToken } from '../../helpers/fetch'
 import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
 import { IUsuario } from 'interfaces/usuario.interface'
+import { fetchConToken, fetchSinToken } from 'helpers/fetch'
+import { IAuth } from 'interfaces/auth.interface'
 
 export interface AuthState {
   uid: string | null

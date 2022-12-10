@@ -2,10 +2,11 @@ import { useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { orderReducer } from './orderReducer'
 import { OrderContext } from './OrderContext'
-import { Order } from 'interfaces/Interfaces'
+import { IPedido } from 'interfaces/pedido.interface'
+
 
 export interface OrderState {
-  orders: Array<Order>
+  orders: Array<IPedido>
 }
 interface Props {
   children: JSX.Element | JSX.Element[]

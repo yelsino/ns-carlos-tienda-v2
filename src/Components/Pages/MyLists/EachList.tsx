@@ -96,7 +96,7 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
 
   useEffect(() => {
     if (list) {
-      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(2))
+      setSubTotal(number(formatToMoney(mountTotalOfList())).toFixed(2))
     }
   }, [list])
 

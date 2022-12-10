@@ -1,9 +1,9 @@
-import { List } from 'interfaces/Interfaces'
+import { ILista } from 'interfaces/lista.interface';
 import { LocalStorageService } from 'schemas/LocalStorageService';
 import { ListState } from './ListProvider'
 
 export type ListAction =
-  | { type: 'GET_USER_LISTS'; payload: Array<List> }
+  | { type: 'GET_USER_LISTS'; payload: Array<ILista> }
   | { type: 'SELECT_LIST'; payload: string }
   | { type: 'VIEW_LIST'; payload: boolean }
 
@@ -22,7 +22,7 @@ export const listReducer = (
 
     case 'SELECT_LIST':
       lsService.setItem("listSelected",action.payload)
-      const getList = state.lists.find((l)=>l._id === action.payload)
+      const getList = state.lists.find((l)=>l.id === action.payload)
       return {
         ...state,
         list: getList ? getList : state.lists[0]

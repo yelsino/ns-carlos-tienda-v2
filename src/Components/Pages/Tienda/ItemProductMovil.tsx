@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion'
-import { Product } from 'interfaces/Interfaces'
 import { Link } from 'react-router-dom'
+import { IProducto } from 'interfaces/producto.interface';
 
 interface Props {
-  product: Product
+  product: IProducto
   index: number
 }
 
 const ItemProductMovil = ({ product, index }: Props) => {
-  const { name, img } = product
+  const { nombre, imagen } = product
 
   const itemstyle = {
     visible: (i: number) => ({
@@ -36,7 +36,7 @@ const ItemProductMovil = ({ product, index }: Props) => {
       >
         <div className="h-[74.43px] w-[88.61px] translate-y-2 rounded-lg bg-emerald-200" />
         <div className="z-10 flex w-[110.76px] flex-col items-center  justify-center rounded-lg bg-white p-2 text-gray-600 shadow-md">
-          <p className="font-poppins font-medium tracking-tighter">{name}</p>
+          <p className="font-poppins font-medium tracking-tighter">{nombre}</p>
           <p>
             und. s/<span className="font-medium text-color_green_7">1.5</span>
           </p>
@@ -44,7 +44,7 @@ const ItemProductMovil = ({ product, index }: Props) => {
 
         <div className="absolute">
           <div className="translate-y-1 rounded-lg">
-            <img src={img} className="mx-auto" />
+            <img src={imagen} className="mx-auto" />
           </div>
           <div className=" w-[110.76px]  rounded-lg shadow-lg"></div>
         </div>

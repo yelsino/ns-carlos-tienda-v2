@@ -1,20 +1,21 @@
 import { ICategoria } from "./categoria.interface";
 
 export interface IProducto {
+  id: string;
   nombre: string;
   imagen: string;
   descripcion: string;
   marca: string;
   tipoVenta: TipoVenta;
-  precioCompra: Number;
-  precioVenta: Number;
-  unidades: Number;
-  sobrante: Number;
-  cantidadPorUnidad: Number;
+  precioCompra: number;
+  precioVenta: number;
+  unidades: number;
+  sobrante: number;
+  cantidadPorUnidad: number;
   envoltorio: Envoltorio;
   estados: EstadosProducto;
-  visibilidad: Boolean;
-  alertaCantidad: Number;
+  visibilidad: boolean;
+  alertaCantidad: number;
   categoria: ICategoria;
   tags: Array<string>;
   precios: Array<Precio>,
@@ -37,6 +38,30 @@ type Envoltorio =
   | 'POR_AGOTAR'
 
   interface Precio {
-    peso: Number,
-    precio: Number
+    id: string
+    peso: number
+    precio: number
   }
+
+  export enum PRODUCTO_VENTA {
+    UNIDADES = "UNIDADES",
+    KILOGRAMOS = "KILOGRAMOS",
+    LITROS = "LITROS",
+    FRACCIONES = "FRACCIONES",
+   }
+   
+   
+
+   
+export interface ProductsList {
+  quantities: ItemQuantity[]
+  product: IProducto
+  _id: string
+}
+
+interface ItemQuantity {
+  weight: number
+  price: number
+  quantity: number
+  _id?: string
+}

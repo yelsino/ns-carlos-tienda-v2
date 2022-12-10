@@ -1,11 +1,11 @@
-import { User } from 'interfaces/Interfaces'
+import { IUsuario } from 'interfaces/usuario.interface';
 import { AuthState } from './AuthProvider'
 
 export type AuthAction =
   | { type: 'LOGOUT' }
-  | { type: 'LOGIN'; payload: User }
-  | { type: 'REGISTER'; payload: User }
-  | { type: 'SET_USER'; payload: User }
+  | { type: 'LOGIN'; payload: IUsuario }
+  | { type: 'REGISTER'; payload: IUsuario }
+  | { type: 'SET_USER'; payload: IUsuario }
   | { type: 'LOADING'; payload: boolean }
 
 export const authReducer = (

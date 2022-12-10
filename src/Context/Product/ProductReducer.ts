@@ -1,9 +1,9 @@
-import { Product } from 'interfaces/Interfaces'
 import { ProductState } from './ProductProvider'
+import { IProducto } from './../../interfaces/Producto.interface';
 
 export type ProductAction =
-  | { type: 'GET_PRODUCTS'; payload: Array<Product> }
-  | { type: 'SELECT_PRODUCT'; payload: Product }
+  | { type: 'GET_PRODUCTS'; payload: Array<IProducto> }
+  | { type: 'SELECT_PRODUCT'; payload: IProducto }
 
 export const ProductReducer = (
   state: ProductState,

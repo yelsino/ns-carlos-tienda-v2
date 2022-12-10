@@ -1,19 +1,19 @@
 import { formatToMoney } from "helpers/formatToMoney";
-import { List } from "interfaces/Interfaces";
+import { ILista } from "interfaces/lista.interface";
 import { useEffect, useState } from "react"
 
 interface props {
- list: List
+ list: ILista
 }
 
 export const useOrder = ({list}: props) => {
  const [subTotal, setSubTotal] = useState(0);
  const [delivery, setDelivery] = useState(0);
 
-  const getSubTotal = (data:List) => {
-   let result =  data.products.reduce((acc, curr) => {
-     const mountPerProduct = curr.quantities.reduce((accq, q) => {
-       return accq + q.quantity * q.price
+  const getSubTotal = (data:ILista) => {
+   let result =  data.productos.reduce((acc, curr) => {
+     const mountPerProduct = curr.cantidades.reduce((accq, q) => {
+       return accq + q.cantidad * q.precio
      }, 0)
 
      return acc + mountPerProduct

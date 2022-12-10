@@ -3,19 +3,19 @@ import SwitchWeight from './SwitchWeight'
 import algoliasearch from 'algoliasearch'
 import { useEffect, useState } from 'react'
 import SimilarProducts from './SimilarProducts'
-import { Product } from 'interfaces/Interfaces'
 import { ProductModel } from 'schemas/Product.model'
+import { IProducto } from 'interfaces/producto.interface'
 
 interface Props {
-  product: Product
+  product: IProducto
   setModal: React.Dispatch<React.SetStateAction<boolean>>
-  setItem: (item: Product | null) => void,
+  setItem: (item: IProducto | null) => void,
   setAdding: React.Dispatch<React.SetStateAction<boolean>>
   adding: boolean
 }
 
 const ViewProduct = ({ product, setModal, setItem, setAdding, adding }: Props) => {
-    const { name, img, description, keywords } = product
+    const { nombre, imagen, descripcion, tags } = product
 
   const appId = '5RCKHIZLLD'
      const apiKey = 'a6a8ef3b732553e5967193427cb04be2'
@@ -25,14 +25,14 @@ const ViewProduct = ({ product, setModal, setItem, setAdding, adding }: Props) =
   const index = searchClient.initIndex('products-negocios-carlos')
   // construir un mapper para setear valores requeridos
   const getSimilarProducts = async () => {
-    const tags = keywords.reduce(
+    const getTacs = tags.reduce(
       (acc, curr) =>
         acc ? `${acc} OR (keywords:"${curr}")` : `(keywords:"${curr}")`,
       ''
     )
 
     const { hits } = await index.search('', {
-      filters: `${tags}`
+      filters: `${getTacs}`
     })
 
     setSimilarProducts(hits)
@@ -65,16 +65,16 @@ const ViewProduct = ({ product, setModal, setItem, setAdding, adding }: Props) =
       {/* contenido */}
       <motion.div className="mx-auto  flex max-w-xs flex-col gap-10 pt-5 sm:max-w-none sm:flex-row">
         <motion.div className="flex max-w-xs flex-col items-center gap-7 sm:h-[600px] sm:overflow-y-scroll sm:px-5 sm:pb-20 ">
-          <p className="font-poppins text-xl font-semibold ">{name}</p>
+          <p className="font-poppins text-xl font-semibold ">{nombre}</p>
           <div className="mb-3 flex h-[130px] w-[140px] items-center justify-center rounded-tl-[50px] rounded-tr-[10px] rounded-bl-[20px] rounded-br-[50px] bg-emerald-300 bg-opacity-50 ">
-            <img src={img} className=" mb-3 scale-125" />
+            <img src={imagen} className=" mb-3 scale-125" />
           </div>
 
           <SwitchWeight product={new ProductModel(product)} setAdding={setAdding} adding={adding} />
 
           <div className="flex  w-full flex-col gap-y-3">
-            {description &&
-              description.split('.').map((item, index) => (
+            {descripcion &&
+              descripcion.split('.').map((item, index) => (
                 <p key={index} className="font-poppins text-gray-600 ">
                   {item}.
                 </p>

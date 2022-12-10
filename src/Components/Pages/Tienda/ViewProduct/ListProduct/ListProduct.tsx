@@ -1,11 +1,12 @@
 import { Transition } from '@headlessui/react'
+import AnimationBook from 'Components/Atoms/Animation/Book'
+import { IconGridView } from 'Components/Atoms/Icons'
 import { ListContext } from 'Context/List/ListContext'
 import { LayoutGroup, motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import AnimationBook from '../../../../Atoms/Animation/Book'
-import { IconGridView } from '../../../../Atoms/Icons'
 import ItemList from './ItemList'
+
 
 const ListProduct = () => {
   const { viewList } = useContext(ListContext)

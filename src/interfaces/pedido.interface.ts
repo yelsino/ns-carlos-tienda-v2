@@ -7,10 +7,10 @@ export interface IPedido {
   codigo: string;
   direccion: IDireccion;
   estado: EstadoPedido;
-  total: Number;
-  subTotal: Number;
-  descuento: Number;
-  procentajeDescuento: Number;
+  total: number;
+  subTotal: number;
+  descuento: number;
+  procentajeDescuento: number;
   usuario: IUsuario;
   lista: ILista;
   entrega: Date;

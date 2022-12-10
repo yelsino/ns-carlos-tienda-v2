@@ -5,9 +5,11 @@ import { ListContext } from '../List/ListContext'
 import { AuthContext } from '../auth/AuthContext'
 import { SocketContext } from './SocketContext'
 import { LocalStorageService } from 'schemas/LocalStorageService'
-import { Direction, List, Order } from 'interfaces/Interfaces'
 import { OrderContext } from 'Context/Order/OrderContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
+import { IPedido } from 'interfaces/pedido.interface'
+import { IDireccion } from 'interfaces/direccion.interface'
+import { ILista } from 'interfaces/lista.interface'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -60,25 +62,25 @@ export const SocketProvider = ({ children }: Props) => {
       })
     })
 
-    socket?.on('get-user-lists', (lists:Array<List>) => {
+    socket?.on('get-user-lists', (lists:Array<ILista>) => {
       setList({
         type: 'GET_USER_LISTS',
         payload: lists
       })
 
       let searchList = lists.find(
-        (l) => l._id === `${lsService.getItem('listSelected')}`
+        (l) => l.id === `${lsService.getItem('listSelected')}`
       )
       
       if (!list) {
         setList({
           type: 'SELECT_LIST',
-          payload: searchList ? searchList._id : lists[0]._id
+          payload: searchList ? searchList.id : lists[0].id
         })
       }
     })
 
-    socket?.on('get-user-orders', (orders: Array<Order>) => {
+    socket?.on('get-user-orders', (orders: Array<IPedido>) => {
       console.log(orders);
       
       setOrder({
@@ -87,17 +89,17 @@ export const SocketProvider = ({ children }: Props) => {
       })
     })
 
-    socket?.on('get-user-directions', (directions: Array<Direction>) => {
+    socket?.on('get-user-directions', (directions: Array<IDireccion>) => {
       setDirection({
         type: 'GET_USER_DIRECTIONS',
         payload: directions
       })
       
-      let searchDirection = directions.find(d=> d._id === `${lsService.getItem('directionSelected')}`)
+      let searchDirection = directions.find(d=> d.id === `${lsService.getItem('directionSelected')}`)
 
       setDirection({
         type: 'SELECT_DIRECTION',
-        payload: searchDirection ? searchDirection._id : directions[0]._id
+        payload: searchDirection ? searchDirection.id : directions[0].id
       })
     })
 
