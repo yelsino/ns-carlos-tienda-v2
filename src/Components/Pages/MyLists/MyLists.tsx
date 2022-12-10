@@ -1,8 +1,5 @@
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { useContext, useState } from 'react'
-import { SocketContext } from '../../../Context/Socket/SocketContext'
-import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct'
-import PortalComponent from '../../Atoms/Portals/PortalComponent'
 import EachList from './EachList'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
@@ -10,6 +7,9 @@ import InputNewList from './InputNewList'
 import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { IconNoView, IconStore, IconView } from 'Components/Atoms/Icons'
 import { Link } from 'react-router-dom'
+import { SocketContext } from 'Context/Socket/SocketContext';
+import ListProduct from '../Tienda/ViewProduct/ListProduct/ListProduct'
+import PortalComponent from 'Components/Atoms/Portals/PortalComponent'
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext)

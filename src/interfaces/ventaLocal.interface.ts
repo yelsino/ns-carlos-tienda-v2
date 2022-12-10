@@ -5,5 +5,5 @@ export interface IVentaLocal {
   monto: Number;
   vendedor: IUsuario;
   comprador: IUsuario;
-  evidencias: Array<String>;
+  evidencias: Array<string>;
 }

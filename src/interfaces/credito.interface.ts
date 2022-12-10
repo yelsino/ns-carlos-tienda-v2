@@ -3,8 +3,8 @@ import { IUsuario } from "./usuario.interface";
 
 export interface ICredito {
  cliente: IUsuario
- codigo: String
+ codigo: string
  monto: Number
  abono: IAbonoCredito
- tipoPago: String
+ tipoPago: string
 }

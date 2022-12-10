@@ -1,14 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { IconDelete, IconRight } from '../../Atoms/Icons'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { formatToMoney } from '../../../helpers/formatToMoney'
 import { ListContext } from 'Context/List/ListContext'
-import { List } from 'interfaces/Interfaces'
 import { ListAction } from 'Context/List/listReducer'
+import { ILista } from 'interfaces/lista.interface'
+import { IconDelete, IconRight } from 'Components/Atoms/Icons'
+import { formatToMoney } from 'helpers/formatToMoney';
 
 interface Props {
-  list: List
+  list: ILista
   setList: React.Dispatch<ListAction>
   currlist: string
   deleteList: (id: string) => void
@@ -26,8 +26,8 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
         exit={{ opacity: 0 }}
         layout
         onClick={toggleOpen}
-        value={list._id}
-        id={list._id}
+        value={list.id}
+        id={list.id}
         className="flex w-[320px] cursor-pointer items-center justify-between gap-x-3 rounded-sm bg-white px-5 py-3 shadow-md"
       >
         <div className="flex items-center gap-x-3">
@@ -35,22 +35,22 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
             {/* <IconHeart /> */}
             <IconRight />
           </span>
-          <p className="truncate">{list.name}</p>
+          <p className="truncate">{list.nombre}</p>
         </div>
         <button
           onClick={(e) => {
             e.stopPropagation()
             setList({
               type: 'SELECT_LIST',
-              payload: list._id
+              payload: list.id
             })
           }}
         >
           <input
             readOnly
-            value={list._id}
+            value={list.id}
             type="radio"
-            checked={list._id === currlist}
+            checked={list.id === currlist}
             className="h-4 w-4 cursor-pointer accent-violet-500"
           />
         </button>
@@ -75,7 +75,7 @@ export default EachList
 // eslint-disable-next-line react/prop-types
 interface ContentProps {
   deleteList: (id: string) => void
-  list: List,
+  list: ILista,
   setList: React.Dispatch<ListAction>
   // setModalDelete: React.Dispatch<boolean>
 }
@@ -85,9 +85,9 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
   const navigate = useNavigate()
 
   const mountTotalOfList = () => {
-    return list!.products.reduce((acc, curr) => {
-      const mountPerProduct = curr.quantities.reduce((accq, q) => {
-        return accq + q.quantity * q.price
+    return list!.productos.reduce((acc, curr) => {
+      const mountPerProduct = curr.cantidades.reduce((accq, q) => {
+        return accq + q.cantidad * q.precio
       }, 0)
 
       return acc + mountPerProduct
@@ -110,21 +110,21 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
     >
       <div>
         <p className="font-light text-color_green_7 ">Resumen</p>
-        <p>Productos: {list!.products.length}</p>
+        <p>Productos: {list!.productos.length}</p>
         <p>Total: {subTotal} S/</p>
       </div>
       <p className="font-light text-color_green_7 ">Acciones</p>
 
       <Link
         to="/tienda"
-        onClick={()=>setList({ type: 'SELECT_LIST', payload: list._id})}
+        onClick={()=>setList({ type: 'SELECT_LIST', payload: list.id})}
         className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto "
       >
         Agregar productos
       </Link>
       <button
         onClick={()=> {
-          setList({ type: 'SELECT_LIST', payload: list._id})
+          setList({ type: 'SELECT_LIST', payload: list.id})
           navigate('/payment')
         }}
         className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto mb-5"
@@ -134,7 +134,7 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
 
       {lists.length > 1 && (
         <button
-          onClick={() => deleteList(list._id)}
+          onClick={() => deleteList(list.id)}
           className=" hover:text-white ease-in duration-300 rounded-tl-3xl absolute bottom-0 right-0 text-rose-200 bg-rose-600 p-2"
         >
           <IconDelete stile='w-6 h-6' />

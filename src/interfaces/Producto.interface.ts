@@ -1,10 +1,10 @@
 import { ICategoria } from "./categoria.interface";
 
 export interface IProducto {
-  nombre: String;
-  imagen: String;
-  descripcion: String;
-  marca: String;
+  nombre: string;
+  imagen: string;
+  descripcion: string;
+  marca: string;
   tipoVenta: TipoVenta;
   precioCompra: Number;
   precioVenta: Number;
@@ -16,11 +16,11 @@ export interface IProducto {
   visibilidad: Boolean;
   alertaCantidad: Number;
   categoria: ICategoria;
-  tags: Array<String>;
+  tags: Array<string>;
   precios: Array<Precio>,
 }
 
-type TipoVenta = 
+export type TipoVenta = 
 | 'FRACCIONES' 
 | 'KILOGRAMOS' 
 | 'UNIDADES' 

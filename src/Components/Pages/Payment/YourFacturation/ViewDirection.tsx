@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
-import PortalComponent from '../../../Atoms/Portals/PortalComponent'
-import Select from '../../../Atoms/Select'
-import Input from '../../../Atoms/Input'
-import { IconLocation } from '../../../Atoms/Icons'
-import { Direction } from 'interfaces/Interfaces'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
+import { IDireccion } from 'interfaces/direccion.interface'
+import Input from 'Components/Atoms/Input'
+import PortalComponent from 'Components/Atoms/Portals/PortalComponent'
+import Select from 'Components/Atoms/Select'
+import { IconLocation } from 'Components/Atoms/Icons'
 
 interface Props {
   setShow: () => void
@@ -15,10 +15,10 @@ const ViewDirection = ({ setShow }: Props) => {
 
   const { dispatch, directions, direction } = useContext(DirectionContext)
 
-  const selectDirection = (direction: Direction) => {
+  const selectDirection = (direction: IDireccion) => {
     dispatch({
       type: 'SELECT_DIRECTION',
-      payload: direction._id
+      payload: direction.id
     })
   }
 
@@ -79,12 +79,12 @@ const ViewDirection = ({ setShow }: Props) => {
             actual que está generando
           </p>
           <div className=" flex h-[300px] flex-col gap-y-3 overflow-y-scroll">
-            {directions.map((d: Direction) => (
+            {directions.map((d: IDireccion) => (
               <Select
-                key={d._id}
-                text={d.name}
+                key={d.id}
+                text={d.nombre}
                 onClick={() => selectDirection(d)}
-                checked={d._id === direction?._id}
+                checked={d.id === direction?.id}
                 icon={<IconLocation />}
               />
             ))}

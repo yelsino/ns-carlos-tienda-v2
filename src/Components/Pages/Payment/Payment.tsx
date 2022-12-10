@@ -5,11 +5,11 @@ import { motion } from 'framer-motion'
 import { Suspense, useContext, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { LocalStorageService } from 'schemas/LocalStorageService'
-import imgDelivery from '../../../Assets/delivery.png'
-import { SocketContext } from '../../../Context/Socket/SocketContext'
-import { useOnClick } from '../../../Hooks/useOnClick'
-import { IconArrow, IconStore } from '../../Atoms/Icons'
-import LoadingPage from '../../Plantillas/LoadinPage'
+import imgDelivery from 'public/Assets/delivery.png'
+import { useOnClick } from 'Hooks/useOnClick';
+import { SocketContext } from 'Context/Socket/SocketContext'
+import LoadingPage from 'Components/Plantillas/LoadinPage'
+import { IconArrow, IconStore } from 'Components/Atoms/Icons'
 
 export interface OrderData {
   typePayment: string

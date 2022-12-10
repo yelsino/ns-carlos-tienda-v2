@@ -1,7 +1,7 @@
 import { AuthContext } from 'Context/auth/AuthContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
-import {  RouterContext } from 'interfaces/Interfaces'
+import { RouterContext } from 'interfaces/routerContext.interface'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { LocalStorageService } from 'schemas/LocalStorageService'

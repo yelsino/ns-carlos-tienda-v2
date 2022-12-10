@@ -1,7 +1,8 @@
 import { IUsuario } from "./usuario.interface"
 
 export interface IDireccion {
- nombre: String
- referencia: String
+ id: string
+ nombre: string
+ referencia: string
  usuario: IUsuario
 }

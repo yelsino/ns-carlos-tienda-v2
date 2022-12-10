@@ -5,7 +5,7 @@ import { getAlgoliaResults } from '@algolia/autocomplete-js'
 import algoliasearch from 'algoliasearch'
 import { IconSearch } from '../../Atoms/Icons'
 import { ProductContext } from 'Context/Product/ProductContext'
-import { Product } from 'interfaces/Interfaces'
+import { IProducto } from 'interfaces/producto.interface';
 
 interface PricePerWeight {
   price: number
@@ -31,7 +31,7 @@ const AutocompleteItem = ({
       onClick={() => {
         dispatchProduct({
           type: 'SELECT_PRODUCT',
-          payload: products.find((p) => p.name === name) as Product
+          payload: products.find((p) => p.name === name) as IProducto
         })
       }}
       className="w-full"
@@ -54,7 +54,7 @@ interface T {
 }
 
 interface AutoCompleteProps {
-  collections: Array<Product>
+  collections: Array<IProducto>
   isOpen: boolean
 }
 
@@ -152,7 +152,7 @@ export default function Search(props: T) {
                     <section key={`section-${index}`} className="w-[260px]">
                       {items.length > 0 && (
                         <ul {...autocomplete.getListProps()}>
-                          {items.map((item: Product) => (
+                          {items.map((item: IProducto) => (
                             <AutocompleteItem key={item._id} {...item} />
                           ))}
                         </ul>

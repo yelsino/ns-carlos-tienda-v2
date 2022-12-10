@@ -1,12 +1,12 @@
 import { Dialog } from '@headlessui/react'
 import { motion } from 'framer-motion'
-import { Product } from 'interfaces/Interfaces'
+import { IProducto } from 'interfaces/producto.interface'
 
 interface Props {
   children: JSX.Element | JSX.Element[]
   open: boolean
   setOpen: (open: boolean) => void
-  closeChildren?: (children: Product | null) => void
+  closeChildren?: (children: IProducto | null) => void
   // closeChildren?: (children: React.ReactNode) => void
 }
 

@@ -1,8 +1,8 @@
 import { IUsuario } from "./usuario.interface";
 
 export interface ITarjetaPago {
-  titular: String;
-  numero: String;
+  titular: string;
+  numero: string;
   expiracion: Date;
   cliente: IUsuario;
 }

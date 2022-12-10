@@ -1,4 +1,4 @@
-import IMGDEVELOPER from '../../assets/img/developer.svg'
+import IMGDEVELOPER from 'public/Assets/img/developer.svg'
 import './estilos.css'
 import { Outlet } from 'react-router-dom'
 

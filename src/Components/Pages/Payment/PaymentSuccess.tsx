@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import imgDelivery from '../../../Assets/delivery.png'
+import imgDelivery from 'public/Assets/delivery.png'
 import { ResCreateOrder } from './YourPayment'
 
 interface Props {

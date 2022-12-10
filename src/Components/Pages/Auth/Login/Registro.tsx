@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import bird from '../../../../Assets/bird.svg'
-import plants from '../../../../Assets/plants.svg'
-import man from '../../../../Assets/man.svg'
-import heart from '../../../../Assets/heart.gif'
+import bird from 'public/Assets/bird.svg'
+import plants from 'public/Assets/plants.svg'
+import man from 'public/Assets/man.svg'
+import heart from 'public/Assets/heart.gif'
 import { motion } from 'framer-motion'
 import SwitchLogin from './SwitchLogin'
 import { AuthContext } from 'Context/auth/AuthContext'
@@ -47,12 +47,12 @@ const Registro = () => {
           <SwitchLogin setWithWhat={setWithWhat} />
           <Formik
             initialValues={{
-              email: '',
+              correo: '',
               password: ''
             }}
             validationSchema={validar}
             onSubmit={async (values) => {
-              await userRegister({...values,type: 'email'})
+              await userRegister({...values, type: 'email'})
             }}
           >
             {({ errors, touched }) => (

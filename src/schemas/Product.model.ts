@@ -1,5 +1,5 @@
 import { Product, Quantity } from "interfaces/Interfaces"
-import { PRODUCTO_VENTA } from "interfaces/Producto.interface"
+import { TipoVenta } from "interfaces/producto.interface"
 
 export class ProductModel {
   id: string

@@ -1,13 +1,14 @@
-import { IAuth } from "./Auth.interface";
+import { IAuth } from "./auth.interface";
 import { IRol } from "./rol.interface";
 
 export interface IUsuario extends IAuth {
-    nombres: String;
-    apellidos: String;
-    sobreNombre: String;
-    celular: String;
+    id: string;
+    nombres: string;
+    apellidos: string;
+    sobreNombre: string;
+    celular: string;
     online: Boolean;
     roles: Array<IRol>;
-    foto: String;
-    documento: String;
+    foto: string;
+    documento: string;
 }

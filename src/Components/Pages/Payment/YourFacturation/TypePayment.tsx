@@ -1,4 +1,4 @@
-import Select from '../../../Atoms/Select'
+import Select from "Components/Atoms/Select"
 
 interface Props {
   typePayment: string

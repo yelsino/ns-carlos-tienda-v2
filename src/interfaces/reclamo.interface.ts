@@ -1,12 +1,12 @@
 import { IPedido } from "./pedido.interface";
 
 export interface IReclamo {
-  asunto: String
-  descripcion: String
+  asunto: string
+  descripcion: string
   pedido: IPedido
-  numero: String
-  codigo: String
-  evidencias: String
+  numero: string
+  codigo: string
+  evidencias: string
   estado: EstadoReclamo
 }
 

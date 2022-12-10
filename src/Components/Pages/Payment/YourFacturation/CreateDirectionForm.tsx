@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { useOnClick } from '../../../../Hooks/useOnClick'
 import PropTypes from 'prop-types'
-import Input from '../../../Atoms/Input'
+import { useOnClick } from 'Hooks/useOnClick';
+import Input from 'Components/Atoms/Input';
 
 interface Props {
   setShow: () => void

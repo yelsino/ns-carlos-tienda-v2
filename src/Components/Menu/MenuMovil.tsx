@@ -2,10 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import {
   IconCardBuyInactive,
   IconListas,
-  IconProductInactivo,
-  IconStore,
   IconStoreInactive,
-  IconWork
 } from '../Atoms/Icons'
 
 const MenuMovil = () => {

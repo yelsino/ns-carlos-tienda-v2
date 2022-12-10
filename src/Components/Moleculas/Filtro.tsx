@@ -2,11 +2,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { IconSearch } from '../Atoms/Icons'
 import { Link } from 'react-router-dom'
-import { Product } from 'interfaces/Interfaces'
+import { IProducto } from 'interfaces/producto.interface';
+
 
 interface Props {
-  upData: Dispatch<SetStateAction<Product[]>>
-  data: Array<Product>
+  upData: Dispatch<SetStateAction<IProducto[]>>
+  data: Array<IProducto>
 }
 
 const Filtro = ({ upData, data }: Props) => {
@@ -21,22 +22,22 @@ const Filtro = ({ upData, data }: Props) => {
   }, [name, letter])
 
   const filterData = (
-    arr: Array<Product>,
+    arr: Array<IProducto>,
     category = '',
     start = 'a',
     end = 'z'
-  ): Array<Product> => {
+  ): Array<IProducto> => {
     const isGreater = (c1: string, c2: string) => c1 >= c2
     const isSmaller = (c1: string, c2: string) => c1 <= c2
 
     const filtered = arr.filter((e) => {
-      const [firstChar] = e.name.toLowerCase()
+      const [firstChar] = e.nombre.toLowerCase()
 
       return isGreater(firstChar, start) && isSmaller(firstChar, end)
     })
 
     return filtered.filter((v) =>
-      name ? v.category?.name === category.toUpperCase() : v
+      name ? v.categoria?.nombre === category.toUpperCase() : v
     )
   }
 

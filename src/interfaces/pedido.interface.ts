@@ -3,8 +3,8 @@ import { ILista } from "./lista.interface";
 import { IUsuario } from './usuario.interface';
 
 export interface IPedido {
-  numero: String;
-  codigo: String;
+  numero: string;
+  codigo: string;
   direccion: IDireccion;
   estado: EstadoPedido;
   total: Number;

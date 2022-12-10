@@ -1,12 +1,12 @@
-import Input from '../../../Atoms/Input'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import { User } from 'interfaces/Interfaces'
 import { SocketProps } from 'Hooks/useSocket'
+import { IUsuario } from 'interfaces/usuario.interface'
+import Input from 'Components/Atoms/Input'
 
 interface Props {
-  data: User
+  data: IUsuario
 }
 
 interface PropsContext {
@@ -16,10 +16,10 @@ interface PropsContext {
 const UserDates = ({ data }: Props) => {
   const [show, setShow] = useState(false)
   const [user, setUser] = useState({
-    names: data?.names,
-    surnames: data?.surnames,
-    email: data?.email,
-    mobile: data?.mobile
+    names: data?.nombres,
+    surnames: data?.apellidos,
+    email: data?.correo,
+    mobile: data?.celular
   })
 
   const { socket } = useOutletContext<PropsContext>()
@@ -31,10 +31,10 @@ const UserDates = ({ data }: Props) => {
 
   const cancelUpdateUser = () => {
     setUser({
-      names: data?.names,
-      surnames: data?.surnames,
-      email: data?.email,
-      mobile: data?.mobile
+      names: data?.nombres,
+      surnames: data?.apellidos,
+      email: data?.correo,
+      mobile: data?.celular
     })
     setShow(false)
   }
@@ -44,7 +44,7 @@ const UserDates = ({ data }: Props) => {
       return alert('Por favor complete todos los campos')
     }
     socket!.emit!('user', {
-      userID: data?.uid,
+      userID: data?.id,
       data: user,
       type: 'UPDATE_USER'
     })

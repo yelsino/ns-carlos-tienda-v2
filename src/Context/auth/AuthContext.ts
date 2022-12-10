@@ -1,17 +1,18 @@
-import { Authentication } from 'interfaces/Auth.interface'
-import { User } from 'interfaces/Interfaces'
+
+import { IAuth } from 'interfaces/auth.interface'
 import { createContext } from 'react'
 import { AuthAction } from './AuthReducer'
+import { IUsuario } from 'interfaces/usuario.interface';
 
 interface AuthContextProps {
   uid: string | null
   checking: boolean
   logged: boolean
-  user: User | null
+  user: IUsuario | null
   directions: []
   loading: boolean
   userLogin: (correo: string, password: string) => Promise<boolean>
-  userRegister: (data:Authentication) => Promise<boolean>
+  userRegister: (data:IAuth) => Promise<boolean>
   verificarToken: () => Promise<boolean>
   userLogout: () => void
   dispatch: React.Dispatch<AuthAction>
