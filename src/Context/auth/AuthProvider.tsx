@@ -3,15 +3,14 @@ import { fetchConToken, fetchSinToken } from '../../helpers/fetch'
 import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
-import { User } from 'interfaces/Interfaces'
-import { Authentication } from 'interfaces/Auth.interface'
+import { IUsuario } from 'interfaces/usuario.interface'
 
 export interface AuthState {
   uid: string | null
   checking: boolean
   logged: boolean
   loading: boolean
-  user: User | null
+  user: IUsuario | null
   directions: []
 }
 
@@ -31,17 +30,20 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
 
-  const userLogin = async (email: string, password: string): Promise<boolean> => {
+  const userLogin = async (correo: string, password: string): Promise<boolean> => {
     dispatch({ type: 'LOADING', payload: true })
+    
     const resp = await fetchSinToken({
-      endpoint: 'login/client',
-      body: { email, password },
+      endpoint: 'auth/login',
+      body: { correo, password },
       method: 'POST'
     }).finally(()=>dispatch({ type: 'LOADING', payload: false }));
     
+
     if (resp.ok) {
-      localStorage.setItem('token', resp.token)
-      const { usuario } = resp
+      const { usuario, token } = resp
+
+      localStorage.setItem('token', token)
 
       dispatch({
         type: 'LOGIN',
@@ -54,7 +56,7 @@ export const AuthProvider = ({ children }: Props) => {
     return false
   }
 
-  const userRegister = async (data: Authentication): Promise<boolean> => {
+  const userRegister = async (data: IAuth): Promise<boolean> => {
     dispatch({ type: 'LOADING', payload: true })
     let resp = null;
     if(data.type === "email"){

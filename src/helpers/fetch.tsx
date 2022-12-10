@@ -11,7 +11,9 @@ export const fetchSinToken = async ({
   body,
   method = 'GET'
 }: Props) => {
-  const url = `${baseUrl}/api/${endpoint}`
+
+
+  const url = `${baseUrl}/${endpoint}`
 
   if (method === 'GET') {
     const resp = await fetch(url)

@@ -26,7 +26,7 @@ export const authReducer = (
       return {
         ...state,
         logged: true,
-        uid: action.payload.uid,
+        uid: action.payload.id,
         checking: false,
         user: action.payload
       }

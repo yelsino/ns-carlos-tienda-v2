@@ -10,7 +10,7 @@ interface AuthContextProps {
   user: User | null
   directions: []
   loading: boolean
-  userLogin: (email: string, password: string) => Promise<boolean>
+  userLogin: (correo: string, password: string) => Promise<boolean>
   userRegister: (data:Authentication) => Promise<boolean>
   verificarToken: () => Promise<boolean>
   userLogout: () => void
