@@ -1,5 +1,5 @@
 import { Field } from 'formik'
-import flag from '../../../../../Assets/peru.png'
+import flag from 'public/Assets/peru.png'
 
 export const Mobile = ({ errors, touched }) => {
   return (

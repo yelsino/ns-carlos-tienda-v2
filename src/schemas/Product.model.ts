@@ -1,10 +1,9 @@
-import { Product, Quantity } from "interfaces/Interfaces"
-import { TipoVenta } from "interfaces/producto.interface"
+import { IProducto, PRODUCTO_VENTA } from "interfaces/Producto.interface"
 
 export class ProductModel {
   id: string
   name: string
-  keywords: [string]
+  keywords: Array<string>
   img: string
   description: string
   typeOfsale: string
@@ -15,27 +14,27 @@ export class ProductModel {
   stock: number
   //   category: Category
 
-  constructor(product:Product) {
+  constructor(product:IProducto) {
 
     
     let prices = new Array<PricePerWeight>();
-    product.pricePerWeight.forEach((e)=>{
+    product.precios.forEach((e)=>{
       let price = new PricePerWeight();
       price.adapter(e)
       prices.push(price)
     })
 
-    this.id = product._id
-    this.name = product.name
-    this.keywords = product.keywords
-    this.img = product.img
-    this.description = product.description
-    this.typeOfsale = product.typeOfsale
+    this.id = product.id
+    this.name = product.nombre
+    this.keywords = product.tags
+    this.img = product.imagen
+    this.description = product.descripcion
+    this.typeOfsale = product.tipoVenta
     this.pricePerWeight = prices
-    this.quantityPerUnits = product.quantityPerUnits
-    this.unitPrice = product.unitPrice
-    this.units = product.units
-    this.stock = product.stock
+    this.quantityPerUnits = product.cantidadPorUnidad
+    // this.unitPrice = product.
+    this.units = product.unidades
+    // this.stock = product.
   }
 
 
@@ -52,92 +51,92 @@ export class ProductModel {
     this.stock = object.stock
   }
 
-  tranformQuantities = (
-    dataquantities: Array<Quantity>,
-    typeOfsale: string
-  ) => {
-    return dataquantities.map((v) => {
-      switch (typeOfsale) {
-        case PRODUCTO_VENTA.UNIDADES: {
-          if (v.weight === 250) {
-            v.weighttextmd = 'chico'
-            v.weighttextlg = 'pequeño'
-            return v
-          }
-          if (v.weight === 500) {
-            v.weighttextmd = 'medio'
-            v.weighttextlg = 'mediano'
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = 'grande'
-            v.weighttextlg = 'el grande'
-            return v
-          }
-          return v
-        }
+  // tranformQuantities = (
+  //   dataquantities: Array<IQuantity>,
+  //   typeOfsale: string
+  // ) => {
+  //   return dataquantities.map((v) => {
+  //     switch (typeOfsale) {
+  //       case PRODUCTO_VENTA.UNIDADES: {
+  //         if (v.weight === 250) {
+  //           v.weighttextmd = 'chico'
+  //           v.weighttextlg = 'pequeño'
+  //           return v
+  //         }
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = 'medio'
+  //           v.weighttextlg = 'mediano'
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = 'grande'
+  //           v.weighttextlg = 'el grande'
+  //           return v
+  //         }
+  //         return v
+  //       }
   
-        case PRODUCTO_VENTA.KILOGRAMOS: {
-          if (v.weight === 250) {
-            v.weighttextmd = '1/4'
-            v.weighttextlg = `${v.weight} gramos`
-            return v
-          }
-          if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = `${v.weight} gramos`
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = '1 kg'
-            v.weighttextlg = `1 kilogramo`
-            return v
-          } else {
-            v.weighttextmd = `${v.weight} gr`
-            v.weighttextlg = `${v.weight} gramos`
-            return v
-          }
-        }
+  //       case PRODUCTO_VENTA.KILOGRAMOS: {
+  //         if (v.weight === 250) {
+  //           v.weighttextmd = '1/4'
+  //           v.weighttextlg = `${v.weight} gramos`
+  //           return v
+  //         }
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = '1/2'
+  //           v.weighttextlg = `${v.weight} gramos`
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = '1 kg'
+  //           v.weighttextlg = `1 kilogramo`
+  //           return v
+  //         } else {
+  //           v.weighttextmd = `${v.weight} gr`
+  //           v.weighttextlg = `${v.weight} gramos`
+  //           return v
+  //         }
+  //       }
   
-        case PRODUCTO_VENTA.LITROS: {
-          if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = '1/2 litro'
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = '1 lt'
-            v.weighttextlg = '1 litro'
-            return v
-          } else {
-            v.weighttextmd = `${v.weight} ml`
-            v.weighttextlg = `${v.weight} mililitros`
-            return v
-          }
-        }
+  //       case PRODUCTO_VENTA.LITROS: {
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = '1/2'
+  //           v.weighttextlg = '1/2 litro'
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = '1 lt'
+  //           v.weighttextlg = '1 litro'
+  //           return v
+  //         } else {
+  //           v.weighttextmd = `${v.weight} ml`
+  //           v.weighttextlg = `${v.weight} mililitros`
+  //           return v
+  //         }
+  //       }
   
-        case PRODUCTO_VENTA.FRACCIONES: {
-          if (v.weight === 250) {
-            v.weighttextmd = '1/4'
-            v.weighttextlg = 'un cuarto'
-            return v
-          }
-          if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = 'la mitad'
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = '1'
-            v.weighttextlg = 'entero'
-            return v
-          }
-          return v
-        }
-      }
-      return v
-    })
-  }
+  //       case PRODUCTO_VENTA.FRACCIONES: {
+  //         if (v.weight === 250) {
+  //           v.weighttextmd = '1/4'
+  //           v.weighttextlg = 'un cuarto'
+  //           return v
+  //         }
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = '1/2'
+  //           v.weighttextlg = 'la mitad'
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = '1'
+  //           v.weighttextlg = 'entero'
+  //           return v
+  //         }
+  //         return v
+  //       }
+  //     }
+  //     return v
+  //   })
+  // }
   
 }
 

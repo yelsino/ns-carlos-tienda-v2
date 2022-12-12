@@ -1,5 +1,4 @@
-import { IconCheck } from '../../Atoms/Icons'
-import imgDelivery1 from '../../../Assets/delivery1.png'
+import imgDelivery1 from 'public/Assets/delivery1.png'
 import { useContext, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import PaymentSuccess from './PaymentSuccess'
@@ -9,6 +8,7 @@ import { AuthContext } from 'Context/auth/AuthContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
 import { useOrder } from 'Hooks/useOrder'
 import { IRouterContext } from 'interfaces/routerContext.interface';
+import { IconCheck } from 'Components/Atoms/Icons'
 
 export interface ResCreateOrder {
   ok: boolean
@@ -40,7 +40,7 @@ const YourPayment = () => {
 
   useEffect(() => {
     setOrderData((prev) => {
-      return { ...prev, listID: list?._id }
+      return { ...prev, listID: list?.id }
     })
    }, [list])
 
@@ -59,19 +59,19 @@ const YourPayment = () => {
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          Lista: {list?.name}
+          Lista: {list?.nombre}
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          Productos: {list?.products?.length}  en total
+          Productos: {list?.productos?.length}  en total
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          Dirección: {direction?.name}
+          Dirección: {direction?.nombre}
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">

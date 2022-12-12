@@ -13,6 +13,8 @@ import { FacebookLoginButton } from 'Components/Moleculas/FacebookLogin'
 import { Mobile } from './WithWhat/Mobile'
 import { Correo } from './WithWhat/Correo'
 import { Link } from 'react-router-dom'
+import { validarRegistro } from 'schemas/authValidation'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 
 type WithWhat = 'correo' | 'mobile'
 
@@ -21,13 +23,19 @@ const Registro = () => {
 
   const [withWhat, setWithWhat] = useState<WithWhat>('correo')
 
-  const validar = Yup.object().shape({
-    email: Yup.string().email('formato invalido').required('es requerido'),
-    password: Yup.string().required('es requerido')
-                          .min(4,"con pocos carácteres")
-                          .max(30, "maximo 30 letras")
-  })
+  const { setNotificacion } = useContext(NotificacionContext)
 
+  const onSubmit = async (values,actions) => {
+    const res = await  userRegister({
+      ...values, 
+      roles:[{nombre:'USUARIO'}], 
+      type: 'email'
+    })
+    if(!res.ok) setNotificacion({message:res.mensaje, type: 1})
+    actions.resetForm();
+  }
+
+ 
   return (
     <div className=" relative flex h-screen items-center  justify-center">
       {/* ADITIONALS */}
@@ -47,15 +55,13 @@ const Registro = () => {
           <SwitchLogin setWithWhat={setWithWhat} />
           <Formik
             initialValues={{
-              correo: '',
-              password: ''
+              correo: 'cuenta@gmail.com',
+              password: 'yelsin312@231',
             }}
-            validationSchema={validar}
-            onSubmit={async (values) => {
-              await userRegister({...values, type: 'email'})
-            }}
+            validationSchema={validarRegistro}
+            onSubmit={onSubmit}
           >
-            {({ errors, touched }) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form autoComplete="new-password">
                 <div className=" relative flex w-72 flex-col gap-y-7 sm:w-80">
                   {withWhat === 'correo' ? (
@@ -66,9 +72,9 @@ const Registro = () => {
 
                   {/* button */}
                   <button
-                    disabled={loading}
+                    disabled={isSubmitting}
+                    type="submit"
                     className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
-                    type="button"
                   >
                     {loading ? 'REGISTRANDOSE...' : 'REGISTRARME'}
                   </button>

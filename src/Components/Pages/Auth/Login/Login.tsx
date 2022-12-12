@@ -31,8 +31,8 @@ const Login = () => {
   }
 
   const onSubmit = async (values,actions) => {
-    const ok = await userLogin(values.email, values.password)
-    if(!ok) setNotificacion({message:"ocurrio algo", type: 1})
+    const res = await userLogin(values.correo, values.password)
+    if(!res.ok) setNotificacion({message:res.mensaje, type: 1})
     actions.resetForm();
   }
 
@@ -64,7 +64,7 @@ const Login = () => {
 
           <Formik
             initialValues={{
-              email: 'yelsin@gmail.com',
+              correo: 'yelsin@gmail.com',
               password: 'yelsin312@231'
             }}
             validationSchema={validAuth}

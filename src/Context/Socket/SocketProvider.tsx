@@ -55,10 +55,12 @@ export const SocketProvider = ({ children }: Props) => {
   useEffect(() => {
     console.log("data");
     
-    socket?.on('get-products', (products) => {
+    socket?.on('get-products', (productos) => {
+      console.log(productos);
+      
       dispatchProduct({
         type: 'GET_PRODUCTS',
-        payload: products.products
+        payload: productos
       })
     })
 

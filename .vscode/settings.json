@@ -13,5 +13,8 @@
     "**/.firebase": true,
     "**/.jest": true,
     "**/.github": true,
+   },
+   "workbench.colorCustomizations": {
+    "statusBar.noFolderBackground": "#ffff"
    }
 }

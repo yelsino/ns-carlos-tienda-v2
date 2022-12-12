@@ -4,7 +4,8 @@ import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
 import { IUsuario } from 'interfaces/usuario.interface'
 import { fetchConToken, fetchSinToken } from 'helpers/fetch'
-import { IAuth } from 'interfaces/auth.interface'
+import { IAuth, IAuthRest } from 'interfaces/Auth.interface'
+import { IRest } from 'interfaces/irest.interface'
 
 export interface AuthState {
   uid: string | null
@@ -31,10 +32,12 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
 
-  const userLogin = async (correo: string, password: string): Promise<boolean> => {
+  const userLogin = async (correo: string, password: string): Promise<IRest> => {
+    // let response: IRest<IUsuario> = null;
+
     dispatch({ type: 'LOADING', payload: true })
     
-    const resp = await fetchSinToken({
+    const resp = await fetchSinToken<IRest<IAuthRest>>({
       endpoint: 'auth/login',
       body: { correo, password },
       method: 'POST'
@@ -42,7 +45,7 @@ export const AuthProvider = ({ children }: Props) => {
     
 
     if (resp.ok) {
-      const { usuario, token } = resp
+      const { usuario, token } = resp.data
 
       localStorage.setItem('token', token)
 
@@ -50,35 +53,37 @@ export const AuthProvider = ({ children }: Props) => {
         type: 'LOGIN',
         payload: usuario
       })
-      return true
+      return resp
     }
 
     localStorage.setItem('noPassword', 'true')
-    return false
+    return resp
   }
 
-  const userRegister = async (data: IAuth): Promise<boolean> => {
+  const userRegister = async (data: IAuth): Promise<IRest> => {
     dispatch({ type: 'LOADING', payload: true })
-    let resp = null;
+    console.log(data);
+    
+    let resp:IRest<IAuthRest> = null;
     if(data.type === "email"){
-      resp = await fetchSinToken({
-        endpoint: 'login/new',
+      resp = await fetchSinToken<IRest<IAuthRest>>({
+        endpoint: 'auth/register',
         body: data,
         method: 'POST'
       })
     }
     dispatch({ type: 'LOADING', payload: false })
     if(resp.ok){
-      localStorage.setItem('token', resp.token)
-      const { usuario } = resp
+      const { data } = resp
+      localStorage.setItem('token', data.token)
       dispatch({
         type: 'LOGIN',
-        payload: usuario
+        payload: data.usuario
       })
-      return true
+      return resp
     }
     localStorage.setItem('noPassword', 'true');
-    return false
+    return resp
 
   }
 
@@ -91,20 +96,20 @@ export const AuthProvider = ({ children }: Props) => {
       return false
     }
 
-    const resp = await fetchConToken({ endpoint: 'login/renew' })
-    const { usuario } = resp
+    const resp = await fetchConToken<IRest<IAuthRest>>({ endpoint: 'auth/re-login' })
+    // const { usuario } = resp;
 
-    if (resp.usuario === null || resp.usuario === 'null') {
+    if (!resp.ok) {
       localStorage.removeItem('token')
       window.location.reload()
       return false
     }
 
     if (resp.ok) {
-      localStorage.setItem('token', resp.token)
+      localStorage.setItem('token', resp.data.token)
       dispatch({
         type: 'LOGIN',
-        payload: usuario
+        payload: resp.data.usuario
       })
       return true
     } else {
