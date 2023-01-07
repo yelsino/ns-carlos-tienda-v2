@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import {  Form, Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import bird from 'public/Assets/bird.svg'
 import plants from 'public/Assets/plants.svg'
 import woman from 'public/Assets/woman.svg'
@@ -24,16 +24,16 @@ const Login = () => {
 
   const { setNotificacion } = useContext(NotificacionContext)
 
-
-
   const olvideMisCredenciales = (e) => {
     e.stopPropagation()
   }
 
-  const onSubmit = async (values,actions) => {
+  const onSubmit = async (values, actions) => {
+    console.log(values)
+
     const res = await userLogin(values.correo, values.password)
-    if(!res.ok) setNotificacion({message:res.mensaje, type: 1})
-    actions.resetForm();
+    if (!res.ok) setNotificacion({ message: res.mensaje, type: 1 })
+    actions.resetForm()
   }
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Login = () => {
   }, [loading])
 
   return (
-    <div className=" relative flex h-screen items-center  justify-center">
+    <div className=" relative flex h-screen items-center  justify-center select-none">
       {/* ADITIONALS */}
 
       <motion.img
@@ -59,61 +59,61 @@ const Login = () => {
       <div className="flex  max-w-5xl items-center justify-center ">
         <div className="flex w-full flex-col items-center gap-5 p-10 font-poppins md:w-1/2">
           <p className="w-72 text-left sm:w-80">Iniciar sesion con</p>
-         
+
           <SwitchLogin setWithWhat={setWithWhat} />
 
           <Formik
             initialValues={{
               correo: 'yelsin@gmail.com',
+              celular: 939616350,
               password: 'yelsin312@231'
             }}
             validationSchema={validAuth}
             onSubmit={onSubmit}
           >
-
-            {({ errors, touched, isSubmitting }) => (
-              <Form 
+            {(formEvent) => (
+              <Form
                 autoComplete="new-password"
-                className='relative flex w-72 flex-col gap-y-7 sm:w-80'
+                className="relative flex w-72 flex-col gap-y-7 sm:w-80"
               >
-                  {withWhat === 'correo' ? (
-                    <Correo errors={errors} touched={touched} />
-                  ) : (
-                    <Mobile errors={errors} touched={touched} />
-                  )}
+                {withWhat === 'correo' ? (
+                  <Correo {...formEvent} loading={loading} />
+                ) : (
+                  <Mobile {...formEvent} loading={loading} />
+                )}
 
-                  <button
+                {/* <button
                     disabled={isSubmitting}
                     type="submit"
                     className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
                   >
                     {loading ? 'INICIANDO...' : 'INICIAR'}
-                  </button>
+                  </button> */}
 
-                  <div className="flex justify-between gap-x-7 text-blue-600">
-                    <GoogleLogin />
-                    <FacebookLoginButton />
-                  </div>
+                <div className="flex justify-between gap-x-7 text-blue-600">
+                  <GoogleLogin />
+                  <FacebookLoginButton />
+                </div>
 
-                  <div className="flex flex-col justify-center">
-                    <Link
-                      to="/auth/registrarse"
+                <div className="flex flex-col justify-center">
+                  <Link
+                    to="/auth/registrarse"
+                    onClick={olvideMisCredenciales}
+                    className="mb-3  cursor-default text-center  text-gray-500 hover:text-blue-600"
+                  >
+                    Crear una cuenta
+                  </Link>
+
+                  {noPass && (
+                    <button
+                      type="button"
                       onClick={olvideMisCredenciales}
-                      className="mb-3  cursor-default text-center  text-gray-500 hover:text-blue-600"
+                      className="mb-3  cursor-default text-center text-sm text-gray-500 hover:text-blue-600"
                     >
-                      Crear una cuenta
-                    </Link>
-
-                     {noPass && (
-                      <button
-                        type="button"
-                        onClick={olvideMisCredenciales}
-                        className="mb-3  cursor-default text-center text-sm text-gray-500 hover:text-blue-600"
-                      >
-                        Olvidé mis contraseña
-                      </button>
-                    )} 
-                  </div>
+                      Olvidé mis contraseña
+                    </button>
+                  )}
+                </div>
               </Form>
             )}
           </Formik>

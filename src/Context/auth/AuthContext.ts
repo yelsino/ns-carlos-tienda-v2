@@ -1,9 +1,7 @@
 
 import { createContext } from 'react'
+import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IRespuesta, IUsuario } from 'types-yola'
 import { AuthAction } from './AuthReducer'
-import { IUsuario } from 'interfaces/usuario.interface';
-import { IAuth } from 'interfaces/Auth.interface';
-import { IRest } from 'interfaces/irest.interface';
 
 interface AuthContextProps {
   uid: string | null
@@ -12,8 +10,10 @@ interface AuthContextProps {
   user: IUsuario | null
   directions: []
   loading: boolean
-  userLogin: (correo: string, password: string) => Promise<IRest>
-  userRegister: (data:IAuth) =>Promise<IRest>
+  userLogin: (correo: string, password: string) => Promise<IRespuesta<IAuthRest>>
+  userRegister: (data:IAuth) =>Promise<IRespuesta<IAuthRest>>
+  googleAutenticacion: (data: IAuthGoogle) => Promise<IRespuesta<IAuthRest>>
+  facebookAutenticacion: (data: IAuthFacebook) => Promise<IRespuesta<IAuthRest>>
   verificarToken: () => Promise<boolean>
   userLogout: () => void
   dispatch: React.Dispatch<AuthAction>

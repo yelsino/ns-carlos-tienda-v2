@@ -7,10 +7,10 @@ import { useContext, useEffect, useState } from 'react'
 import ViewProduct from './ViewProduct/ViewProduct'
 import { ProductContext } from 'Context/Product/ProductContext'
 import { ListContext } from 'Context/List/ListContext'
-import { IProducto } from 'interfaces/producto.interface';
 import Filtro from 'Components/Moleculas/Filtro'
 import ProductSqueleton from 'Components/Plantillas/ProductSqueleton'
 import PortalComponent from './../../Atoms/Portals/PortalComponent';
+import { IProducto } from 'types-yola'
 
 
 interface Outlet {

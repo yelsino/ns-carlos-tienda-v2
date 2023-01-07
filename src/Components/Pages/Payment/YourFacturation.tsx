@@ -32,7 +32,7 @@ const YourFacturation = () => {
   useEffect(() => {
     if (direction) {
       setOrderData((prev) => {
-        return { ...prev, directionID: direction._id }
+        return { ...prev, directionID: direction.id }
       })
     }
   }, [direction])

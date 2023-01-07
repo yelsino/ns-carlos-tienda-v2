@@ -3,9 +3,9 @@ import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ListContext } from 'Context/List/ListContext'
 import { ListAction } from 'Context/List/listReducer'
-import { ILista } from 'interfaces/lista.interface'
 import { IconDelete, IconRight } from 'Components/Atoms/Icons'
 import { formatToMoney } from 'helpers/formatToMoney';
+import { ILista } from 'types-yola'
 
 interface Props {
   list: ILista
@@ -96,7 +96,7 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
 
   useEffect(() => {
     if (list) {
-      setSubTotal(number(formatToMoney(mountTotalOfList())).toFixed(2))
+      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(2))
     }
   }, [list])
 

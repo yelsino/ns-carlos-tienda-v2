@@ -1,6 +1,6 @@
 
-import { IDireccion } from 'interfaces/direccion.interface'
 import { createContext } from 'react'
+import { IDireccion } from 'types-yola'
 import { DirectionAction } from './DirectionReducer'
 
 interface PropsContext {

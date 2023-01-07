@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { IProducto } from 'interfaces/producto.interface';
+import { IProducto } from 'types-yola'
 
 interface Props {
   product: IProducto

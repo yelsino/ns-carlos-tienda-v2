@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { SocketProps } from 'Hooks/useSocket'
-import { IUsuario } from 'interfaces/usuario.interface'
 import Input from 'Components/Atoms/Input'
+import { IUsuario } from 'types-yola'
 
 interface Props {
   data: IUsuario
@@ -98,7 +98,7 @@ const UserDates = ({ data }: Props) => {
           name="mobile"
           title="Celular"
           readOnly={!show}
-          value={user?.mobile as string}
+          value={user?.mobile}
           onChange={handleChange}
         />
 

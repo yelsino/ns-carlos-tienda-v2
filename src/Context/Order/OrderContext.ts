@@ -1,6 +1,6 @@
 
-import { IPedido } from 'interfaces/pedido.interface'
 import { createContext } from 'react'
+import { IPedido } from 'types-yola'
 import { OrderAction } from './orderReducer'
 
 interface PropsContext {

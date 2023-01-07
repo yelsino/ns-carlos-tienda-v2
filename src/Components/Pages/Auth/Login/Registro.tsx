@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react'
 import { Form, Formik } from 'formik'
-import * as Yup from 'yup'
 import bird from 'public/Assets/bird.svg'
 import plants from 'public/Assets/plants.svg'
 import man from 'public/Assets/man.svg'
@@ -61,18 +60,18 @@ const Registro = () => {
             validationSchema={validarRegistro}
             onSubmit={onSubmit}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {(formikEvents) => (
               <Form autoComplete="new-password">
                 <div className=" relative flex w-72 flex-col gap-y-7 sm:w-80">
                   {withWhat === 'correo' ? (
-                    <Correo errors={errors} touched={touched} />
+                    <Correo {...formikEvents} loading={false} />
                   ) : (
-                    <Mobile errors={errors} touched={touched} />
+                    <Mobile {...formikEvents} loading={false} />
                   )}
 
                   {/* button */}
                   <button
-                    disabled={isSubmitting}
+                    disabled={formikEvents.isSubmitting} // loading viene de formik
                     type="submit"
                     className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
                   >

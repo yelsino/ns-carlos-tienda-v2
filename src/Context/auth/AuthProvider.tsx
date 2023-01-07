@@ -2,10 +2,8 @@ import { useCallback, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
-import { IUsuario } from 'interfaces/usuario.interface'
 import { fetchConToken, fetchSinToken } from 'helpers/fetch'
-import { IAuth, IAuthRest } from 'interfaces/Auth.interface'
-import { IRest } from 'interfaces/irest.interface'
+import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IRespuesta, IUsuario } from 'types-yola'
 
 export interface AuthState {
   uid: string | null
@@ -32,12 +30,12 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
 
-  const userLogin = async (correo: string, password: string): Promise<IRest> => {
+  const userLogin = async (correo: string, password: string): Promise<IRespuesta<IAuthRest>> => {
     // let response: IRest<IUsuario> = null;
 
     dispatch({ type: 'LOADING', payload: true })
     
-    const resp = await fetchSinToken<IRest<IAuthRest>>({
+    const resp = await fetchSinToken<IRespuesta<IAuthRest>>({
       endpoint: 'auth/login',
       body: { correo, password },
       method: 'POST'
@@ -45,7 +43,7 @@ export const AuthProvider = ({ children }: Props) => {
     
 
     if (resp.ok) {
-      const { usuario, token } = resp.data
+      const { usuario, token } = resp.data;
 
       localStorage.setItem('token', token)
 
@@ -60,13 +58,13 @@ export const AuthProvider = ({ children }: Props) => {
     return resp
   }
 
-  const userRegister = async (data: IAuth): Promise<IRest> => {
+  const userRegister = async (data: IAuth): Promise<IRespuesta<IAuthRest>> => {
     dispatch({ type: 'LOADING', payload: true })
     console.log(data);
     
-    let resp:IRest<IAuthRest> = null;
-    if(data.type === "email"){
-      resp = await fetchSinToken<IRest<IAuthRest>>({
+    let resp:IRespuesta<IAuthRest> = null;
+    if(data.tipo === "CORREO"){
+      resp = await fetchSinToken<IRespuesta<IAuthRest>>({
         endpoint: 'auth/register',
         body: data,
         method: 'POST'
@@ -87,6 +85,54 @@ export const AuthProvider = ({ children }: Props) => {
 
   }
 
+  const googleAutenticacion = async (data: IAuthGoogle): Promise<IRespuesta<IAuthRest>> => {
+    const resp = await fetchSinToken<IRespuesta<IAuthRest>>({
+      endpoint: 'auth/login-google',
+      body: data,
+      method: 'POST'
+    })
+
+    if (resp.ok) {
+      const { usuario, token } = resp.data
+
+      localStorage.setItem('token', token)
+
+      dispatch({
+        type: 'LOGIN',
+        payload: usuario
+      })
+      return resp
+    }
+
+    localStorage.setItem('noPassword', 'true')
+    return resp
+
+  }
+
+  const facebookAutenticacion = async (data: IAuthFacebook): Promise<IRespuesta<IAuthRest>> => {
+    const resp = await fetchSinToken<IRespuesta<IAuthRest>>({
+      endpoint: 'auth/login-facebook',
+      body: data,
+      method: 'POST'
+    })
+
+    if (resp.ok) {
+      const { usuario, token } = resp.data
+
+      localStorage.setItem('token', token)
+
+      dispatch({
+        type: 'LOGIN',
+        payload: usuario
+      })
+      return resp
+    }
+
+    localStorage.setItem('noPassword', 'true')
+    return resp
+
+  }
+
   const verificarToken = useCallback(async () => {
     const token = localStorage.getItem('token') || ''
     // si token no existe
@@ -96,7 +142,7 @@ export const AuthProvider = ({ children }: Props) => {
       return false
     }
 
-    const resp = await fetchConToken<IRest<IAuthRest>>({ endpoint: 'auth/re-login' })
+    const resp = await fetchConToken<IRespuesta<IAuthRest>>({ endpoint: 'auth/re-login' })
     // const { usuario } = resp;
 
     if (!resp.ok) {
@@ -133,7 +179,9 @@ export const AuthProvider = ({ children }: Props) => {
         userLogin,
         verificarToken,
         userLogout,
-        userRegister
+        userRegister,
+        googleAutenticacion,
+        facebookAutenticacion
       }}
     >
       {children}

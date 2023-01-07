@@ -1,6 +1,6 @@
 
-import { IProducto } from 'interfaces/Producto.interface'
 import { createContext } from 'react'
+import { IProducto } from 'types-yola'
 import { RemoveProductSocket } from './ProductProvider'
 import { ProductAction } from './ProductReducer'
 

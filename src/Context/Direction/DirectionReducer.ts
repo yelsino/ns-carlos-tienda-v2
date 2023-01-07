@@ -1,6 +1,6 @@
 
-import { IDireccion } from 'interfaces/direccion.interface';
 import { LocalStorageService } from 'schemas/LocalStorageService';
+import { IDireccion } from 'types-yola';
 import { DirectionState } from './DirectionProvider'
 
 export type DirectionAction =

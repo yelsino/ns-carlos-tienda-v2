@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { listReducer } from './listReducer'
 import { useReducer } from 'react'
 import { ListContext } from './ListContext'
-import { ILista } from 'interfaces/lista.interface'
+import { ILista } from 'types-yola'
 
 export interface ListState {
   lists: Array<ILista>

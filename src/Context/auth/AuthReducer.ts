@@ -1,4 +1,4 @@
-import { IUsuario } from 'interfaces/usuario.interface';
+import { IUsuario } from 'types-yola';
 import { AuthState } from './AuthProvider'
 
 export type AuthAction =

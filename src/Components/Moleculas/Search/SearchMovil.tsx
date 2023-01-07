@@ -12,15 +12,15 @@ interface PricePerWeight {
   price: number
 }
 interface PropsAutocompleteItem {
-  name: string
-  img: string
-  pricePerWeight: Array<PricePerWeight>
+  nombre: string
+  imagen: string
+  precios: Array<PricePerWeight>
 }
 
 const AutocompleteItem = ({
-  name,
-  img,
-  pricePerWeight
+  nombre,
+  imagen,
+  precios
 }: PropsAutocompleteItem) => {
   const { products, dispatch: dispatchProduct } = useContext(ProductContext)
 
@@ -31,17 +31,17 @@ const AutocompleteItem = ({
       onClick={() => {
         dispatchProduct({
           type: 'SELECT_PRODUCT',
-          payload: products.find((p) => p.name === name) as IProducto
+          payload: products.find((p) => p.nombre === nombre) as IProducto
         })
       }}
       className="flex w-full items-center justify-between py-3"
     >
       <div className="flex items-center gap-x-3">
-        <img src={img} alt={name} className="h-12 w-12 object-contain" />
-        <h3 className="font-semibold text-gray-600">{name}</h3>
+        <img src={imagen} alt={nombre} className="h-12 w-12 object-contain" />
+        <h3 className="font-semibold text-gray-600">{nombre}</h3>
       </div>
       <p className=" flex items-center gap-x-3 text-gray-600">
-        <span>S/. {pricePerWeight[0].price}</span>
+        <span>S/. {precios[0].price}</span>
         <span className="text-xs text-color_green_7">
           <IconLink />
         </span>

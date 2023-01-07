@@ -18,14 +18,14 @@ const YourList = () => {
 
   useEffect(() => {
     setOrderData((prev) => {
-      return { ...prev, listID: list?._id }
+      return { ...prev, listID: list?.id }
     })
   }, [list])
 
   return (
     <>
       <h2 className="font-poppins text-3xl font-extrabold pt-10">Su Lista</h2>
-      <p className="font-poppins text-lg">{list.name}</p>
+      <p className="font-poppins text-lg">{list.nombre}</p>
       <p
         className={`flex  w-full px-2 ${
           lists.length > 1 ? 'justify-between' : 'justify-center'
@@ -45,8 +45,8 @@ const YourList = () => {
           layout
           initial={{ borderRadius: 25 }}
         >
-          {list?.products?.map((item) => (
-            <ItemList key={item._id} item={item} />
+          {list?.productos?.map((item) => (
+            <ItemList key={item.producto.id} item={item} />
           ))}
         </motion.ul>
       </LayoutGroup>
@@ -85,15 +85,15 @@ const YourList = () => {
             </p>
             <div className=" flex h-[250px] flex-col gap-y-3 overflow-y-scroll">
               {lists.map((l) => {
-                if (l.products.length >= 1) {
+                if (l.productos.length >= 1) {
                   return (
                     <Select
-                      key={l._id}
-                      text={l.name}
+                      key={l.id}
+                      text={l.nombre}
                       onClick={() =>
-                        setList({ type: 'SELECT_LIST', payload: l._id })
+                        setList({ type: 'SELECT_LIST', payload: l.id })
                       }
-                      checked={l._id === list._id}
+                      checked={l.id === list.id}
                       icon={<IconListas stile={'h-6 w-6'} />}
                     />
                   )

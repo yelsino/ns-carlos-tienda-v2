@@ -2,7 +2,7 @@ import { useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { orderReducer } from './orderReducer'
 import { OrderContext } from './OrderContext'
-import { IPedido } from 'interfaces/pedido.interface'
+import { IPedido } from 'types-yola'
 
 
 export interface OrderState {

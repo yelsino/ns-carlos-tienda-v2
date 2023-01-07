@@ -2,12 +2,12 @@ import { RadioGroup } from '@headlessui/react'
 import './cssViewProduct.css'
 import { motion } from 'framer-motion'
 
-import { ProductModel } from 'schemas/Product.model'
 import { useSwitchWeight } from 'Hooks/useSwitchWeight'
 import { IconDelete } from 'Components/Atoms/Icons';
+import { IProducto } from 'types-yola';
 
 interface Props {
-  product: ProductModel
+  product: IProducto
   setAdding: React.Dispatch<React.SetStateAction<boolean>>
   adding: boolean
 }
@@ -41,7 +41,7 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
             onChange={(e) => setWeight(e)}
             className="flex w-full justify-between"
           >
-            {alterproduct.pricePerWeight.map(
+            {alterproduct.precios.map(
               ({ id, weighttextlg, weighttextmd },index) => (
                 <RadioGroup.Option
                   key={id}

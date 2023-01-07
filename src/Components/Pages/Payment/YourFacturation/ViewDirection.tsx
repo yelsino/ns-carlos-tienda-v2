@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
-import { IDireccion } from 'interfaces/direccion.interface'
 import Input from 'Components/Atoms/Input'
 import PortalComponent from 'Components/Atoms/Portals/PortalComponent'
 import Select from 'Components/Atoms/Select'
 import { IconLocation } from 'Components/Atoms/Icons'
+import { IDireccion } from 'types-yola'
 
 interface Props {
   setShow: () => void
@@ -45,7 +45,7 @@ const ViewDirection = ({ setShow }: Props) => {
             name="ninguno"
             title="Nombre y número de dirección"
             // onChange={() => {}}
-            value={direction?.name}
+            value={direction?.nombre}
             readOnly={true}
           />
           <Input
@@ -53,7 +53,7 @@ const ViewDirection = ({ setShow }: Props) => {
             title="Referencia"
             // onChange={() => {}}
             readOnly={true}
-            value={direction?.reference}
+            value={direction?.referencia}
           />
         </>
       ) : (

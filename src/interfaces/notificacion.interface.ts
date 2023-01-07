@@ -1,5 +1,5 @@
 
-export interface Notificacion {
+export interface INotificacion {
  id?: string
  show?: boolean
  type: number
@@ -7,5 +7,5 @@ export interface Notificacion {
 }
 
 export interface NotificacionState {
-notificaciones: Array<Notificacion>
+notificaciones: Array<INotificacion>
 }

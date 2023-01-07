@@ -2,7 +2,7 @@ import { useContext, useReducer } from 'react'
 import { ProductReducer } from './ProductReducer'
 import { ProductContext } from './ProductContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
-import { IProducto } from './../../interfaces/Producto.interface';
+import { IProducto } from 'types-yola'
 
 export interface ProductState {
   products: Array<IProducto>

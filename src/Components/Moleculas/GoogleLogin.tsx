@@ -1,6 +1,18 @@
+import { AuthContext } from 'Context/auth/AuthContext'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
+import { useContext } from 'react'
 import { GoogleLogin as ButtonGoogle } from 'react-google-login'
 export const GoogleLogin = () => {
-  const responseGoogle = () => console.log
+
+  const {googleAutenticacion} = useContext(AuthContext)
+  const {setNotificacion} = useContext(NotificacionContext)
+
+  const responseGoogle = async (resp) => {
+    console.log(JSON.stringify(resp))
+    const res = await googleAutenticacion(resp);
+    if(!res.ok) setNotificacion({message:res.mensaje, type: 1})
+  }
+
 
   return (
     <ButtonGoogle

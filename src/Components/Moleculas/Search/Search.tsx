@@ -12,15 +12,15 @@ interface PricePerWeight {
 }
 
 interface PropsAutoCompleteItem {
-  name: string
-  img: string
-  pricePerWeight: Array<PricePerWeight>
+  nombre: string
+  imagen: string
+  precios: Array<PricePerWeight>
 }
 
 const AutocompleteItem = ({
-  name,
-  img,
-  pricePerWeight
+  nombre,
+  imagen,
+  precios
 }: PropsAutoCompleteItem) => {
   const { products, dispatch: dispatchProduct } = useContext(ProductContext)
 
@@ -31,17 +31,17 @@ const AutocompleteItem = ({
       onClick={() => {
         dispatchProduct({
           type: 'SELECT_PRODUCT',
-          payload: products.find((p) => p.name === name) as IProducto
+          payload: products.find((p) => p.nombre === nombre) as IProducto
         })
       }}
       className="w-full"
     >
       <div className="flex gap-4 p-4 hover:bg-color_green_2">
-        <img src={img} alt={name} className="h-12 w-12 object-contain" />
+        <img src={imagen} alt={nombre} className="h-12 w-12 object-contain" />
         <div className="flex flex-col justify-center">
-          <h3 className="font-semibold text-gray-600">{name}</h3>
+          <h3 className="font-semibold text-gray-600">{nombre}</h3>
           <p className="text-xs text-gray-600">
-            S/. {pricePerWeight.length >= 1 ? pricePerWeight[0].price : 0}
+            S/. {precios.length >= 1 ? precios[0].price : 0}
           </p>
         </div>
       </div>
@@ -152,8 +152,13 @@ export default function Search(props: T) {
                     <section key={`section-${index}`} className="w-[260px]">
                       {items.length > 0 && (
                         <ul {...autocomplete.getListProps()}>
-                          {items.map((item: IProducto) => (
-                            <AutocompleteItem key={item._id} {...item} />
+                          {items.map((item) => (
+                            <AutocompleteItem 
+                            key={item.id} 
+                            {...item}
+                            nombre=""
+                            imagen=''
+                            />
                           ))}
                         </ul>
                       )}

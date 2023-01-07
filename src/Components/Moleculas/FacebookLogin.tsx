@@ -1,6 +1,16 @@
+import { AuthContext } from 'Context/auth/AuthContext'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
+import { useContext } from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 export const FacebookLoginButton = () => {
-  const responseFacebook = () => console.log
+
+  const {facebookAutenticacion} = useContext(AuthContext)
+  const {setNotificacion} = useContext(NotificacionContext)
+
+  const responseFacebook = async (resp) => {
+    const res = await facebookAutenticacion(resp);
+    if(!res.ok) setNotificacion({message:res.mensaje, type: 1})
+  }
 
   return (
     <FacebookLogin

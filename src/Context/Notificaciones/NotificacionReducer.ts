@@ -1,5 +1,5 @@
 
-import { NotificacionState } from "interfaces/Notificacion";
+import { NotificacionState } from "interfaces/notificacion.interface";
 import { NotificacionAction } from "types/NotificacionType";
 
 export const notificacionReducer = (

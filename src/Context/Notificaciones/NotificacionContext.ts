@@ -1,4 +1,4 @@
-import { INotificacion } from 'interfaces/Notificacion'
+import { INotificacion } from 'interfaces/notificacion.interface'
 import { createContext } from 'react'
 
 interface NotificacionContextProps {

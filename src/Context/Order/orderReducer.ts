@@ -1,5 +1,5 @@
 
-import { IPedido } from 'interfaces/pedido.interface';
+import { IPedido } from 'types-yola';
 import { OrderState } from './OrderProvider'
 
 export type OrderAction = { type: 'GET_USER_ORDERS'; payload: Array<IPedido> }

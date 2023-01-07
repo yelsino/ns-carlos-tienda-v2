@@ -6,68 +6,22 @@ import { SocketContext } from 'Context/Socket/SocketContext'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatToMoney } from 'helpers/formatToMoney'
 import { useOnClick } from 'Hooks/useOnClick'
-import {  ProductsList, Quantity } from 'interfaces/Interfaces'
-import { PRODUCTO_VENTA } from 'interfaces/producto.interface'
+
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ProductModel } from 'schemas/Product.model'
+import { DetailProduct } from 'types-yola'
 
 
 interface Props {
-  item: ProductsList
+  item: DetailProduct
 }
 
 
 
 
 const ItemList = ({ item }: Props) => {
-  const {
-    _id,
-    product: { name, typeOfsale },
-    quantities
-  } = item
+  const { id, producto, cantidades } = item
 
-
-  const totalQuantity = () => {
-    const quantity = [...quantities].reduce((acc, curr) => {
-      switch (typeOfsale) {
-        case 'UNIDADES':
-          return acc + curr?.quantity
-
-        case 'KILOGRAMOS':
-        case 'LITROS':
-        case 'FRACCIONES':
-          return acc + (curr?.quantity * curr?.weight) / 1000
-
-        default:
-          return 0
-      }
-    }, 0)
-
-    switch (typeOfsale) {
-      case 'UNIDADES':
-        return `${quantity} und`
-      case 'KILOGRAMOS':
-        return `${number.isInteger(quantity) ? quantity : quantity.toFixed(2)
-          } kg`
-      case 'LITROS':
-        return `${number.isInteger(quantity) ? quantity : quantity.toFixed(2)
-          } lt`
-      case 'FRACCIONES':
-        return `${number.isInteger(quantity) ? quantity : quantity.toFixed(2)
-          } ft`
-      default:
-        return null
-    }
-  }
-
-  const totalAmount = () => {
-    const amountOfProduct = quantities.reduce(
-      (acc, curr) => acc + curr?.quantity * curr?.price,
-      0
-    )
-    return formatToMoney(amountOfProduct) 
-  }
 
   const [isOpen, setIsOpen] = useState(false)
   const toggleOpen = () => setIsOpen(!isOpen)
@@ -81,7 +35,7 @@ const ItemList = ({ item }: Props) => {
         layout
         onClick={toggleOpen}
         // value={item as Item}
-        id={_id}
+        id={id}
         style={{}}
         className={`flex   cursor-pointer items-center justify-between  rounded-lg  bg-white px-5 py-3 shadow-md  ${isOpen ? ' rounded-none border-b shadow-none' : ''
           }`}
@@ -90,15 +44,15 @@ const ItemList = ({ item }: Props) => {
           className={`truncate font-semibold transition-all duration-300 ease-in-out  ${isOpen ? 'font-bold text-gray-900 ' : 'text-gray-500'
             }`}
         >
-          {name}
+          {producto.nombre}
         </p>
 
         <div className="flex">
-          <div className="flex w-20 items-center ">{totalQuantity()}</div>
+          {/* <div className="flex w-20 items-center ">{totalQuantity()}</div> */}
           <div className="flex w-16 items-center ">
             <span className="text-[12px] ">S/.</span>
             <span className="font-semibold text-color_green_7">
-              {totalAmount()}
+              {/* {totalAmount()} */} 
             </span>
           </div>
         </div>
@@ -121,18 +75,18 @@ const Content = ({ item }: Props) => {
 
   const [stateQuantities, setStateQuantities] = useState([])
 
-  useEffect(() => {
-    setStateQuantities(() => {
-      return tranformQuantities(item.quantities, item.product.typeOfsale)
-    })
-  }, [item])
+  // useEffect(() => {
+  //   setStateQuantities(() => {
+  //     return tranformQuantities(item.cantidades, item.producto.tipoVenta)
+  //   })
+  // }, [item])
 
   const removeWeightOfProduct = (weightID: string) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_WEIGHT_OF_PRODUCT',
-      listID: list!._id,
-      productID: item.product._id,
+      listID: list!.id,
+      productID: item.producto.id,
       userID: uid,
       weightID
     })
@@ -142,99 +96,99 @@ const Content = ({ item }: Props) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
-      listID: list!._id,
-      productID: item.product._id,
+      listID: list!.id,
+      productID: item.producto.id,
       userID: uid
       // mountID: weight,
     })
   }
 
-  const tranformQuantities = (
-    dataquantities: Array<Quantity>,
-    typeOfsale: string
-  ) => {
-    return dataquantities.map((v) => {
-      switch (typeOfsale) {
-        case PRODUCTO_VENTA.UNIDADES: {
-          if (v.weight === 250) {
-            v.weighttextmd = 'chico'
-            v.weighttextlg = 'pequeño'
-            return v
-          }
-          if (v.weight === 500) {
-            v.weighttextmd = 'medio'
-            v.weighttextlg = 'mediano'
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = 'grande'
-            v.weighttextlg = 'grande'
-            return v
-          }
-          return v
-        }
+  // const tranformQuantities = (
+  //   dataquantities: Array<Quantity>,
+  //   typeOfsale: string
+  // ) => {
+  //   return dataquantities.map((v) => {
+  //     switch (typeOfsale) {
+  //       case PRODUCTO_VENTA.UNIDADES: {
+  //         if (v.weight === 250) {
+  //           v.weighttextmd = 'chico'
+  //           v.weighttextlg = 'pequeño'
+  //           return v
+  //         }
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = 'medio'
+  //           v.weighttextlg = 'mediano'
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = 'grande'
+  //           v.weighttextlg = 'grande'
+  //           return v
+  //         }
+  //         return v
+  //       }
 
-        case PRODUCTO_VENTA.KILOGRAMOS: {
-          if (v.weight === 250) {
-            v.weighttextmd = '1/4'
-            v.weighttextlg = `${v.weight} gramos`
-            return v
-          }
-          if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = `${v.weight} gramos`
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = '1 kg'
-            v.weighttextlg = `1 kilogramo`
-            return v
-          } else {
-            v.weighttextmd = `${v.weight} gr`
-            v.weighttextlg = `${v.weight} gramos`
-            return v
-          }
-        }
+  //       case PRODUCTO_VENTA.KILOGRAMOS: {
+  //         if (v.weight === 250) {
+  //           v.weighttextmd = '1/4'
+  //           v.weighttextlg = `${v.weight} gramos`
+  //           return v
+  //         }
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = '1/2'
+  //           v.weighttextlg = `${v.weight} gramos`
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = '1 kg'
+  //           v.weighttextlg = `1 kilogramo`
+  //           return v
+  //         } else {
+  //           v.weighttextmd = `${v.weight} gr`
+  //           v.weighttextlg = `${v.weight} gramos`
+  //           return v
+  //         }
+  //       }
 
-        case PRODUCTO_VENTA.LITROS: {
-          if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = '1/2 litro'
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = '1 lt'
-            v.weighttextlg = '1 litro'
-            return v
-          } else {
-            v.weighttextmd = `${v.weight} ml`
-            v.weighttextlg = `${v.weight} mililitros`
-            return v
-          }
-        }
+  //       case PRODUCTO_VENTA.LITROS: {
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = '1/2'
+  //           v.weighttextlg = '1/2 litro'
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = '1 lt'
+  //           v.weighttextlg = '1 litro'
+  //           return v
+  //         } else {
+  //           v.weighttextmd = `${v.weight} ml`
+  //           v.weighttextlg = `${v.weight} mililitros`
+  //           return v
+  //         }
+  //       }
 
-        case PRODUCTO_VENTA.FRACCIONES: {
-          if (v.weight === 250) {
-            v.weighttextmd = '1/4'
-            v.weighttextlg = 'un cuarto'
-            return v
-          }
-          if (v.weight === 500) {
-            v.weighttextmd = '1/2'
-            v.weighttextlg = 'la mitad'
-            return v
-          }
-          if (v.weight === 1000) {
-            v.weighttextmd = '1'
-            v.weighttextlg = 'entero'
-            return v
-          }
-          return v
-        }
-      }
-      return v
-    })
-  }
+  //       case PRODUCTO_VENTA.FRACCIONES: {
+  //         if (v.weight === 250) {
+  //           v.weighttextmd = '1/4'
+  //           v.weighttextlg = 'un cuarto'
+  //           return v
+  //         }
+  //         if (v.weight === 500) {
+  //           v.weighttextmd = '1/2'
+  //           v.weighttextlg = 'la mitad'
+  //           return v
+  //         }
+  //         if (v.weight === 1000) {
+  //           v.weighttextmd = '1'
+  //           v.weighttextlg = 'entero'
+  //           return v
+  //         }
+  //         return v
+  //       }
+  //     }
+  //     return v
+  //   })
+  // }
 
   return (
     <motion.div
@@ -277,7 +231,7 @@ const Content = ({ item }: Props) => {
           onClick={() => {
             dispatchProduct({
               type: 'SELECT_PRODUCT',
-              payload: item.product
+              payload: item.producto
             })
           }}
           className=" font-normal text-color_green_7"

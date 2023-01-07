@@ -7,9 +7,7 @@ import { SocketContext } from './SocketContext'
 import { LocalStorageService } from 'schemas/LocalStorageService'
 import { OrderContext } from 'Context/Order/OrderContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
-import { IPedido } from 'interfaces/pedido.interface'
-import { IDireccion } from 'interfaces/direccion.interface'
-import { ILista } from 'interfaces/lista.interface'
+import { IDireccion, ILista, IPedido } from 'types-yola'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

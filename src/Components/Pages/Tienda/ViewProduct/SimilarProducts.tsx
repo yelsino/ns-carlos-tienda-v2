@@ -20,7 +20,7 @@ const SimilarProducts = ({ similarProducts }) => {
             key={p._id}
             onClick={() => {
               
-              const findProduct = products.find((v) => v.name === p.name)
+              const findProduct = products.find((v) => v.nombre === p.name)
               
               if (!findProduct) 
               return console.log('Producto no encontrado');

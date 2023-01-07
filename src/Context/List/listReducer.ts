@@ -1,5 +1,5 @@
-import { ILista } from 'interfaces/lista.interface';
 import { LocalStorageService } from 'schemas/LocalStorageService';
+import { ILista } from 'types-yola';
 import { ListState } from './ListProvider'
 
 export type ListAction =

@@ -4,5 +4,5 @@ export const formatToMoney = (value:number) => {
     100
   ).toFixed(2)
 
-  return number(format)
+  return Number(format)
 }

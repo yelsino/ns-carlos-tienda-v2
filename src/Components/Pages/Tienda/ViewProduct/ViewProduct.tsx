@@ -3,8 +3,7 @@ import SwitchWeight from './SwitchWeight'
 import algoliasearch from 'algoliasearch'
 import { useEffect, useState } from 'react'
 import SimilarProducts from './SimilarProducts'
-import { ProductModel } from 'schemas/Product.model'
-import { IProducto } from 'interfaces/producto.interface'
+import { IProducto } from 'types-yola'
 
 interface Props {
   product: IProducto
@@ -70,7 +69,7 @@ const ViewProduct = ({ product, setModal, setItem, setAdding, adding }: Props) =
             <img src={imagen} className=" mb-3 scale-125" />
           </div>
 
-          <SwitchWeight product={new ProductModel(product)} setAdding={setAdding} adding={adding} />
+          <SwitchWeight product={product} setAdding={setAdding} adding={adding} />
 
           <div className="flex  w-full flex-col gap-y-3">
             {descripcion &&

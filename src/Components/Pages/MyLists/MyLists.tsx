@@ -45,7 +45,7 @@ export const MyLists = () => {
 
     setList({
       type: 'SELECT_LIST',
-      payload: lists[0]._id
+      payload: lists[0].id
     })
   }
 
@@ -73,9 +73,9 @@ export const MyLists = () => {
                   {lists.map((item) => (
                     <EachList
                       list={item}
-                      key={item._id}
+                      key={item.id}
                       setList={setList}
-                      currlist={list._id}
+                      currlist={list.id}
                       deleteList={deleteList}
                       // setModalDelete={setModal3}
                     />

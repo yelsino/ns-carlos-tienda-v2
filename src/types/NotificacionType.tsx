@@ -1,5 +1,4 @@
-import { INotificacion } from "interfaces/Notificacion";
-
+import { INotificacion } from "interfaces/notificacion.interface";
 
 export type NotificacionAction =
   | { type: 'UPDATE_NOTIFICATION'; payload: string }

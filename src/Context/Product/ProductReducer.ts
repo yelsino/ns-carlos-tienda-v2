@@ -1,5 +1,5 @@
+import { IProducto } from 'types-yola';
 import { ProductState } from './ProductProvider'
-import { IProducto } from './../../interfaces/Producto.interface';
 
 export type ProductAction =
   | { type: 'GET_PRODUCTS'; payload: Array<IProducto> }
