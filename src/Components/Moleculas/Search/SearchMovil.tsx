@@ -5,7 +5,7 @@ import { getAlgoliaResults } from '@algolia/autocomplete-js'
 import algoliasearch from 'algoliasearch'
 import { IconArrow, IconLink, IconSearch } from '../../Atoms/Icons'
 import { ProductContext } from 'Context/Product/ProductContext'
-import { IProducto } from 'interfaces/producto.interface';
+import { IProducto } from 'types-yola'
 
 
 interface PricePerWeight {

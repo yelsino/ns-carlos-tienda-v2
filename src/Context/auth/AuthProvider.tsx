@@ -171,6 +171,28 @@ export const AuthProvider = ({ children }: Props) => {
     })
   }
 
+  const verificarExisteMovil = async (celular: string): Promise<IRespuesta<boolean>> => {
+
+    const resp = await fetchSinToken<IRespuesta<boolean>>({
+      endpoint: 'auth/verificar-movil',
+      body: { celular },
+      method: 'POST'
+    })
+
+    return resp
+  }
+  
+  const verificarExisteCorreo = async (correo: string): Promise<IRespuesta<boolean>> => {
+
+    const resp = await fetchSinToken<IRespuesta<boolean>>({
+      endpoint: 'auth/verificar-movil',
+      body: { correo },
+      method: 'POST'
+    })
+
+    return resp
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -181,14 +203,12 @@ export const AuthProvider = ({ children }: Props) => {
         userLogout,
         userRegister,
         googleAutenticacion,
-        facebookAutenticacion
+        facebookAutenticacion,
+        verificarExisteMovil,
+        verificarExisteCorreo
       }}
     >
       {children}
     </AuthContext.Provider>
   )
-}
-
-AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired
 }

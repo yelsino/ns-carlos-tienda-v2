@@ -1,6 +1,6 @@
 import { Dialog } from '@headlessui/react'
 import { motion } from 'framer-motion'
-import { IProducto } from 'interfaces/producto.interface'
+import { IProducto } from 'types-yola'
 
 interface Props {
   children: JSX.Element | JSX.Element[]

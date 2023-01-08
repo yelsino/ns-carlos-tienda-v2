@@ -10,6 +10,8 @@ interface AuthContextProps {
   user: IUsuario | null
   directions: []
   loading: boolean
+  verificarExisteMovil: (celular: string) => Promise<IRespuesta<boolean>>
+  verificarExisteCorreo: (correo: string) => Promise<IRespuesta<boolean>>
   userLogin: (correo: string, password: string) => Promise<IRespuesta<IAuthRest>>
   userRegister: (data:IAuth) =>Promise<IRespuesta<IAuthRest>>
   googleAutenticacion: (data: IAuthGoogle) => Promise<IRespuesta<IAuthRest>>

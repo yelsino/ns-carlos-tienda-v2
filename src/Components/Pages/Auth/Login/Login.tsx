@@ -14,6 +14,8 @@ import { Correo } from './WithWhat/Correo'
 import { Mobile } from './WithWhat/Mobile'
 import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { validAuth } from 'schemas/authValidation'
+import openModal from 'Components/Atoms/LazyModal/openModal'
+import ValidarCodigo from 'Components/Moleculas/ItemsModal/ValidarCodigo'
 
 type WithWhat = 'correo' | 'mobile'
 
@@ -57,7 +59,9 @@ const Login = () => {
         transition={{ duration: 0.7 }}
       />
       <div className="flex  max-w-5xl items-center justify-center ">
+      <ValidarCodigo />
         <div className="flex w-full flex-col items-center gap-5 p-10 font-poppins md:w-1/2">
+        <button onClick={()=> openModal()}>Open Modal</button>
           <p className="w-72 text-left sm:w-80">Iniciar sesion con</p>
 
           <SwitchLogin setWithWhat={setWithWhat} />

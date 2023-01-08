@@ -1,6 +1,6 @@
 
-import { ILista } from 'interfaces/lista.interface'
 import { createContext } from 'react'
+import { ILista } from 'types-yola'
 import { ListAction } from './listReducer'
 
 interface ListContextProps {
