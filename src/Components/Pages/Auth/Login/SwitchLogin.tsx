@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import '../estilos.css'
+import { TipoAuth } from 'types-yola'
 
-type WithWhat = 'correo' | 'mobile'
 
 interface Props {
-  setWithWhat: React.Dispatch<React.SetStateAction<WithWhat>>
+  cambiarMetodoInicio: React.Dispatch<React.SetStateAction<TipoAuth>>
 }
-const SwitchLogin = ({ setWithWhat }: Props) => {
+const SwitchLogin = ({ cambiarMetodoInicio }: Props) => {
   const [weight, setWeight] = useState('correo')
 
   return (
@@ -19,7 +19,7 @@ const SwitchLogin = ({ setWithWhat }: Props) => {
       <RadioGroup.Option value="telefono">
         {({ checked }) => (
           <button
-            onClick={() => setWithWhat('mobile')}
+            onClick={() => cambiarMetodoInicio('MOVIL')}
             className={`overflow-hidden truncate rounded-sm px-6 py-4 tracking-tight transition duration-300 ease-in-out ${
               checked
                 ? 'width-active bg-black text-white  '
@@ -33,7 +33,7 @@ const SwitchLogin = ({ setWithWhat }: Props) => {
       <RadioGroup.Option value="correo">
         {({ checked }) => (
           <button
-            onClick={() => setWithWhat('correo')}
+            onClick={() => cambiarMetodoInicio('CORREO')}
             className={`truncate rounded-sm px-6 py-4 tracking-tight transition duration-300  ease-in-out  ${
               checked
                 ? 'width-active bg-black text-white'

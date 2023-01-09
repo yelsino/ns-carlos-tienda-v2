@@ -14,15 +14,14 @@ import { Correo } from './WithWhat/Correo'
 import { Mobile } from './WithWhat/Mobile'
 import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { validAuth } from 'schemas/authValidation'
-import openModal from 'Components/Atoms/LazyModal/openModal'
-import ValidarCodigo from 'Components/Moleculas/ItemsModal/ValidarCodigo'
+import { TipoAuth } from 'types-yola'
 
-type WithWhat = 'correo' | 'mobile'
 
 const Login = () => {
   const { userLogin, loading } = useContext(AuthContext)
+
   const [noPass, setNoPass] = useState(false)
-  const [withWhat, setWithWhat] = useState<WithWhat>('correo')
+  const [conQueIniciar, cambiarMetodoInicio] = useState<TipoAuth>('CORREO')
 
   const { setNotificacion } = useContext(NotificacionContext)
 
@@ -31,11 +30,11 @@ const Login = () => {
   }
 
   const onSubmit = async (values, actions) => {
-    console.log(values)
 
-    const res = await userLogin(values.correo, values.password)
+    const res = await userLogin(values)
     if (!res.ok) setNotificacion({ message: res.mensaje, type: 1 })
     actions.resetForm()
+   
   }
 
   useEffect(() => {
@@ -59,12 +58,11 @@ const Login = () => {
         transition={{ duration: 0.7 }}
       />
       <div className="flex  max-w-5xl items-center justify-center ">
-      <ValidarCodigo />
+      
         <div className="flex w-full flex-col items-center gap-5 p-10 font-poppins md:w-1/2">
-        <button onClick={()=> openModal()}>Open Modal</button>
           <p className="w-72 text-left sm:w-80">Iniciar sesion con</p>
 
-          <SwitchLogin setWithWhat={setWithWhat} />
+          <SwitchLogin cambiarMetodoInicio={cambiarMetodoInicio} />
 
           <Formik
             initialValues={{
@@ -80,19 +78,11 @@ const Login = () => {
                 autoComplete="new-password"
                 className="relative flex w-72 flex-col gap-y-7 sm:w-80"
               >
-                {withWhat === 'correo' ? (
-                  <Correo {...formEvent} loading={loading} />
+                {conQueIniciar === 'CORREO' ? (
+                  <Correo {...formEvent} quehacer="INICIAR_SESION" />
                 ) : (
-                  <Mobile {...formEvent} loading={loading} />
+                  <Mobile {...formEvent} quehacer="INICIAR_SESION"  />
                 )}
-
-                {/* <button
-                    disabled={isSubmitting}
-                    type="submit"
-                    className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
-                  >
-                    {loading ? 'INICIANDO...' : 'INICIAR'}
-                  </button> */}
 
                 <div className="flex justify-between gap-x-7 text-blue-600">
                   <GoogleLogin />

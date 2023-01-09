@@ -2,6 +2,7 @@ import { AuthContext } from 'Context/auth/AuthContext'
 import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { useContext } from 'react'
 import { GoogleLogin as ButtonGoogle } from 'react-google-login'
+import { IAuthGoogle } from 'types-yola'
 export const GoogleLogin = () => {
 
   const {googleAutenticacion} = useContext(AuthContext)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
 import { fetchConToken, fetchSinToken } from 'helpers/fetch'
-import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IRespuesta, IUsuario } from 'types-yola'
+import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IMobile, IRespuesta, IUsuario } from 'types-yola'
 
 export interface AuthState {
   uid: string | null
@@ -30,14 +30,13 @@ interface Props {
 export const AuthProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE)
 
-  const userLogin = async (correo: string, password: string): Promise<IRespuesta<IAuthRest>> => {
-    // let response: IRest<IUsuario> = null;
+  const userLogin = async (data:IAuth): Promise<IRespuesta<IAuthRest>> => {
 
     dispatch({ type: 'LOADING', payload: true })
     
     const resp = await fetchSinToken<IRespuesta<IAuthRest>>({
       endpoint: 'auth/login',
-      body: { correo, password },
+      body: data,
       method: 'POST'
     }).finally(()=>dispatch({ type: 'LOADING', payload: false }));
     
@@ -58,18 +57,15 @@ export const AuthProvider = ({ children }: Props) => {
     return resp
   }
 
-  const userRegister = async (data: IAuth): Promise<IRespuesta<IAuthRest>> => {
+  const registrarConEmail = async (data: IAuth): Promise<IRespuesta<IAuthRest>> => {
     dispatch({ type: 'LOADING', payload: true })
     console.log(data);
     
-    let resp:IRespuesta<IAuthRest> = null;
-    if(data.tipo === "CORREO"){
-      resp = await fetchSinToken<IRespuesta<IAuthRest>>({
-        endpoint: 'auth/register',
-        body: data,
-        method: 'POST'
-      })
-    }
+    let resp:IRespuesta<IAuthRest> = await fetchSinToken<IRespuesta<IAuthRest>>({
+      endpoint: 'auth/registro-correo',
+      body: data,
+      method: 'POST'
+    })
     dispatch({ type: 'LOADING', payload: false })
     if(resp.ok){
       const { data } = resp
@@ -86,6 +82,8 @@ export const AuthProvider = ({ children }: Props) => {
   }
 
   const googleAutenticacion = async (data: IAuthGoogle): Promise<IRespuesta<IAuthRest>> => {
+    console.log(data);
+    
     const resp = await fetchSinToken<IRespuesta<IAuthRest>>({
       endpoint: 'auth/login-google',
       body: data,
@@ -174,7 +172,7 @@ export const AuthProvider = ({ children }: Props) => {
   const verificarExisteMovil = async (celular: string): Promise<IRespuesta<boolean>> => {
 
     const resp = await fetchSinToken<IRespuesta<boolean>>({
-      endpoint: 'auth/verificar-movil',
+      endpoint: 'auth/verificar-mobile',
       body: { celular },
       method: 'POST'
     })
@@ -183,14 +181,20 @@ export const AuthProvider = ({ children }: Props) => {
   }
   
   const verificarExisteCorreo = async (correo: string): Promise<IRespuesta<boolean>> => {
-
+    console.log("VERIFICAR EXISTENCIA DE CORREO");
+    
     const resp = await fetchSinToken<IRespuesta<boolean>>({
-      endpoint: 'auth/verificar-movil',
+      endpoint: 'auth/verificar-correo',
       body: { correo },
       method: 'POST'
     })
 
     return resp
+  }
+
+  const registrarConMovil = async (data: IMobile): Promise<IRespuesta<IAuthRest>> => {
+
+    return null
   }
 
   return (
@@ -201,9 +205,10 @@ export const AuthProvider = ({ children }: Props) => {
         userLogin,
         verificarToken,
         userLogout,
-        userRegister,
+        registrarConEmail,
         googleAutenticacion,
         facebookAutenticacion,
+        registrarConMovil,
         verificarExisteMovil,
         verificarExisteCorreo
       }}

@@ -1,6 +1,6 @@
 
 import { createContext } from 'react'
-import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IRespuesta, IUsuario } from 'types-yola'
+import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IMobile, IRespuesta, IUsuario } from 'types-yola'
 import { AuthAction } from './AuthReducer'
 
 interface AuthContextProps {
@@ -12,8 +12,9 @@ interface AuthContextProps {
   loading: boolean
   verificarExisteMovil: (celular: string) => Promise<IRespuesta<boolean>>
   verificarExisteCorreo: (correo: string) => Promise<IRespuesta<boolean>>
-  userLogin: (correo: string, password: string) => Promise<IRespuesta<IAuthRest>>
-  userRegister: (data:IAuth) =>Promise<IRespuesta<IAuthRest>>
+  userLogin: (data:IAuth) => Promise<IRespuesta<IAuthRest>>
+  registrarConEmail: (data:IAuth) =>Promise<IRespuesta<IAuthRest>>
+  registrarConMovil: (data:IMobile) =>Promise<IRespuesta<IAuthRest>>
   googleAutenticacion: (data: IAuthGoogle) => Promise<IRespuesta<IAuthRest>>
   facebookAutenticacion: (data: IAuthFacebook) => Promise<IRespuesta<IAuthRest>>
   verificarToken: () => Promise<boolean>

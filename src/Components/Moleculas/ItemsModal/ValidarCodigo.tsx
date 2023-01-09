@@ -1,8 +1,24 @@
 import { IconArrow } from "Components/Atoms/Icons";
-import { createRef, useEffect, useState } from "react";
+import { AuthContext } from "Context/auth/AuthContext";
+import { NotificacionContext } from "Context/Notificaciones/NotificacionContext";
+import { createRef, useContext, useEffect, useState } from "react";
+import { IAuth, IMobile, TipoAuth } from "types-yola";
 
-const ValidarCodigo = () => {
+interface Props {
+	setValidCode: React.Dispatch<React.SetStateAction<boolean>>
+	dataValidada: IAuth | IMobile
+	setDataValidada: React.Dispatch<React.SetStateAction<IAuth>>
+	conQueIniciar: TipoAuth
+}
 
+const ValidarCodigo = (props:Props) => {
+
+	const { setValidCode, dataValidada, conQueIniciar } = props
+
+	const { setNotificacion } = useContext(NotificacionContext)
+	const { registrarConEmail, registrarConMovil } = useContext(AuthContext)
+	    
+    
 	// number of inputs
 	const numerOfInputs = 4;
   
@@ -44,6 +60,22 @@ const ValidarCodigo = () => {
 		return nextIndex;
 	  });
 	};
+
+	const onSubmit = async (e) => {
+		e.preventDefault()
+		if(letters.length !== 4) return setNotificacion({message: "Indica el codigo de verificacion", type: 1})
+
+		if(conQueIniciar === "CORREO"){
+			const res = await registrarConEmail({...dataValidada, codigo: letters.join("")} as IAuth);
+			if (!res.ok) setNotificacion({ message: res.mensaje, type: 1 })
+		}
+
+		if(conQueIniciar === "MOVIL"){
+			const res = await registrarConMovil({...dataValidada, codigo:letters.join("")} as IMobile);
+			if (!res.ok) setNotificacion({ message: res.mensaje, type: 1 })
+		}
+
+	}
   
 	useEffect(() => {
 	  // focus the firs iput initially
@@ -68,22 +100,24 @@ const ValidarCodigo = () => {
 	
 	return (
     <div className="absolute w-full h-full flex bg-white top-0 left-0 z-10 flex-col p-5 justify-center items-center">
-		
-      <button className=" fixed top-0 right-0 bg-rose-500 px-4 py-2 text-rose-100 ">
+		{letters.length}
+      <button className=" fixed top-0 right-0 bg-rose-500 px-4 py-2 text-rose-100 " onClick={()=>setValidCode(false)}>
         <IconArrow />
       </button>
-      <div className="max-w-xs flex flex-col gap-y-5 border box-content p-5 rounded-lg shadow-lg border-green-200 shadow-green-200">
+      <form 
+	  	onSubmit={onSubmit}
+		className="max-w-xs flex flex-col gap-y-5 border box-content p-5 rounded-lg shadow-lg border-green-200 shadow-green-200">
         <h3 className="font-bold text-2xl">Verificación de correo</h3>
         <p className="text-gray-600 ">
           Nosotros hemos enviado un codigo a tu correo electronico
           yelsino321@gmail.com por favor verificar
         </p>
 
-        <div className="flex gap-x-5">
+        <div className="flex gap-x-5 select-none">
 		{inputRefsArray.map((ref, index) => {
         return (
           <input
-			className="w-full bg-color_green_2 py-4 px-5 font-poppins text-color_green_7 outline-none rounded-lg text-center focus:font-extrabold select-none selection:bg-color_green_3"
+			className="w-full bg-color_green_2 py-4 px-5  text-color_green_7 outline-none rounded-lg text-center font-bold select-none selection:bg-color_green_3 font-concert-one "
             ref={ref}
             type="text"
             id={`box${index}-1`}
@@ -116,9 +150,10 @@ const ValidarCodigo = () => {
         </p>
 		<input type="text" className="" />
         <button
+			type="submit"
           className="w-full bg-color_green_2 py-4 px-5 font-poppins text-color_green_7 outline-none rounded-lg hover:shadow-sm ease-in-out duration-300 hover:shadow-green-200 font-medium"
         >Validar correo</button>
-      </div>
+      </form>
     </div>
   )
 }

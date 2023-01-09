@@ -1,14 +1,16 @@
 import { Field, FormikProps } from 'formik'
 import { motion } from 'framer-motion'
+import { QueHacer } from 'interfaces/interfaces'
 import flag from 'public/Assets/peru.png'
 import { IMobile } from 'types-yola'
 
 interface Props extends FormikProps<IMobile> {
-  loading: boolean
+  quehacer: QueHacer
 }
 
 export const Mobile = (props:Props) => {
-  const { errors, touched, isSubmitting, submitForm, loading } = props;
+
+  const { errors, touched, isSubmitting, quehacer } = props;
 
   return (
     <>
@@ -52,7 +54,6 @@ export const Mobile = (props:Props) => {
 
         <Field
           autoComplete=""
-          // autoFocus={false}
           className=" w-full rounded-md bg-color_green_2 p-4 text-color_green_7 outline-none "
           name="password"
           id="password"
@@ -61,12 +62,15 @@ export const Mobile = (props:Props) => {
       </div>
 
       <button
-        disabled={isSubmitting}
-        type="submit"
-        className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
-      >
-        {loading ? 'INICIANDO...' : 'INICIAR'}
-      </button>
+          disabled={isSubmitting}
+          type="submit"
+          className="rounded-sm bg-color_green_7 py-3 text-lg font-semibold text-white"
+        >
+           {
+           quehacer === "INICIAR_SESION" 
+           ? isSubmitting ? 'INICIANDO...' : 'INICIAR' 
+           : isSubmitting ? 'REGISTRANDOSE...' : 'REGISTRARSE' }
+        </button>
     </>
   )
 }
