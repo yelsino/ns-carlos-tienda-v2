@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { useSwitchWeight } from 'Hooks/useSwitchWeight'
 import { IconDelete } from 'Components/Atoms/Icons';
 import { IProducto } from 'types-yola';
+import { useContext } from 'react';
+import { ListContext } from 'Context/List/ListContext';
 
 interface Props {
   producto: IProducto
@@ -15,6 +17,7 @@ interface Props {
 
 const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
 
+  // const { list } = useContext(ListContext)
 
 
   const { 
@@ -76,10 +79,10 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
             <p className="flex w-full justify-between ">
               <span className="">Precio</span>
               <span>
+                <span className="text-md"> S/. </span>
                 <span className="text-lg font-extrabold">
                   {precioSeleccionado}
                   </span>
-                <span className="text-md">s/ </span>
               </span>
             </p>
 
@@ -88,7 +91,7 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
 
               <span className="text-color_green_7">
                 {/* {quantitySelected} */}
-                50 und</span>
+                {50} und</span>
             </p>
             <p className="flex w-full justify-between">
               <span>Total del producto</span>

@@ -9,18 +9,18 @@ import { useOnClick } from 'Hooks/useOnClick'
 
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { DetailProduct } from 'types-yola'
+import { ItemLista } from 'types-yola'
 
 
 interface Props {
-  item: DetailProduct
+  item: ItemLista
 }
 
 
 
 
 const ItemList = ({ item }: Props) => {
-  const { _id, producto, cantidades, total } = item
+  const { _id, producto, cantidades, cantidadTotal, montoTotal, unidadMedida } = item
 
 
   const [isOpen, setIsOpen] = useState(false)
@@ -34,7 +34,7 @@ const ItemList = ({ item }: Props) => {
       <motion.li
         layout
         onClick={toggleOpen}
-        // value={item as Item}
+        // value={item as ItemLista}
         id={_id}
         style={{}}
         className={`flex   cursor-pointer items-center justify-between  rounded-lg  bg-white px-5 py-3 shadow-md  ${isOpen ? ' rounded-none border-b shadow-none' : ''
@@ -48,11 +48,11 @@ const ItemList = ({ item }: Props) => {
         </p>
 
         <div className="flex">
-          {/* <div className="flex w-20 items-center ">{totalQuantity()}</div> */} 
+          <div className="flex w-20 items-center ">{cantidadTotal} {unidadMedida}</div> 
           <div className="flex w-16 items-center ">
             <span className="text-[12px] ">S/.</span>
             <span className="font-semibold text-color_green_7">
-              {total}
+               {montoTotal} 
             </span>
           </div>
         </div>
@@ -73,13 +73,6 @@ const Content = ({ item }: Props) => {
   const { list } = useContext(ListContext)
   const { uid } = useContext(AuthContext)
 
-  // const [stateQuantities, setStateQuantities] = useState([])
-
-  // useEffect(() => {
-  //   setStateQuantities(() => {
-  //     return tranformQuantities(item.cantidades, item.producto.tipoVenta)
-  //   })
-  // }, [item])
 
   const removeWeightOfProduct = (weightID: string) => {
     setDisabled(true)
@@ -102,6 +95,72 @@ const Content = ({ item }: Props) => {
       // mountID: weight,
     })
   }
+
+  return (
+    <motion.div
+      className="bg-white p-4 px-5  "
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <p className=" pb-1 font-semibold text-gray-700">Resumen</p>
+      {item.cantidades.map(
+        (cantidad) =>
+          cantidad.cantidad > 0 && (
+            <div key={cantidad._id} className="flex justify-between text-gray-600">
+              <span>{cantidad.textoPesoB}</span>
+              <div className="flex ">
+                <span className="w-20">{cantidad.cantidad} und</span>
+                <div className="flex w-16 items-center justify-between relative ">
+                  <span className="text-[12px] ">S/.</span>
+                  <span className="font-semibold text-color_green_7">
+                    {formatToMoney(cantidad.precio * cantidad.cantidad)}
+                  </span>
+                  <button
+                    disabled={disabled}
+                    onClick={() => removeWeightOfProduct(cantidad._id)}
+                    className="  text-gray-400 absolute  -right-5 hover:text-orange-600 ease-in duration-400"
+                  >
+                    <IconDelete stile={'w-4 h-4'} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+      )}
+
+      <div className="mt-5 flex  justify-end gap-x-5 border-t pt-3">
+        <Link
+          to={`/tienda`}
+          // to={`/tienda/${name.split(' ')[0]}`}
+          onClick={() => {
+            dispatchProduct({
+              type: 'SELECT_PRODUCT',
+              payload: item.producto
+            })
+          }}
+          className=" font-normal text-color_green_7"
+        >
+          Agregar
+        </Link>
+        <button
+          disabled={disabled}
+          onClick={removeProductOfList}
+          className="font-normal text-rose-500"
+        >
+          Quitar
+        </button>
+      </div>
+    </motion.div>
+  )
+}
+
+export default ItemList
+
+
+
+
 
   // const tranformQuantities = (
   //   dataquantities: Array<Quantity>,
@@ -189,66 +248,3 @@ const Content = ({ item }: Props) => {
   //     return v
   //   })
   // }
-
-  return (
-    <motion.div
-      className="bg-white p-4 px-5  "
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <p className=" pb-1 font-semibold text-gray-700">Resumen</p>
-      {item.cantidades.map(
-        (cantidad) =>
-          cantidad.cantidad > 0 && (
-            <div key={cantidad._id} className="flex justify-between text-gray-600">
-              <span>{cantidad.textoPesoB}gagagaassssssssssssss</span>
-              <div className="flex ">
-                <span className="w-20">{cantidad.cantidad} und</span>
-                <div className="flex w-16 items-center justify-between relative ">
-                  <span className="text-[12px] ">S/.</span>
-                  <span className="font-semibold text-color_green_7">
-                    {formatToMoney(cantidad.precio * cantidad.cantidad)}
-                  </span>
-                  <button
-                    disabled={disabled}
-                    onClick={() => removeWeightOfProduct(cantidad._id)}
-                    className="  text-gray-400 absolute  -right-5 hover:text-orange-600 ease-in duration-400"
-                  >
-                    <IconDelete stile={'w-4 h-4'} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          )
-      )}
-
-      <div className="mt-5 flex  justify-end gap-x-5 border-t pt-3">
-        <Link
-          to={`/tienda`}
-          // to={`/tienda/${name.split(' ')[0]}`}
-          onClick={() => {
-            dispatchProduct({
-              type: 'SELECT_PRODUCT',
-              payload: item.producto
-            })
-          }}
-          className=" font-normal text-color_green_7"
-        >
-          Agregar
-        </Link>
-        <button
-          disabled={disabled}
-          onClick={removeProductOfList}
-          className="font-normal text-rose-500"
-        >
-          Quitar
-        </button>
-      </div>
-    </motion.div>
-  )
-}
-
-export default ItemList
-
