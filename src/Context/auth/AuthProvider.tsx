@@ -58,15 +58,13 @@ export const AuthProvider = ({ children }: Props) => {
   }
 
   const registrarConEmail = async (data: IAuth): Promise<IRespuesta<IAuthRest>> => {
-    dispatch({ type: 'LOADING', payload: true })
-    console.log(data);
     
-    let resp:IRespuesta<IAuthRest> = await fetchSinToken<IRespuesta<IAuthRest>>({
+    let resp = await fetchSinToken<IRespuesta<IAuthRest>>({
       endpoint: 'auth/registro-correo',
       body: data,
       method: 'POST'
     })
-    dispatch({ type: 'LOADING', payload: false })
+
     if(resp.ok){
       const { data } = resp
       localStorage.setItem('token', data.token)
@@ -142,7 +140,8 @@ export const AuthProvider = ({ children }: Props) => {
 
     const resp = await fetchConToken<IRespuesta<IAuthRest>>({ endpoint: 'auth/re-login' })
     // const { usuario } = resp;
-
+    console.log(resp);
+    
     if (!resp.ok) {
       localStorage.removeItem('token')
       window.location.reload()
@@ -193,8 +192,23 @@ export const AuthProvider = ({ children }: Props) => {
   }
 
   const registrarConMovil = async (data: IMobile): Promise<IRespuesta<IAuthRest>> => {
+    let respuesta = await fetchSinToken<IRespuesta<IAuthRest>>({
+      endpoint: 'auth/registro-mobile',
+      body: data,
+      method: 'POST'
+    })
 
-    return null
+    if(respuesta.ok){
+      const { data } = respuesta
+      localStorage.setItem('token', data.token)
+      dispatch({
+        type: 'LOGIN',
+        payload: data.usuario
+      })
+      return respuesta
+    }
+    localStorage.setItem('noPassword', 'true');
+    return respuesta
   }
 
   return (

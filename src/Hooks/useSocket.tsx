@@ -1,9 +1,22 @@
 import { useCallback, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 
+
+type SocketEmit = 
+    | 'get-user-orders'
+
+type SocketOn = 
+    | 'disconnect'
+    | 'connect'
+    | 'USER_ACTIONS'
+    | 'GET_ALL_PRODUCTS'
+    | 'GET_USER_LISTS'
+    | 'GET_USER_ORDERS'
+    | 'GET_USER_DIRECTIONS'
+
 export interface SocketProps {
-  on: (action: string, callback: (data: any) => void) => void
-  emit?: (action: string, data: object) => void
+  on: (action: SocketOn, callback: (data: any) => void) => void
+  emit?: (action: SocketEmit, data: object) => void
   disconnect: () => void
   connected: boolean
 }

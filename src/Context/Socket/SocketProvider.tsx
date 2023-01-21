@@ -7,7 +7,7 @@ import { SocketContext } from './SocketContext'
 import { LocalStorageService } from 'schemas/LocalStorageService'
 import { OrderContext } from 'Context/Order/OrderContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
-import { IDireccion, ILista, IPedido } from 'types-yola'
+import { IDireccion, ILista, IPedido, IProducto, IRespuesta } from 'types-yola'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }: Props) => {
   const lsService = new LocalStorageService()
 
   const { dispatch: dispatchProduct } = useContext(ProductContext)
-  const { list, dispatch: setList } = useContext(ListContext)
+  const { list, dispatch: setList, obtenerListaDetallada } = useContext(ListContext)
   const { dispatch: setOrder } = useContext(OrderContext)
   const { dispatch: setDirection, direction } = useContext(DirectionContext)
   const auth = useContext(AuthContext)
@@ -40,7 +40,7 @@ export const SocketProvider = ({ children }: Props) => {
   }, [auth, disconnectSocket])
 
   useEffect(() => {
-    socket?.on('user-actions', (user) => {
+    socket?.on('USER_ACTIONS', (user) => {
       if (user.ok) {
         auth.dispatch({
           type: 'SET_USER',
@@ -51,36 +51,38 @@ export const SocketProvider = ({ children }: Props) => {
   }, [socket])
 
   useEffect(() => {
-    console.log("data");
     
-    socket?.on('get-products', (productos) => {
-      console.log(productos);
+    socket?.on('GET_ALL_PRODUCTS', (respuesta:IRespuesta<Array<IProducto>>) => {
+      // console.log(productos);
       
       dispatchProduct({
         type: 'GET_PRODUCTS',
-        payload: productos
+        payload: respuesta.data as Array<IProducto>
       })
     })
 
-    socket?.on('get-user-lists', (lists:Array<ILista>) => {
-      setList({
-        type: 'GET_USER_LISTS',
-        payload: lists
-      })
-
-      let searchList = lists.find(
-        (l) => l.id === `${lsService.getItem('listSelected')}`
-      )
+    socket?.on('GET_USER_LISTS', (respuesta:IRespuesta<Array<ILista>>) => {
+      console.log("GET_USER_LISTS", respuesta);
       
-      if (!list) {
-        setList({
-          type: 'SELECT_LIST',
-          payload: searchList ? searchList.id : lists[0].id
-        })
+      if(respuesta.ok){
+        setList( {type: 'GET_USER_LISTS', payload: respuesta.data})
+        respuesta.data[0]
       }
+      
+
+      if(respuesta.data) {
+        
+        obtenerListaDetallada(respuesta.data[0]._id ?? "").then((res)=>{
+          setList({
+            type: 'SELECT_LIST',
+            payload: res.data as ILista
+          })
+        });
+      }
+      
     })
 
-    socket?.on('get-user-orders', (orders: Array<IPedido>) => {
+    socket?.on('GET_USER_ORDERS', (orders: Array<IPedido>) => {
       console.log(orders);
       
       setOrder({
@@ -89,25 +91,23 @@ export const SocketProvider = ({ children }: Props) => {
       })
     })
 
-    socket?.on('get-user-directions', (directions: Array<IDireccion>) => {
+    socket?.on('GET_USER_DIRECTIONS', (directions: Array<IDireccion>) => {
       setDirection({
         type: 'GET_USER_DIRECTIONS',
         payload: directions
       })
       
-      let searchDirection = directions.find(d=> d.id === `${lsService.getItem('directionSelected')}`)
+      let searchDirection = directions.find(d=> d._id === `${lsService.getItem('directionSelected')}`)
 
       setDirection({
         type: 'SELECT_DIRECTION',
-        payload: searchDirection ? searchDirection.id : directions[0].id
+        payload: searchDirection ? searchDirection._id as string : directions[0]._id as string
       })
     })
 
   }, [socket, dispatchProduct, dispatchProduct, setList,setOrder])
 
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     <SocketContext.Provider
       value={{ socket, online, connectSocket, disconnectSocket }}
     >

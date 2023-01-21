@@ -7,45 +7,47 @@ import { IconDelete } from 'Components/Atoms/Icons';
 import { IProducto } from 'types-yola';
 
 interface Props {
-  product: IProducto
+  producto: IProducto
   setAdding: React.Dispatch<React.SetStateAction<boolean>>
   adding: boolean
 }
 
 
-const SwitchWeight = ({ product, setAdding, adding }:Props) => {
+const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
 
 
 
   const { 
-    weight,
-    setWeight,
-    alterproduct,
-    priceSelected,
-    quantitySelected,
-    totalProduct,
-    totalWeight,
+    pesoSeleccionado,
+    seleccionarPeso,
+    // productoModificado,
+    precioSeleccionado,
+    precioTotalSeleccionado,
+    // quantitySelected,
+    // totalProduct,
+    // totalWeight,
     removeProductOfList,
     addProductToList
   } = useSwitchWeight({ 
-    product, 
+    producto, 
     setAdding, 
   });
 
   return (
     <>
-      {weight && (
+      {pesoSeleccionado && (
         <>
+        {pesoSeleccionado}
           <RadioGroup
-            value={weight}
-            onChange={(e) => setWeight(e)}
+            value={pesoSeleccionado}
+            onChange={(e) => seleccionarPeso(e)}
             className="flex w-full justify-between"
           >
-            {alterproduct.precios.map(
-              ({ id, weighttextlg, weighttextmd },index) => (
+            {producto.precios.map(
+              ({textoPesoA, textoPesoB, _id},index) => (
                 <RadioGroup.Option
-                  key={id}
-                  value={id}
+                  key={_id}
+                  value={_id}
                   className="flex w-full justify-between gap-x-3"
                 >
                   {({ checked }) => {
@@ -59,7 +61,7 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
                             : 'width-inactive1 bg-white'
                         }`}
                       >
-                        {checked ? weighttextlg : weighttextmd}
+                        {checked ? textoPesoB : textoPesoA}
                       </button>
                     )
                   }}
@@ -74,30 +76,36 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
             <p className="flex w-full justify-between ">
               <span className="">Precio</span>
               <span>
-                <span className="text-lg font-extrabold">{priceSelected}</span>
+                <span className="text-lg font-extrabold">
+                  {precioSeleccionado}
+                  </span>
                 <span className="text-md">s/ </span>
               </span>
             </p>
 
             <p className="flex w-full justify-between">
-              <span>En lista</span>
+              <span>Cantidad en lista</span>
 
-              <span className="text-color_green_7">{quantitySelected} und</span>
+              <span className="text-color_green_7">
+                {/* {quantitySelected} */}
+                50 und</span>
             </p>
             <p className="flex w-full justify-between">
-              <span>Total</span>
+              <span>Total del producto</span>
               <span className="text-color_green_7">
                 <motion.span
                   initial={{ scale: 1.5 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.3 }}
                   exit={{ scaleY: 0 }}
-                  key={totalProduct}
+                  key={precioTotalSeleccionado}
                   className="inline-block font-bold"
                 >
-                  {totalWeight}
+                  200
+                  {/* {totalWeight} */}
                 </motion.span>
-                {totalProduct}
+                100
+                 {/* {totalProduct} */}
               </span>
             </p>
           </div>
@@ -108,7 +116,7 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
             <motion.button
               animate={adding ? { scale: 0.95 } : { scale: 1 }}
               transition={{ duration: 0.2 }}
-              onClick={addProductToList}
+              // onClick={addProductToList}
               disabled={adding}
               className={`w-48 bg-orange-600 py-3 font-poppins font-semibold text-white ${
                 adding ? 'cursor-wait' : 'cursor-pointer'
@@ -118,14 +126,14 @@ const SwitchWeight = ({ product, setAdding, adding }:Props) => {
             </motion.button>
 
             <motion.button
-              onClick={removeProductOfList}
+              // onClick={removeProductOfList}
               className="flex h-full w-14 items-center justify-center text-2xl hover:text-orange-600 ease-in duration-300"
             >
               <IconDelete />
             </motion.button>
           </div>
         </>
-      )}
+      )} 
     </>
   )
 }

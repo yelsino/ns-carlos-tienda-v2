@@ -40,7 +40,7 @@ const ListProduct = () => {
             <span className="text-white">
               <IconGridView />
             </span>
-            <p className="font-bold ">{list?.name}</p>
+            <p className="font-bold ">{list?.nombre}</p>
             <span className="text-gray-500">
               <IconGridView />
             </span>
@@ -55,14 +55,14 @@ const ListProduct = () => {
               layout
               initial={{ borderRadius: 25 }}
             >
-              {list?.products?.map((item) => (
+              {list?.productos?.map((item) => (
                 <ItemList
                   key={item._id}
                   item={item}
                   //  selectProduct={selectProduct}
                 />
               ))}
-              {list?.products?.length > 0 && (
+              {list?.productos?.length > 0 && (
                 <Link
                   to="/payment"
                   className="flex  w-full   justify-center rounded-lg  bg-white py-3   px-5 font-semibold    text-color_green_7 shadow-md"
@@ -71,7 +71,7 @@ const ListProduct = () => {
                 </Link>
               )}
 
-              {list?.products?.length === 0 && (
+              {list?.productos?.length === 0 && (
                 <div>
                   {currentPath.find((item) => item === 'tienda') ? (
                     <p className="px-5 text-center text-gray-500 ">

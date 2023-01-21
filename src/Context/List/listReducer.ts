@@ -4,7 +4,7 @@ import { ListState } from './ListProvider'
 
 export type ListAction =
   | { type: 'GET_USER_LISTS'; payload: Array<ILista> }
-  | { type: 'SELECT_LIST'; payload: string }
+  | { type: 'SELECT_LIST'; payload: ILista }
   | { type: 'VIEW_LIST'; payload: boolean }
 
 export const listReducer = (
@@ -22,10 +22,10 @@ export const listReducer = (
 
     case 'SELECT_LIST':
       lsService.setItem("listSelected",action.payload)
-      const getList = state.lists.find((l)=>l.id === action.payload)
+      // const getList = state.lists.find((l)=>l.id === action.payload)
       return {
         ...state,
-        list: getList ? getList : state.lists[0]
+        list: action.payload
       }
     case 'VIEW_LIST': return { ...state, viewList: action.payload }
 

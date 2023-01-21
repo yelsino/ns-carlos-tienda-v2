@@ -18,7 +18,7 @@ const YourList = () => {
 
   useEffect(() => {
     setOrderData((prev) => {
-      return { ...prev, listID: list?.id }
+      return { ...prev, listID: list?._id }
     })
   }, [list])
 
@@ -46,7 +46,7 @@ const YourList = () => {
           initial={{ borderRadius: 25 }}
         >
           {list?.productos?.map((item) => (
-            <ItemList key={item.producto.id} item={item} />
+            <ItemList key={item.producto._id} item={item} />
           ))}
         </motion.ul>
       </LayoutGroup>
@@ -88,12 +88,12 @@ const YourList = () => {
                 if (l.productos.length >= 1) {
                   return (
                     <Select
-                      key={l.id}
+                      key={l._id}
                       text={l.nombre}
                       onClick={() =>
-                        setList({ type: 'SELECT_LIST', payload: l.id })
+                        setList({ type: 'SELECT_LIST', payload: l })
                       }
-                      checked={l.id === list.id}
+                      checked={l._id === list._id}
                       icon={<IconListas stile={'h-6 w-6'} />}
                     />
                   )

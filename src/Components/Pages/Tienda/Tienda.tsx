@@ -74,14 +74,14 @@ const Tienda = ( ) => {
                   duration: 0.5
                 }
               }}
-              layoutId={p.id}
-              key={p.id}
+              layoutId={p._id}
+              key={p._id}
               onClick={() => {
                 setItemSelected(p)
               }}
               className="flex h-[75px]  w-[192px] cursor-pointer  items-center  justify-center  "
             >
-              <ItemProduct product={p} index={i} />
+              <ItemProduct product={p} index={i} key={p._id} />
               {/* <ItemProductMovil product={p} index={i} /> */}
             </motion.div>
           ))}

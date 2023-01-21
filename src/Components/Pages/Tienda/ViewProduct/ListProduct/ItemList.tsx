@@ -20,7 +20,7 @@ interface Props {
 
 
 const ItemList = ({ item }: Props) => {
-  const { id, producto, cantidades } = item
+  const { _id, producto, cantidades, total } = item
 
 
   const [isOpen, setIsOpen] = useState(false)
@@ -35,7 +35,7 @@ const ItemList = ({ item }: Props) => {
         layout
         onClick={toggleOpen}
         // value={item as Item}
-        id={id}
+        id={_id}
         style={{}}
         className={`flex   cursor-pointer items-center justify-between  rounded-lg  bg-white px-5 py-3 shadow-md  ${isOpen ? ' rounded-none border-b shadow-none' : ''
           }`}
@@ -48,11 +48,11 @@ const ItemList = ({ item }: Props) => {
         </p>
 
         <div className="flex">
-          {/* <div className="flex w-20 items-center ">{totalQuantity()}</div> */}
+          {/* <div className="flex w-20 items-center ">{totalQuantity()}</div> */} 
           <div className="flex w-16 items-center ">
             <span className="text-[12px] ">S/.</span>
             <span className="font-semibold text-color_green_7">
-              {/* {totalAmount()} */} 
+              {total}
             </span>
           </div>
         </div>
@@ -73,7 +73,7 @@ const Content = ({ item }: Props) => {
   const { list } = useContext(ListContext)
   const { uid } = useContext(AuthContext)
 
-  const [stateQuantities, setStateQuantities] = useState([])
+  // const [stateQuantities, setStateQuantities] = useState([])
 
   // useEffect(() => {
   //   setStateQuantities(() => {
@@ -85,8 +85,8 @@ const Content = ({ item }: Props) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_WEIGHT_OF_PRODUCT',
-      listID: list!.id,
-      productID: item.producto.id,
+      listID: list!._id,
+      productID: item.producto._id,
       userID: uid,
       weightID
     })
@@ -96,8 +96,8 @@ const Content = ({ item }: Props) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
-      listID: list!.id,
-      productID: item.producto.id,
+      listID: list!._id,
+      productID: item.producto._id,
       userID: uid
       // mountID: weight,
     })
@@ -199,21 +199,21 @@ const Content = ({ item }: Props) => {
       exit={{ opacity: 0 }}
     >
       <p className=" pb-1 font-semibold text-gray-700">Resumen</p>
-      {stateQuantities.map(
-        (item) =>
-          item.quantity > 0 && (
-            <div key={item._id} className="flex justify-between text-gray-600">
-              <span>{item.weighttextlg}</span>
+      {item.cantidades.map(
+        (cantidad) =>
+          cantidad.cantidad > 0 && (
+            <div key={cantidad._id} className="flex justify-between text-gray-600">
+              <span>{cantidad.textoPesoB}gagagaassssssssssssss</span>
               <div className="flex ">
-                <span className="w-20">{item.quantity} und</span>
+                <span className="w-20">{cantidad.cantidad} und</span>
                 <div className="flex w-16 items-center justify-between relative ">
                   <span className="text-[12px] ">S/.</span>
                   <span className="font-semibold text-color_green_7">
-                    {formatToMoney(item.price * item.quantity)}
+                    {formatToMoney(cantidad.precio * cantidad.cantidad)}
                   </span>
                   <button
                     disabled={disabled}
-                    onClick={() => removeWeightOfProduct(item._id)}
+                    onClick={() => removeWeightOfProduct(cantidad._id)}
                     className="  text-gray-400 absolute  -right-5 hover:text-orange-600 ease-in duration-400"
                   >
                     <IconDelete stile={'w-4 h-4'} />

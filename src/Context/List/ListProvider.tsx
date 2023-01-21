@@ -2,7 +2,8 @@ import PropTypes from 'prop-types'
 import { listReducer } from './listReducer'
 import { useReducer } from 'react'
 import { ListContext } from './ListContext'
-import { ILista } from 'types-yola'
+import { ILista, IRespuesta } from 'types-yola'
+import { fetchConToken } from 'helpers/fetch'
 
 export interface ListState {
   lists: Array<ILista>
@@ -31,13 +32,27 @@ export const ListProvider = ({ children }: Props) => {
       payload: viewList
     })
   }
+  // /lista/obtener-lista/63af5f3c62e57a14c64d0c74
+  const obtenerListaDetallada = async (listaId: string) => {
+    const respuesta = await fetchConToken<IRespuesta<ILista>>({ endpoint: `lista/obtener-lista/${listaId}` });
+    if (respuesta.ok) {
+      dispatch({
+        type: 'SELECT_LIST',
+        payload: respuesta.data
+      })
+    }
+
+    return respuesta
+
+  }
 
   return (
     <ListContext.Provider
       value={{
         ...state,
         dispatch,
-        seeCurrentList
+        seeCurrentList,
+        obtenerListaDetallada
       }}
     >
       {children}

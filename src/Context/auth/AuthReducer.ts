@@ -13,13 +13,14 @@ export const authReducer = (
   action: AuthAction
 ): AuthState => {
   switch (action.type) {
+    
     case 'LOGOUT':
       return {
         ...state,
         uid: null,
         checking: false,
         logged: false,
-        user: null
+        user: null,
       }
     case 'REGISTER':
     case 'LOGIN':
