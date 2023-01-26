@@ -43,8 +43,8 @@ const UserDates = ({ data }: Props) => {
     if (!user.names || !user.surnames || !user.email || !user.mobile) {
       return alert('Por favor complete todos los campos')
     }
-    socket!.emit!('user', {
-      userID: data?.id,
+    socket!.emit!('get-user-orders', {
+      userID: data?._id,
       data: user,
       type: 'UPDATE_USER'
     })

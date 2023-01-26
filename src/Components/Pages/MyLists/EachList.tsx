@@ -26,8 +26,8 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
         exit={{ opacity: 0 }}
         layout
         onClick={toggleOpen}
-        value={list.id}
-        id={list.id}
+        value={list._id}
+        id={list._id}
         className="flex w-[320px] cursor-pointer items-center justify-between gap-x-3 rounded-sm bg-white px-5 py-3 shadow-md"
       >
         <div className="flex items-center gap-x-3">
@@ -42,15 +42,15 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
             e.stopPropagation()
             setList({
               type: 'SELECT_LIST',
-              payload: list.id
+              payload: list
             })
           }}
         >
           <input
             readOnly
-            value={list.id}
+            value={list._id}
             type="radio"
-            checked={list.id === currlist}
+            checked={list._id === currlist}
             className="h-4 w-4 cursor-pointer accent-violet-500"
           />
         </button>
@@ -85,7 +85,7 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
   const navigate = useNavigate()
 
   const mountTotalOfList = () => {
-    return list!.productos.reduce((acc, curr) => {
+    return list!.itemsLista.reduce((acc, curr) => {
       const mountPerProduct = curr.cantidades.reduce((accq, q) => {
         return accq + q.cantidad * q.precio
       }, 0)
@@ -110,21 +110,21 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
     >
       <div>
         <p className="font-light text-color_green_7 ">Resumen</p>
-        <p>Productos: {list!.productos.length}</p>
+        <p>Productos: {list!.itemsLista.length}</p>
         <p>Total: {subTotal} S/</p>
       </div>
       <p className="font-light text-color_green_7 ">Acciones</p>
 
       <Link
         to="/tienda"
-        onClick={()=>setList({ type: 'SELECT_LIST', payload: list.id})}
+        onClick={()=>setList({ type: 'SELECT_LIST', payload: list})}
         className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto "
       >
         Agregar productos
       </Link>
       <button
         onClick={()=> {
-          setList({ type: 'SELECT_LIST', payload: list.id})
+          setList({ type: 'SELECT_LIST', payload: list})
           navigate('/payment')
         }}
         className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto mb-5"
@@ -134,7 +134,7 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
 
       {lists.length > 1 && (
         <button
-          onClick={() => deleteList(list.id)}
+          onClick={() => deleteList(list._id)}
           className=" hover:text-white ease-in duration-300 rounded-tl-3xl absolute bottom-0 right-0 text-rose-200 bg-rose-600 p-2"
         >
           <IconDelete stile='w-6 h-6' />

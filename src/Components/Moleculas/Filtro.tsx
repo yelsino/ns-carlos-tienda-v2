@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { IconSearch } from '../Atoms/Icons'
 import { Link } from 'react-router-dom'
-import { IProducto } from 'interfaces/producto.interface';
+import { IProducto } from 'types-yola'
 
 
 interface Props {

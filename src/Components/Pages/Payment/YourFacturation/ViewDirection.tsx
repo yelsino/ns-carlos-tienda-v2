@@ -18,7 +18,7 @@ const ViewDirection = ({ setShow }: Props) => {
   const selectDirection = (direction: IDireccion) => {
     dispatch({
       type: 'SELECT_DIRECTION',
-      payload: direction.id
+      payload: direction._id
     })
   }
 
@@ -81,10 +81,10 @@ const ViewDirection = ({ setShow }: Props) => {
           <div className=" flex h-[300px] flex-col gap-y-3 overflow-y-scroll">
             {directions.map((d: IDireccion) => (
               <Select
-                key={d.id}
+                key={d._id}
                 text={d.nombre}
                 onClick={() => selectDirection(d)}
-                checked={d.id === direction?.id}
+                checked={d._id === direction?._id}
                 icon={<IconLocation />}
               />
             ))}

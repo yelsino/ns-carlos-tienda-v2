@@ -1,6 +1,6 @@
 import { formatToMoney } from "helpers/formatToMoney";
-import { ILista } from "interfaces/lista.interface";
 import { useEffect, useState } from "react"
+import { ILista } from "types-yola";
 
 interface props {
  list: ILista
@@ -11,7 +11,7 @@ export const useOrder = ({list}: props) => {
  const [delivery, setDelivery] = useState(0);
 
   const getSubTotal = (data:ILista) => {
-   let result =  data.productos.reduce((acc, curr) => {
+   let result =  data.itemsLista.reduce((acc, curr) => {
      const mountPerProduct = curr.cantidades.reduce((accq, q) => {
        return accq + q.cantidad * q.precio
      }, 0)

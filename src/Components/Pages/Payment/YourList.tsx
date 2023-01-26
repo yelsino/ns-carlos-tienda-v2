@@ -45,7 +45,7 @@ const YourList = () => {
           layout
           initial={{ borderRadius: 25 }}
         >
-          {list?.productos?.map((item) => (
+          {list?.itemsLista?.map((item) => (
             <ItemList key={item.producto._id} item={item} />
           ))}
         </motion.ul>
@@ -85,7 +85,7 @@ const YourList = () => {
             </p>
             <div className=" flex h-[250px] flex-col gap-y-3 overflow-y-scroll">
               {lists.map((l) => {
-                if (l.productos.length >= 1) {
+                if (l.itemsLista.length >= 1) {
                   return (
                     <Select
                       key={l._id}

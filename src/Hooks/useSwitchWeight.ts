@@ -4,33 +4,47 @@ import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
 import { formatToMoney } from 'helpers/formatToMoney'
 import { useContext, useEffect, useState } from 'react'
-import { IProducto } from 'types-yola'
+import { Cantidad, IProducto, ItemLista } from 'types-yola'
 
 interface Props {
   producto: IProducto
   setAdding: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+interface DataEventList {
+  listaId: string;
+  productoId: string;
+  cantidad: Cantidad;
+}
+
 export const useSwitchWeight = ({ producto, setAdding }: Props) => {
   const { uid } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
-  const { list: listOfProducts } = useContext(ListContext)
-  // const [productoModificado, modificarProducto] = useState<IProducto>(null)
-  const [pesoSeleccionado, seleccionarPeso] = useState('')
-  const [precioSeleccionado, seleccionarPrecio] = useState(0)
-  const [precioTotalSeleccionado, seleccionarPrecioTotal] = useState(0)
+  const { list: listaSeleccionada } = useContext(ListContext)
   const { setNotificacion } = useContext(NotificacionContext)
 
+  const [itemLista, setItemLista] = useState<ItemLista>()
+  // cual de las medidas esta seleccionada?
+  const [pesoSeleccionado, seleccionarPeso] = useState('')
+  // cual es el precio de la medida seleccionada?
+  const [precioSeleccionado, seleccionarPrecio] = useState(0)
+  // cuanto de la meda seleccionada hay en lista?
+  const [cantidadEnLista, setCantidadEnLista] = useState(0);
+  // cuanto es el total a pagar por este producto?            
+  const [montoTotalDelProducto, setMontoTotalDelProducto] = useState(0)
+  const [cantidadTotalDelProducto, setCantidadTotalDelProducto] = useState(0)
   // transforma el producto
 
   const addProductToList = () => {
     setAdding(true)
-    socket?.emit('update-list', {
-      type: 'ADD_PRODUCT_TO_LIST',
-      userID: uid,
-      listID: listOfProducts._id,
-      productID: producto._id,
-      mountID: pesoSeleccionado
+    socket?.emit('UPDATE_USER_LIST', {
+      evento: 'ADD_PRODUCT_TO_LIST',
+      data: {
+        type: 'ADD_PRODUCT_TO_LIST',
+        listaId: listaSeleccionada._id,
+        productoId: producto._id,
+        cantidad: producto.precios.find((precio) => precio._id === pesoSeleccionado),
+      }
     })
   }
 
@@ -38,52 +52,77 @@ export const useSwitchWeight = ({ producto, setAdding }: Props) => {
     socket?.emit('update-list', {
       type: 'REMOVE_PRODUCT_OF_LIST',
       userID: uid,
-      listID: listOfProducts._id,
+      listID: listaSeleccionada._id,
       productID: producto._id,
       mountID: pesoSeleccionado
     })
     setNotificacion({ message: `Quitó ${producto.nombre} de lista`, type: 1 })
   }
 
-  const [pesoTotal, setPesoTotal] = useState(0)
+  // item de lista seleccionado
+  useEffect(() => {
+    const itemLista = listaSeleccionada.itemsLista.find((item) => item.producto._id === producto._id);
+    if (itemLista) {
+      setItemLista(itemLista)
+    }
+  }, [pesoSeleccionado])
 
+  // ¿cual de las medidas esta seleccionada?
   useEffect(() => {
     const position = JSON.parse(localStorage.getItem("position")) ? Number(JSON.parse(localStorage.getItem("position"))) : 0
     seleccionarPeso(producto.precios[position]._id)
   }, [producto])
 
+  // ¿cual es el precio de la medida seleccionada?
   useEffect(() => {
     if (pesoSeleccionado) {
-      const mount = producto.precios.find((mount) => mount._id === pesoSeleccionado)
+      const mount = producto.precios.find((precio) => precio._id === pesoSeleccionado)
       if (mount) {
         seleccionarPrecio(mount.precio)
       }
-
-      const pesoTotal = producto.precios.reduce((acc, mount) => {
-        return acc + mount.peso
-      }, 0)
-      
-      if(pesoTotal){
-        setPesoTotal(pesoTotal)
-      }
-
-      const precioTotal = producto.precios.reduce((acc, mount) => {
-        return acc + mount.precio
-      }, 0);
-
-      seleccionarPrecioTotal(precioTotal)
-
     }
   }, [pesoSeleccionado])
+
+
+  // ¿de la medida seleccionada cuanto en total hay en lista?
+  useEffect(() => {
+      if(pesoSeleccionado){
+        const itemLista = listaSeleccionada.itemsLista.find((item) => item.producto._id === producto._id);
+        
+        if(!itemLista) return setCantidadEnLista(0)
+
+        const cantidadSeleccionada = itemLista.cantidades.find((cantidad) => cantidad._id === pesoSeleccionado)
+        
+        setCantidadEnLista(cantidadSeleccionada ? cantidadSeleccionada.cantidad : 0)
+      }
+  }, [pesoSeleccionado, listaSeleccionada])
+
+  // ¿Cual es el total a pagar por este producto?
+  useEffect(()=> {
+    if(pesoSeleccionado){
+      const itemLista = listaSeleccionada.itemsLista.find((item) => item.producto._id === producto._id);
+      
+      if(!itemLista) {
+        setMontoTotalDelProducto(0);
+        setCantidadTotalDelProducto(0);
+        return 
+      }
+
+      setMontoTotalDelProducto(itemLista.montoTotal)
+      setCantidadTotalDelProducto(itemLista.cantidadTotal)
+    }
+      
+  }, [ pesoSeleccionado,listaSeleccionada])
 
   return {
     pesoSeleccionado,
     seleccionarPeso,
     precioSeleccionado,
-    seleccionarPrecio, 
-    precioTotalSeleccionado,
-    pesoTotal,
+    cantidadEnLista,
+    montoTotalDelProducto,
+    cantidadTotalDelProducto,
     removeProductOfList,
-    addProductToList
+    addProductToList,
+    itemLista
   } as const
 }

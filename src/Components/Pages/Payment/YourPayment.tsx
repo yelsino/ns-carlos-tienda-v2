@@ -40,7 +40,7 @@ const YourPayment = () => {
 
   useEffect(() => {
     setOrderData((prev) => {
-      return { ...prev, listID: list?.id }
+      return { ...prev, listID: list?._id }
     })
    }, [list])
 
@@ -65,7 +65,7 @@ const YourPayment = () => {
           <span className="text-emerald-400">
             <IconCheck />
           </span>{' '}
-          Productos: {list?.productos?.length}  en total
+          Productos: {list?.itemsLista?.length}  en total
         </p>
         <p className="flex items-center gap-x-3">
           <span className="text-emerald-400">

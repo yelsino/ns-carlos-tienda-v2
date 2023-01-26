@@ -66,7 +66,6 @@ export const SocketProvider = ({ children }: Props) => {
       
       if(respuesta.ok){
         setList( {type: 'GET_USER_LISTS', payload: respuesta.data})
-        respuesta.data[0]
       }
       
 
@@ -81,6 +80,17 @@ export const SocketProvider = ({ children }: Props) => {
       }
       
     })
+
+
+    socket?.on('RETORN_LIST_SELECTED', (respuesta:IRespuesta<ILista>) => {
+      console.log("RETORN_LIST_SELECTED", respuesta);
+      
+      if(respuesta.ok){
+        setList( {type: 'SELECT_LIST', payload: respuesta.data})
+      }
+      
+    })
+
 
     socket?.on('GET_USER_ORDERS', (orders: Array<IPedido>) => {
       console.log(orders);

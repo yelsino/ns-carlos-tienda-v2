@@ -5,8 +5,9 @@ import { motion } from 'framer-motion'
 import { useSwitchWeight } from 'Hooks/useSwitchWeight'
 import { IconDelete } from 'Components/Atoms/Icons';
 import { IProducto } from 'types-yola';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ListContext } from 'Context/List/ListContext';
+import { convertirTipoVenta } from 'utils/pipe';
 
 interface Props {
   producto: IProducto
@@ -17,19 +18,18 @@ interface Props {
 
 const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
 
-  // const { list } = useContext(ListContext)
-
-
   const { 
     pesoSeleccionado,
     seleccionarPeso,
-    // productoModificado,
+    cantidadEnLista,
     precioSeleccionado,
-    precioTotalSeleccionado,
+    montoTotalDelProducto,
+    cantidadTotalDelProducto,
     // quantitySelected,
     // totalProduct,
     // totalWeight,
     removeProductOfList,
+    itemLista,
     addProductToList
   } = useSwitchWeight({ 
     producto, 
@@ -40,7 +40,7 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
     <>
       {pesoSeleccionado && (
         <>
-        {pesoSeleccionado}
+        
           <RadioGroup
             value={pesoSeleccionado}
             onChange={(e) => seleccionarPeso(e)}
@@ -90,25 +90,38 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
               <span>Cantidad en lista</span>
 
               <span className="text-color_green_7">
-                {/* {quantitySelected} */}
-                {50} und</span>
+                {cantidadEnLista} und</span>
             </p>
             <p className="flex w-full justify-between">
-              <span>Total del producto</span>
+              <span>Cantidad Total</span>
               <span className="text-color_green_7">
                 <motion.span
                   initial={{ scale: 1.5 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.3 }}
                   exit={{ scaleY: 0 }}
-                  key={precioTotalSeleccionado}
+                  // key={precioTotalSeleccionado}
                   className="inline-block font-bold"
                 >
-                  200
-                  {/* {totalWeight} */}
+                  {cantidadTotalDelProducto}  
                 </motion.span>
-                100
-                 {/* {totalProduct} */}
+                 {` ${convertirTipoVenta(producto.tipoVenta) }`}
+              </span>
+            </p>
+            <p className="flex w-full justify-between">
+              <span>Monto total</span>
+              <span className="text-color_green_7">
+                {" S/. "}
+                <motion.span
+                  initial={{ scale: 1.5 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                  exit={{ scaleY: 0 }}
+                  // key={precioTotalSeleccionado}
+                  className="inline-block font-bold"
+                >
+                  {montoTotalDelProducto}  
+                </motion.span>
               </span>
             </p>
           </div>
@@ -119,7 +132,7 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
             <motion.button
               animate={adding ? { scale: 0.95 } : { scale: 1 }}
               transition={{ duration: 0.2 }}
-              // onClick={addProductToList}
+              onClick={()=>addProductToList()}
               disabled={adding}
               className={`w-48 bg-orange-600 py-3 font-poppins font-semibold text-white ${
                 adding ? 'cursor-wait' : 'cursor-pointer'

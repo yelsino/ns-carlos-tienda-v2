@@ -13,6 +13,7 @@ type SocketOn =
     | 'GET_USER_LISTS'
     | 'GET_USER_ORDERS'
     | 'GET_USER_DIRECTIONS'
+    | 'RETORN_LIST_SELECTED'
 
 export interface SocketProps {
   on: (action: SocketOn, callback: (data: any) => void) => void

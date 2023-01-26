@@ -23,7 +23,7 @@ export const directionReducer = (
 
     case 'SELECT_DIRECTION':
       lsService.setItem('directionSelected',action.payload)
-      const getDirection = state.directions.find((d)=>d.id === action.payload)
+      const getDirection = state.directions.find((d)=>d._id === action.payload)
 
       return {
         ...state,

@@ -21,8 +21,11 @@ export const listReducer = (
       }
 
     case 'SELECT_LIST':
+      console.log("ADD NUEVA LISTA: ", action.payload);
       lsService.setItem("listSelected",action.payload)
       // const getList = state.lists.find((l)=>l.id === action.payload)
+      console.log("ADD NUEVA LISTA: ", action.payload);
+      
       return {
         ...state,
         list: action.payload

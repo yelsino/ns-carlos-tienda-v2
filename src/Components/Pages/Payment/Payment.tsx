@@ -48,8 +48,8 @@ const Payment = () => {
   useEffect(()=>{
     setOrderData({
       typePayment: lsService.getItem('tipoPago') ? lsService.getItem('tipoPago'): '',
-      directionID: direction?.id,
-      listID: list?.id ,
+      directionID: direction?._id,
+      listID: list?._id ,
       userID: uid
     })
   },[list,direction])
