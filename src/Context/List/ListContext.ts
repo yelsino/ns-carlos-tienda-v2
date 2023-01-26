@@ -10,7 +10,8 @@ interface ListContextProps {
   dispatch: React.Dispatch<ListAction>
   viewList: boolean
   seeCurrentList: (viewList:boolean) => void
-  obtenerListaDetallada: (id: string) => Promise<IRespuesta<ILista>>
+  obtenerListaDetallada: (id: string) => Promise<IRespuesta<ILista>>,
+  eliminarLista: (id: string) => Promise<IRespuesta<boolean>>,
 }
 
 export const ListContext = createContext<ListContextProps>(

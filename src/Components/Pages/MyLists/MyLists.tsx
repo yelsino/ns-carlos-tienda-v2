@@ -14,7 +14,7 @@ import PortalComponent from 'Components/Atoms/Portals/PortalComponent'
 export const MyLists = () => {
   const { socket } = useContext(SocketContext)
   const { uid } = useContext(AuthContext)
-  const { lists, list, dispatch: setList } = useContext(ListContext)
+  const { lists, list, dispatch: setList, eliminarLista } = useContext(ListContext)
 
   const [modal, setModal] = useState(false)
   const [modal2, setModal2] = useState(false)
@@ -36,13 +36,9 @@ export const MyLists = () => {
     setModal(false)
   }
 
-  const deleteList = (listID: string) => {
-    socket?.emit('update-list', {
-      type: 'DELETE_LIST',
-      userID: uid,
-      listID
-    })
-
+  const deleteList = async (listID: string) => {
+    await eliminarLista(listID)
+    
     setList({
       type: 'SELECT_LIST',
       payload: lists[0]
@@ -69,7 +65,7 @@ export const MyLists = () => {
                 </button>
               </h2>
               <LayoutGroup>
-                <motion.ul className="flex flex-col gap-y-1">
+                <motion.ul className="flex flex-col gap-y-1 ">
                   {lists.map((item) => (
                     <EachList
                       list={item}

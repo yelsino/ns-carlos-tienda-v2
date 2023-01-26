@@ -23,6 +23,7 @@ export const useSwitchWeight = ({ producto, setAdding }: Props) => {
   const { list: listaSeleccionada } = useContext(ListContext)
   const { setNotificacion } = useContext(NotificacionContext)
 
+  // cual de los productos seleccionado hay en lista?
   const [itemLista, setItemLista] = useState<ItemLista>()
   // cual de las medidas esta seleccionada?
   const [pesoSeleccionado, seleccionarPeso] = useState('')
@@ -32,15 +33,14 @@ export const useSwitchWeight = ({ producto, setAdding }: Props) => {
   const [cantidadEnLista, setCantidadEnLista] = useState(0);
   // cuanto es el total a pagar por este producto?            
   const [montoTotalDelProducto, setMontoTotalDelProducto] = useState(0)
+  // cuanto tienes en lista de este producto?
   const [cantidadTotalDelProducto, setCantidadTotalDelProducto] = useState(0)
-  // transforma el producto
 
   const addProductToList = () => {
     setAdding(true)
     socket?.emit('UPDATE_USER_LIST', {
       evento: 'ADD_PRODUCT_TO_LIST',
       data: {
-        type: 'ADD_PRODUCT_TO_LIST',
         listaId: listaSeleccionada._id,
         productoId: producto._id,
         cantidad: producto.precios.find((precio) => precio._id === pesoSeleccionado),
@@ -49,12 +49,13 @@ export const useSwitchWeight = ({ producto, setAdding }: Props) => {
   }
 
   const removeProductOfList = () => {
-    socket?.emit('update-list', {
-      type: 'REMOVE_PRODUCT_OF_LIST',
-      userID: uid,
-      listID: listaSeleccionada._id,
-      productID: producto._id,
-      mountID: pesoSeleccionado
+    socket?.emit('UPDATE_USER_LIST', {
+      evento: 'REMOVE_PRODUCT_OF_LIST',
+      data: {
+        listaId: listaSeleccionada._id,
+        productoId: producto._id,
+        cantidad: null,
+      }
     })
     setNotificacion({ message: `Quitó ${producto.nombre} de lista`, type: 1 })
   }

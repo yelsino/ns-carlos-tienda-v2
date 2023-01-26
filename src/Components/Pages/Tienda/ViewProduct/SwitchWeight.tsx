@@ -142,7 +142,7 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
             </motion.button>
 
             <motion.button
-              // onClick={removeProductOfList}
+              onClick={removeProductOfList}
               className="flex h-full w-14 items-center justify-center text-2xl hover:text-orange-600 ease-in duration-300"
             >
               <IconDelete />

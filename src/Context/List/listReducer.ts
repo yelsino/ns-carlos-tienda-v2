@@ -6,6 +6,7 @@ export type ListAction =
   | { type: 'GET_USER_LISTS'; payload: Array<ILista> }
   | { type: 'SELECT_LIST'; payload: ILista }
   | { type: 'VIEW_LIST'; payload: boolean }
+  | { type: 'DELETE_LIST'; payload: string }
 
 export const listReducer = (
   state: ListState,
@@ -21,16 +22,18 @@ export const listReducer = (
       }
 
     case 'SELECT_LIST':
-      console.log("ADD NUEVA LISTA: ", action.payload);
       lsService.setItem("listSelected",action.payload)
-      // const getList = state.lists.find((l)=>l.id === action.payload)
-      console.log("ADD NUEVA LISTA: ", action.payload);
       
       return {
         ...state,
         list: action.payload
       }
-    case 'VIEW_LIST': return { ...state, viewList: action.payload }
+    
+    case 'DELETE_LIST': 
+      return {
+        ...state,
+        lists: state.lists.filter((list) => list._id !== action.payload)
+      }
 
     default:
       return state
