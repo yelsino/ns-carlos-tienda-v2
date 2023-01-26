@@ -28,14 +28,14 @@ const Payment = () => {
   const currentPath = pathname.split('/')
 
   const { list } = useContext(ListContext)
-  const { uid } = useContext(AuthContext)
+  const { _id } = useContext(AuthContext)
   const { direction } = useContext(DirectionContext)
 
   const [disabled, setDisabled] = useOnClick(500)
   const [orderData, setOrderData] = useState<IOrderData>({
     typePayment: lsService.getItem('tipoPago') ? lsService.getItem('tipoPago'): '',
     directionID: '',
-    userID: uid,
+    userID: _id,
     listID: ''
   })
   const { socket } = useContext(SocketContext)
@@ -50,7 +50,7 @@ const Payment = () => {
       typePayment: lsService.getItem('tipoPago') ? lsService.getItem('tipoPago'): '',
       directionID: direction?._id,
       listID: list?._id ,
-      userID: uid
+      userID: _id
     })
   },[list,direction])
 

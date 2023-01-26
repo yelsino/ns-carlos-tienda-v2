@@ -7,6 +7,7 @@ export type ListAction =
   | { type: 'SELECT_LIST'; payload: ILista }
   | { type: 'VIEW_LIST'; payload: boolean }
   | { type: 'DELETE_LIST'; payload: string }
+  | { type: 'CREATE_LIST'; payload: ILista }
 
 export const listReducer = (
   state: ListState,
@@ -23,16 +24,22 @@ export const listReducer = (
 
     case 'SELECT_LIST':
       lsService.setItem("listSelected",action.payload)
-      
       return {
         ...state,
         list: action.payload
       }
-    
+    case 'VIEW_LIST': return { ...state, viewList: action.payload }
+
     case 'DELETE_LIST': 
       return {
         ...state,
-        lists: state.lists.filter((list) => list._id !== action.payload)
+        lists: state.lists.filter((list) => list._id !== action.  payload)
+      }
+    case 'CREATE_LIST':
+      return {
+        ...state,
+        lists: [...state.lists, action.payload],
+        list: action.payload
       }
 
     default:

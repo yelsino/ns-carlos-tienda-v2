@@ -42,7 +42,7 @@ const Filtro = ({ upData, data }: Props) => {
   }
 
   return (
-    <div className="flex w-full ">
+    <div className="flex w-full select-none ">
       <div className=" flex w-full flex-col items-center gap-5 pb-5">
         <RadioGroup
           className="flex items-center gap-7 font-poppins"

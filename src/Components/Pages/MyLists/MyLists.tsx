@@ -13,8 +13,8 @@ import PortalComponent from 'Components/Atoms/Portals/PortalComponent'
 
 export const MyLists = () => {
   const { socket } = useContext(SocketContext)
-  const { uid } = useContext(AuthContext)
-  const { lists, list, dispatch: setList, eliminarLista } = useContext(ListContext)
+  const { _id, user } = useContext(AuthContext)
+  const { lists, list, dispatch: setList, eliminarLista, crearLista } = useContext(ListContext)
 
   const [modal, setModal] = useState(false)
   const [modal2, setModal2] = useState(false)
@@ -22,16 +22,18 @@ export const MyLists = () => {
 
   const {setNotificacion} = useContext(NotificacionContext)
 
-  const createNewList = (NAMELIST: string) => {
+  const createNewList = async (NAMELIST: string) => {
     if(!NAMELIST){
       return setNotificacion({message:"Ops! el nombre está vacio", type:1})
     }
     
-    socket?.emit('update-list', {
-      type: 'CREATE_LIST',
-      userID: uid,
-      nameList: NAMELIST
-    })
+    console.log(typeof user._id);
+    
+    await crearLista({
+      nombre: NAMELIST,
+      usuario: user,
+      itemsLista: []
+    });
 
     setModal(false)
   }

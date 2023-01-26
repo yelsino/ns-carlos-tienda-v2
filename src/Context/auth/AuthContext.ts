@@ -4,7 +4,7 @@ import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IMobile, IRespuesta, IUsu
 import { AuthAction } from './AuthReducer'
 
 interface AuthContextProps {
-  uid: string | null
+  _id: string | null
   checking: boolean
   logged: boolean
   user: IUsuario | null

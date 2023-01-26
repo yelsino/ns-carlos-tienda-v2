@@ -38,7 +38,7 @@ const Header = ({adding}:Props ) => {
   const currentPath = pathname.split('/')
 
   return (
-    <div className="hidden justify-between border-b py-3 sm:flex">
+    <div className="hidden justify-between border-b py-3 sm:flex select-none">
       <Logo />
       <Search props={{}} />
       <motion.div

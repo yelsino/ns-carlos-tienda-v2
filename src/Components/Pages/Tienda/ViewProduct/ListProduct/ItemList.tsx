@@ -71,7 +71,7 @@ const Content = ({ item }: Props) => {
   const { dispatch: dispatchProduct } = useContext(ProductContext)
 
   const { list } = useContext(ListContext)
-  const { uid } = useContext(AuthContext)
+  const { _id } = useContext(AuthContext)
 
 
   const removeWeightOfProduct = (weightID: string) => {
@@ -80,7 +80,7 @@ const Content = ({ item }: Props) => {
       type: 'REMOVE_WEIGHT_OF_PRODUCT',
       listID: list!._id,
       productID: item.producto._id,
-      userID: uid,
+      userID: _id,
       weightID
     })
   }
@@ -91,7 +91,7 @@ const Content = ({ item }: Props) => {
       type: 'REMOVE_PRODUCT_OF_LIST',
       listID: list!._id,
       productID: item.producto._id,
-      userID: uid
+      userID: _id
       // mountID: weight,
     })
   }

@@ -18,7 +18,7 @@ interface DataEventList {
 }
 
 export const useSwitchWeight = ({ producto, setAdding }: Props) => {
-  const { uid } = useContext(AuthContext)
+  const { _id } = useContext(AuthContext)
   const { socket } = useContext(SocketContext)
   const { list: listaSeleccionada } = useContext(ListContext)
   const { setNotificacion } = useContext(NotificacionContext)

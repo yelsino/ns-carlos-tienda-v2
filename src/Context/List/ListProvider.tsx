@@ -61,6 +61,24 @@ export const ListProvider = ({ children }: Props) => {
     return respuesta
   }
 
+  const crearLista = async (lista: ILista) => {
+    console.log(lista);
+    
+    const respuesta = await fetchConToken<IRespuesta<ILista>>({ 
+      endpoint: `lista/crear-lista`,
+      body: lista,
+      method: 'POST',
+     });
+    if (respuesta.ok) {
+      dispatch({
+        type: 'CREATE_LIST',
+        payload: respuesta.data
+      })
+    }
+
+    return respuesta
+  }
+
   return (
     <ListContext.Provider
       value={{
@@ -68,7 +86,8 @@ export const ListProvider = ({ children }: Props) => {
         dispatch,
         seeCurrentList,
         obtenerListaDetallada,
-        eliminarLista
+        eliminarLista,
+        crearLista
       }}
     >
       {children}
@@ -76,6 +95,4 @@ export const ListProvider = ({ children }: Props) => {
   )
 }
 
-ListProvider.propTypes = {
-  children: PropTypes.node.isRequired
-}
+
