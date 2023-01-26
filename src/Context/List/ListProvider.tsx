@@ -46,13 +46,29 @@ export const ListProvider = ({ children }: Props) => {
 
   }
 
+  const eliminarLista = async (listaId: string) => {
+    const respuesta = await fetchConToken<IRespuesta<boolean>>({ 
+      endpoint: `lista/eliminar-lista/${listaId}`,
+      method: 'DELETE'
+     });
+    if (respuesta.ok) {
+      dispatch({
+        type: 'DELETE_LIST',
+        payload: listaId
+      })
+    }
+
+    return respuesta
+  }
+
   return (
     <ListContext.Provider
       value={{
         ...state,
         dispatch,
         seeCurrentList,
-        obtenerListaDetallada
+        obtenerListaDetallada,
+        eliminarLista
       }}
     >
       {children}
