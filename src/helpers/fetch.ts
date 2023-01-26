@@ -54,7 +54,9 @@ export const fetchConToken = async <T>({
     const resp = await fetch(url, {
       method,
       headers: {
-        'Authorization': token
+        'Authorization': token,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     })

@@ -6,7 +6,7 @@ import { fetchConToken, fetchSinToken } from 'helpers/fetch'
 import { IAuth, IAuthFacebook, IAuthGoogle, IAuthRest, IMobile, IRespuesta, IUsuario } from 'types-yola'
 
 export interface AuthState {
-  uid: string | null
+  _id: string | null
   checking: boolean
   logged: boolean
   loading: boolean
@@ -15,7 +15,7 @@ export interface AuthState {
 }
 
 const INITIAL_STATE: AuthState = {
-  uid: '',
+  _id: '',
   checking: true,
   logged: false,
   loading: false,

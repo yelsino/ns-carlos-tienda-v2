@@ -17,7 +17,7 @@ export const authReducer = (
     case 'LOGOUT':
       return {
         ...state,
-        uid: null,
+        _id: null,
         checking: false,
         logged: false,
         user: null,
@@ -27,7 +27,7 @@ export const authReducer = (
       return {
         ...state,
         logged: true,
-        uid: action.payload._id,
+        _id: action.payload._id,
         checking: false,
         user: action.payload
       }

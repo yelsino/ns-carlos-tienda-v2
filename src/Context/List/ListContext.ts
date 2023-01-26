@@ -11,6 +11,7 @@ interface ListContextProps {
   viewList: boolean
   seeCurrentList: (viewList:boolean) => void
   obtenerListaDetallada: (id: string) => Promise<IRespuesta<ILista>>,
+  crearLista: (lista: ILista) => Promise<IRespuesta<ILista>>,
   eliminarLista: (id: string) => Promise<IRespuesta<boolean>>,
 }
 
