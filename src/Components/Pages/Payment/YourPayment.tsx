@@ -9,6 +9,7 @@ import { SocketContext } from 'Context/Socket/SocketContext'
 import { useOrder } from 'Hooks/useOrder'
 import { IRouterContext } from 'interfaces/routerContext.interface';
 import { IconCheck } from 'Components/Atoms/Icons'
+import { OrderContext } from 'Context/Order/OrderContext'
 
 export interface ResCreateOrder {
   ok: boolean
@@ -21,21 +22,13 @@ const YourPayment = () => {
   const { list } = useContext(ListContext)
   const { direction } = useContext(DirectionContext)
   const { user } = useContext(AuthContext)
-  const { socket } = useContext(SocketContext)
+  const { orderSuccess } = useContext(OrderContext)
   const { setOrderData } = useOutletContext<IRouterContext>()
 
-  const [orderResult, setOrderResult] = useState<ResCreateOrder | null>(null)
   const {total} = useOrder({list})
 
   // NOTE: trabajar tipo pago en ls
 
-  useEffect(() => {
-    socket?.on('order-created', (result: ResCreateOrder) => {
-      if(!result.ok) return alert('ocurrio un error al crear la orden');
-      setOrderResult(result)
-    
-    })
-  }, [socket])
 
 
   useEffect(() => {
@@ -81,7 +74,7 @@ const YourPayment = () => {
         </p>
       </div>
 
-      {orderResult?.ok && <PaymentSuccess orderResult={orderResult} />}
+      {orderSuccess && <PaymentSuccess orderResult={orderSuccess} />}
     </div>
   )
 }

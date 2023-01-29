@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ListContext } from 'Context/List/ListContext'
 import { ListAction } from 'Context/List/listReducer'
 import { IconDelete, IconRight } from 'Components/Atoms/Icons'
-import { formatToMoney } from 'helpers/formatToMoney';
 import { ILista } from 'types-yola'
 
 interface Props {
@@ -16,7 +15,30 @@ interface Props {
 }
 const EachList = ({ list, setList, currlist, deleteList }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
-  const toggleOpen = () => setIsOpen(!isOpen)
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  const [subTotal, setSubTotal] = useState(0);
+  const [listaDetallada, setListaDetallada] = useState<ILista>()
+  const { obtenerListaDetallada } = useContext(ListContext);
+
+  useEffect(() => {
+    if(list){
+      obtenerListaDetallada(list._id).then((data)=>{
+        setListaDetallada(data.data)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (list) {
+      const subTotal = list.itemsLista
+      .reduce((acc, curr) => acc + curr.montoTotal, 0)
+
+      setSubTotal(subTotal);
+      
+    }
+  }, [list])
+
 
   return (
     <div>
@@ -42,7 +64,7 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
             e.stopPropagation()
             setList({
               type: 'SELECT_LIST',
-              payload: list
+              payload: listaDetallada
             })
           }}
         >
@@ -57,9 +79,10 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
       </motion.li>
       <AnimatePresence>
         {isOpen && (
-          <Content list={list} 
+          <Content list={listaDetallada} 
             deleteList={deleteList}
             setList={setList} 
+            subTotal={subTotal}
             // setModalDelete={setModalDelete} 
           />
         )}
@@ -70,35 +93,18 @@ const EachList = ({ list, setList, currlist, deleteList }: Props) => {
 
 export default EachList
 
-
-
-// eslint-disable-next-line react/prop-types
 interface ContentProps {
   deleteList: (id: string) => void
   list: ILista,
-  setList: React.Dispatch<ListAction>
+  setList: React.Dispatch<ListAction>,
+  subTotal: number,
   // setModalDelete: React.Dispatch<boolean>
 }
-const Content = ({ deleteList, list,setList  }: ContentProps) => {
-  const [subTotal, setSubTotal] = useState('0')
-  const { lists } = useContext(ListContext)
+const Content = ({ deleteList,setList, list,subTotal  }: ContentProps) => {
+
+  const { lists, dispatch } = useContext(ListContext);
+
   const navigate = useNavigate()
-
-  const mountTotalOfList = () => {
-    return list!.itemsLista.reduce((acc, curr) => {
-      const mountPerProduct = curr.cantidades.reduce((accq, q) => {
-        return accq + q.cantidad * q.precio
-      }, 0)
-
-      return acc + mountPerProduct
-    }, 0)
-  }
-
-  useEffect(() => {
-    if (list) {
-      setSubTotal(Number(formatToMoney(mountTotalOfList())).toFixed(2))
-    }
-  }, [list])
 
   return (
     <motion.div
@@ -117,7 +123,9 @@ const Content = ({ deleteList, list,setList  }: ContentProps) => {
 
       <Link
         to="/tienda"
-        onClick={()=>setList({ type: 'SELECT_LIST', payload: list})}
+        onClick={()=>{
+          dispatch({ type: 'VIEW_LIST', payload: false })
+        }}
         className="rounded-sm border bg-white px-4 py-2 text-center font-normal text-color_green_7 w-10/12 mx-auto "
       >
         Agregar productos

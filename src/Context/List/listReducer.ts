@@ -23,7 +23,7 @@ export const listReducer = (
       }
 
     case 'SELECT_LIST':
-      lsService.setItem("listSelected",action.payload)
+      lsService.setItem("listSelected",action.payload._id)
       return {
         ...state,
         list: action.payload

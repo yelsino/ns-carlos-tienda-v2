@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useOnClick } from 'Hooks/useOnClick';
 import Input from 'Components/Atoms/Input';
+import { DirectionContext } from 'Context/Direction/DirectionContext';
+import { AuthContext } from 'Context/auth/AuthContext';
 
 interface Props {
   setShow: () => void
@@ -10,6 +12,9 @@ interface Props {
 }
 
 const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
+  
+  const { registrarDireccion } = useContext(DirectionContext);
+  const { _id } = useContext(AuthContext);
   const [disabled, setDisabled] = useOnClick(200)
 
   const [calle, setCalle] = useState({
@@ -23,14 +28,14 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
     }
     // ignore ts this line
     // @ts-ignore
-
+    // 
     setDisabled(true)
-    socket?.emit('direction', {
-      type: 'CREATE_DIRECTION',
-      userID: auth.uid,
-      name: calle.name,
-      reference: calle.reference
-    })
+
+    registrarDireccion({
+      nombre: calle.name,
+      referencia: calle.reference,
+      usuario: _id as any
+    });
 
     setShow()
   }
@@ -76,10 +81,5 @@ const CreateDirectionForm = ({ setShow, socket, auth }: Props) => {
   )
 }
 
-CreateDirectionForm.propTypes = {
-  setShow: PropTypes.func.isRequired,
-  socket: PropTypes.object,
-  auth: PropTypes.object
-}
 
 export default CreateDirectionForm

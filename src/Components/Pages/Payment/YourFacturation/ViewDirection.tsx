@@ -18,7 +18,7 @@ const ViewDirection = ({ setShow }: Props) => {
   const selectDirection = (direction: IDireccion) => {
     dispatch({
       type: 'SELECT_DIRECTION',
-      payload: direction._id
+      payload: direction
     })
   }
 

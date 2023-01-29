@@ -84,16 +84,16 @@ const YourList = () => {
               Aquella lista seleccionada será el pedido a realizar.
             </p>
             <div className=" flex h-[250px] flex-col gap-y-3 overflow-y-scroll">
-              {lists.map((l) => {
-                if (l.itemsLista.length >= 1) {
+              {lists.map((lista) => {
+                if (lista.itemsLista.length >= 1) {
                   return (
                     <Select
-                      key={l._id}
-                      text={l.nombre}
+                      key={lista._id}
+                      text={lista.nombre}
                       onClick={() =>
-                        setList({ type: 'SELECT_LIST', payload: l })
+                        setList({ type: 'SELECT_LIST', payload: lista })
                       }
-                      checked={l._id === list._id}
+                      checked={lista._id === list._id}
                       icon={<IconListas stile={'h-6 w-6'} />}
                     />
                   )

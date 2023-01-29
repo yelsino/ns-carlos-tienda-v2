@@ -1,6 +1,7 @@
 import { IconDelete } from 'Components/Atoms/Icons'
 import { AuthContext } from 'Context/auth/AuthContext'
 import { ListContext } from 'Context/List/ListContext'
+import { NotificacionContext } from 'Context/Notificaciones/NotificacionContext'
 import { ProductContext } from 'Context/Product/ProductContext'
 import { SocketContext } from 'Context/Socket/SocketContext'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -69,8 +70,8 @@ const Content = ({ item }: Props) => {
   const { socket } = useContext(SocketContext)
 
   const { dispatch: dispatchProduct } = useContext(ProductContext)
-
-  const { list } = useContext(ListContext)
+  const { setNotificacion } = useContext(NotificacionContext)
+  const { list: listaSeleccionada } = useContext(ListContext)
   const { _id } = useContext(AuthContext)
 
 
@@ -78,22 +79,34 @@ const Content = ({ item }: Props) => {
     setDisabled(true)
     socket?.emit('update-list', {
       type: 'REMOVE_WEIGHT_OF_PRODUCT',
-      listID: list!._id,
+      listID: listaSeleccionada!._id,
       productID: item.producto._id,
       userID: _id,
       weightID
     })
   }
 
+  // const removeProductOfList = () => {
+  //   setDisabled(true)
+  //   socket?.emit('update-list', {
+  //     type: 'REMOVE_PRODUCT_OF_LIST',
+  //     listID: list!._id,
+  //     productID: item.producto._id,
+  //     userID: _id
+  //     // mountID: weight,
+  //   })
+  // }
+
   const removeProductOfList = () => {
-    setDisabled(true)
-    socket?.emit('update-list', {
-      type: 'REMOVE_PRODUCT_OF_LIST',
-      listID: list!._id,
-      productID: item.producto._id,
-      userID: _id
-      // mountID: weight,
+    socket?.emit('UPDATE_USER_LIST', {
+      evento: 'REMOVE_PRODUCT_OF_LIST',
+      data: {
+        listaId: listaSeleccionada._id,
+        productoId: item.producto._id,
+        cantidad: null,
+      }
     })
+    setNotificacion({ message: `Quitó ${item.producto.nombre} de lista`, type: 1 })
   }
 
   return (

@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import imgDelivery from 'public/Assets/delivery.png'
 import { ResCreateOrder } from './YourPayment'
+import { IPedido } from 'types-yola'
 
 interface Props {
-  orderResult: ResCreateOrder
+  orderResult: IPedido
 }
 
 const PaymentSuccess = ({ orderResult }: Props) => {
@@ -14,7 +15,7 @@ const PaymentSuccess = ({ orderResult }: Props) => {
         <p className="text-center text-3xl font-black  ">PAGO EXITOSO</p>
 
         <div className="bg-color_green_2 px-10 py-4 text-2xl font-medium text-color_green_7">
-          <span># {orderResult.codeOrder} </span>
+          <span># {orderResult.codigo} </span>
         </div>
 
         <p className="text-center text-xl font-light text-gray-700">

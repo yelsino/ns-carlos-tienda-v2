@@ -93,7 +93,6 @@ export const SocketProvider = ({ children }: Props) => {
 
 
     socket?.on('GET_USER_ORDERS', (orders: Array<IPedido>) => {
-      console.log(orders);
       
       setOrder({
         type: 'GET_USER_ORDERS',
@@ -101,17 +100,17 @@ export const SocketProvider = ({ children }: Props) => {
       })
     })
 
-    socket?.on('GET_USER_DIRECTIONS', (directions: Array<IDireccion>) => {
+    socket?.on('GET_USER_DIRECTIONS', (respuesta: IRespuesta<Array<IDireccion>>) => {
       setDirection({
         type: 'GET_USER_DIRECTIONS',
-        payload: directions
+        payload: respuesta.data
       })
       
-      let searchDirection = directions.find(d=> d._id === `${lsService.getItem('directionSelected')}`)
+      let searchDirection = respuesta.data.find(d=> d._id === `${lsService.getItem('directionSelected')}`)
 
       setDirection({
         type: 'SELECT_DIRECTION',
-        payload: searchDirection ? searchDirection._id as string : directions[0]._id as string
+        payload: searchDirection
       })
     })
 

@@ -18,7 +18,7 @@ const RouterApp = () => {
   const Shopping = lazy(() => import('../Components/Pages/Compras/MyShopping'))
   const Reclamos = lazy(() => import('../Components/Pages/Reclamos/Reclamos'))
   const MyList = lazy(() => import('../Components/Pages/MyLists/MyLists'))
-  const Payment = lazy(() => import('../Components/Pages/Payment/Payment'))
+  const PaymentContainer = lazy(() => import('../Components/Pages/Payment/PaymentContainer'))
 
   const routes = [
     {
@@ -66,7 +66,7 @@ const RouterApp = () => {
     },
     {
       path: '/payment',
-      element: <Payment />,
+      element: <PaymentContainer />,
       children: [
         {
           path: '/payment/your-list',

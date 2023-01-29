@@ -5,7 +5,8 @@ import { DirectionState } from './DirectionProvider'
 
 export type DirectionAction =
   | { type: 'GET_USER_DIRECTIONS'; payload: Array<IDireccion> }
-  | { type: 'SELECT_DIRECTION'; payload: string }
+  | { type: 'SELECT_DIRECTION'; payload: IDireccion }
+  | { type: 'ADD_DIRECTION'; payload: IDireccion }
 
 export const directionReducer = (
   state: DirectionState,
@@ -21,13 +22,17 @@ export const directionReducer = (
         directions: action.payload
       }
 
-    case 'SELECT_DIRECTION':
-      lsService.setItem('directionSelected',action.payload)
-      const getDirection = state.directions.find((d)=>d._id === action.payload)
-
+    case 'ADD_DIRECTION':
       return {
         ...state,
-        direction: getDirection ? getDirection : null
+        directions: [...state.directions, action.payload]
+      }
+
+    case 'SELECT_DIRECTION':
+      lsService.setItem('directionSelected',action.payload._id)
+      return {
+        ...state,
+        direction: action.payload
       }
 
     
