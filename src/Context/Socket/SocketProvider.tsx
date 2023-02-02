@@ -108,10 +108,13 @@ export const SocketProvider = ({ children }: Props) => {
       
       let searchDirection = respuesta.data.find(d=> d._id === `${lsService.getItem('directionSelected')}`)
 
-      setDirection({
-        type: 'SELECT_DIRECTION',
-        payload: searchDirection
-      })
+      if(searchDirection){
+        setDirection({
+          type: 'SELECT_DIRECTION',
+          payload: searchDirection
+        })
+      }
+      
     })
 
   }, [socket, dispatchProduct, dispatchProduct, setList,setOrder])
