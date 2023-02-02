@@ -156,4 +156,3 @@ export const MyLists = () => {
 
 export default MyLists
 
-// eslint-disable-next-line react/prop-types

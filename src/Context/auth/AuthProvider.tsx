@@ -1,5 +1,4 @@
 import { useCallback, useReducer } from 'react'
-import PropTypes from 'prop-types'
 import { authReducer } from './AuthReducer'
 import { AuthContext } from './AuthContext'
 import { fetchConToken, fetchSinToken } from 'helpers/fetch'

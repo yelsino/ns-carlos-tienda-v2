@@ -1,5 +1,4 @@
 import { useReducer } from 'react'
-import PropTypes from 'prop-types'
 import { orderReducer } from './orderReducer'
 import { OrderContext } from './OrderContext'
 import { IPedido, IRespuesta } from 'types-yola'
@@ -71,6 +70,3 @@ export const OrderProvider = ({ children }: Props) => {
   )
 }
 
-OrderProvider.propTypes = {
-  children: PropTypes.node.isRequired
-}

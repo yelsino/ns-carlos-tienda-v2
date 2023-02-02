@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { listReducer } from './listReducer'
 import { useReducer } from 'react'
 import { ListContext } from './ListContext'

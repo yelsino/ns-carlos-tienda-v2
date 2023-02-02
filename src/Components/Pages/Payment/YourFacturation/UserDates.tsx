@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { SocketProps } from 'Hooks/useSocket'
@@ -117,6 +116,3 @@ const UserDates = ({ data }: Props) => {
 
 export default UserDates
 
-UserDates.propTypes = {
-  data: PropTypes.object
-}

@@ -7,9 +7,6 @@ interface Props {
   method?: string
 }
 
-
-
-
 export const fetchSinToken =  async <T>({
   endpoint,
   body,

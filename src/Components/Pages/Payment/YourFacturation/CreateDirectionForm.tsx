@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useOnClick } from 'Hooks/useOnClick';
 import Input from 'Components/Atoms/Input';
 import { DirectionContext } from 'Context/Direction/DirectionContext';

@@ -744,7 +744,6 @@ export const IconGridView = () => {
   )
 }
 
-// eslint-disable-next-line react/prop-types
 export const IconDelete = ({ stile }: Props) => {
   return (
     <svg
