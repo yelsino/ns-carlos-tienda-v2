@@ -29,7 +29,7 @@ export const directionReducer = (
       }
 
     case 'SELECT_DIRECTION':
-      lsService.setItem('directionSelected',action.payload._id)
+      lsService.setItem('directionSelected',action?.payload?._id)
       return {
         ...state,
         direction: action.payload

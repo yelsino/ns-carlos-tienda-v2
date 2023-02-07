@@ -23,7 +23,10 @@ const AutocompleteItem = ({
   precios
 }: PropsAutoCompleteItem) => {
   const { products, dispatch: dispatchProduct } = useContext(ProductContext)
-
+  console.log( nombre,
+    imagen,
+    precios);
+  
   return (
     <Link
       to={`/tienda`}
@@ -41,7 +44,7 @@ const AutocompleteItem = ({
         <div className="flex flex-col justify-center">
           <h3 className="font-semibold text-gray-600">{nombre}</h3>
           <p className="text-xs text-gray-600">
-            S/. {precios.length >= 1 ? precios[0].price : 0}
+            S/. {precios?.length >= 1 ? precios[0]?.price : 0}
           </p>
         </div>
       </div>
@@ -152,9 +155,9 @@ export default function Search(props: T) {
                     <section key={`section-${index}`} className="w-[260px]">
                       {items.length > 0 && (
                         <ul {...autocomplete.getListProps()}>
-                          {items.map((item) => (
+                          {items.map((item,index) => (
                             <AutocompleteItem 
-                            key={item.id} 
+                            key={index} 
                             {...item}
                             nombre=""
                             imagen=''
