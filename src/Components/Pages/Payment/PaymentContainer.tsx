@@ -85,6 +85,7 @@ const PaymentContainer = () => {
       fechaEntrega: null,
       pedidoDetalle: null,
     }).then(respuesta => {
+      
       if(!respuesta.ok) 
       return setNotificacion({type: 1, message: respuesta.mensaje});
 
