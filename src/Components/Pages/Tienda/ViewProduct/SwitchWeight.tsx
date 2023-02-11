@@ -5,8 +5,6 @@ import { motion } from 'framer-motion'
 import { useSwitchWeight } from 'Hooks/useSwitchWeight'
 import { IconDelete } from 'Components/Atoms/Icons';
 import { IProducto } from 'types-yola';
-import { useContext, useState } from 'react';
-import { ListContext } from 'Context/List/ListContext';
 import { convertirTipoVenta } from 'utils/pipe';
 
 interface Props {
@@ -51,7 +49,7 @@ const SwitchWeight = ({ producto, setAdding, adding }:Props) => {
                 <RadioGroup.Option
                   key={_id}
                   value={_id}
-                  className="flex w-full justify-between gap-x-3"
+                  className=""
                 >
                   {({ checked }) => {
                     if(checked) localStorage

@@ -24,7 +24,7 @@ export const OrderProvider = ({ children }: Props) => {
   const generarPedido = async (pedido: IPedido): Promise<IRespuesta<IPedido>> => {
 
     const respuesta = await fetchConToken<IRespuesta<IPedido>>({
-      endpoint: 'pedido/generar-pedido',
+      endpoint: 'pedidos/generar-pedido',
       method: 'POST',
       body: pedido,
     });
@@ -42,9 +42,12 @@ export const OrderProvider = ({ children }: Props) => {
 
   const obtenerPedidos = async (usuario: string):Promise<IRespuesta<Array<IPedido>>>  => {
     const respuesta = await fetchConToken<IRespuesta<Array<IPedido>>>({
-      endpoint: `pedido/usuario/${usuario}`,
+      endpoint: `pedidos/usuario/${usuario}`,
       method: 'GET',
     });
+
+    console.log(respuesta);
+    
 
     if (respuesta.ok) {
       dispatch({

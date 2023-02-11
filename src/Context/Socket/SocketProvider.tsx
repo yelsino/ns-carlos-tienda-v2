@@ -92,13 +92,13 @@ export const SocketProvider = ({ children }: Props) => {
     })
 
 
-    socket?.on('GET_USER_ORDERS', (orders: Array<IPedido>) => {
+    // socket?.on('GET_USER_ORDERS', (orders: Array<IPedido>) => {
       
-      setOrder({
-        type: 'GET_USER_ORDERS',
-        payload: orders
-      })
-    })
+    //   setOrder({
+    //     type: 'GET_USER_ORDERS',
+    //     payload: orders
+    //   })
+    // })
 
     socket?.on('GET_USER_DIRECTIONS', (respuesta: IRespuesta<Array<IDireccion>>) => {
       setDirection({

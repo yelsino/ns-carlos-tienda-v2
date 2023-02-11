@@ -74,7 +74,7 @@ const PaymentContainer = () => {
     generarPedido({
       codigo: null,
       direccion: orderData.directionID as any,
-      estado: "ENTREGADO",
+      estado: "RECIBIDO",
       lista: orderData.listID as any,
       numero: null,
       subTotal: null,
@@ -82,7 +82,8 @@ const PaymentContainer = () => {
       usuario: orderData.userID as any,
       montoDescuento: null,
       porcentajeDescuento: null, 
-      fechaEntrega: null
+      fechaEntrega: null,
+      pedidoDetalle: null,
     }).then(respuesta => {
       if(!respuesta.ok) 
       return setNotificacion({type: 1, message: respuesta.mensaje});
