@@ -44,7 +44,7 @@
 <!-- ABOUT THE PROJECT -->
 ## Acerca del proyecto
 
-[![Product Name Screen Shot][product-screenshot]](https://comsatel-tasks.web.app/)
+[![Product Name Screen Shot][product-screenshot]](https://admin-ncarlos.web.app/)
 
 
 Esta aplicación web está hecha para gestionar tareas diarias.
@@ -178,4 +178,4 @@ Gracias a estas librerias pude construir este proyecto!
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [linkedin-url]: https://www.linkedin.com/in/yelsin-caso-alanya-511824210/
-[product-screenshot]: https://res.cloudinary.com/dwkfj5sxb/image/upload/v1657160765/SCREEN-MY-APPS/yola-app-tienda_ev4fgd.png
+[product-screenshot]: https://res.cloudinary.com/dwkfj5sxb/image/upload/v1676909763/SCREEN-MY-APPS/admin-ns-carlos_sdu3nx.png
