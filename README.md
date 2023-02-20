@@ -31,9 +31,9 @@
   <h3 align="center">YOLA APP</h3>
 
   <p align="center">
-    Una aplicación web pensada en móvil para gestionar tus tareas cotidianas.
+    Una tienda virtual de vegetales, con multiples carritos de compras
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Visitalo aqui!</strong></a>
+    <a href="https://yola-satipo.web.app/"><strong>Visitalo aqui!</strong></a>
     <br />
     <br />
    
@@ -179,3 +179,4 @@ Gracias a estas librerias pude construir este proyecto!
 
 [linkedin-url]: https://www.linkedin.com/in/yelsin-caso-alanya-511824210/
 [product-screenshot]: https://res.cloudinary.com/dwkfj5sxb/image/upload/v1657160765/SCREEN-MY-APPS/yola-app-tienda_ev4fgd.png
+https://yola-satipo.web.app/

@@ -8,6 +8,7 @@ import { LocalStorageService } from 'schemas/LocalStorageService'
 import { OrderContext } from 'Context/Order/OrderContext'
 import { DirectionContext } from 'Context/Direction/DirectionContext'
 import { IDireccion, ILista, IPedido, IProducto, IRespuesta } from 'types-yola'
+import { exportarProductosForAlgolia } from 'utils/productos'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -59,6 +60,7 @@ export const SocketProvider = ({ children }: Props) => {
         type: 'GET_PRODUCTS',
         payload: respuesta.data as Array<IProducto>
       })
+       exportarProductosForAlgolia(respuesta.data.splice(0,1))
     })
 
     socket?.on('GET_USER_LISTS', (respuesta:IRespuesta<Array<ILista>>) => {
